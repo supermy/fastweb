@@ -1,10 +1,11 @@
 package org.supermy.core.web;
 
 import java.util.Set;
-import org.hibernate.validator.*;
-import org.springmodules.validation.commons.*;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.validator.ClassValidator;
+import org.hibernate.validator.InvalidValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.supermy.core.domain.User;
 import org.supermy.core.domain.BaseDomain;
+import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 
 /**
@@ -46,7 +47,7 @@ public class UserController {
 	@RequestMapping("/users.do")
 	@ModelAttribute("users")
 	public Set<User> usersHandler() {
-		return this.us.findUsers();
+		return this.us.findUsers(1,3);
 	}
 
 	/**
@@ -174,7 +175,7 @@ public class UserController {
 	 */
 	@RequestMapping("/findUsers.do")
 	public String listUsers(ModelMap model) {
-		Set<User> users = us.findUsers();
+		Set<User> users = us.findUsers(1,3);
 		model.addAttribute("users", users);
 		// model.addAttribute("currUser",user);
 		return "listUsers";

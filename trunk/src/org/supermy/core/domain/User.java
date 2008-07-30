@@ -14,11 +14,11 @@ import org.hibernate.validator.Email;
 
 /**
 * @author supermy E-mail:springclick@gmail.com
-* @version 创建时间：2008-7-23 下午01:06:00
-* 类说明
+* @version create time：2008-7-30 下午04:30:58
+* 
 */
 @Entity
-@org.hibernate.annotations.Entity(dynamicUpdate = true,dynamicInsert=true)
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "c_user")
 public class User extends BaseDomain {
 
@@ -33,20 +33,15 @@ public class User extends BaseDomain {
 	private String passwd;
 
 	/**
-	 * 	口令二次验证使用
+	 * 口令二次验证使用
 	 */
 	@Transient
 	private String passwd2;
 
-	/**
-	 * @ManyToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE}) 
-	 */
-	@ManyToOne
-	@JoinColumn(name = "address_id")
-	private Address address;
-
-	// @Transient // form提交时，便于获取关联ID
-	// private String address_id;
+	@Email
+	@NotEmpty
+	@Column(name = "email", length = 20)
+	private String email;
 
 	@Lob
 	@Column(name = "u_intro")
@@ -54,10 +49,13 @@ public class User extends BaseDomain {
 	@Column(name = "u_salary", precision = 2)
 	private Double salary;// 薪水 两位小数
 
-	@Email
-	@NotEmpty
-	@Column(name = "email", length = 20)
-	private String email;
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean passwordCheck() {
+		return passwd.equals(passwd2);
+	}
 
 	/**
 	 * @return the email
@@ -67,7 +65,8 @@ public class User extends BaseDomain {
 	}
 
 	/**
-	 * @param email the email to set
+	 * @param email
+	 *            the email to set
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -88,36 +87,6 @@ public class User extends BaseDomain {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	/**
-	 * @return the address
-	 */
-	public Address getAddress() {
-		return address;
-	}
-
-	/**
-	 * @param address
-	 *            the address to set
-	 */
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	// /**
-	// * @return the address_id
-	// */
-	// public String getAddress_id() {
-	// return address_id;
-	// }
-	//
-	// /**
-	// * @param address_id
-	// * the address_id to set
-	// */
-	// public void setAddress_id(String address_id) {
-	// this.address_id = address_id;
-	// }
 
 	/**
 	 * @return the intro
@@ -157,7 +126,8 @@ public class User extends BaseDomain {
 	}
 
 	/**
-	 * @param passwd the passwd to set
+	 * @param passwd
+	 *            the passwd to set
 	 */
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
@@ -171,18 +141,11 @@ public class User extends BaseDomain {
 	}
 
 	/**
-	 * @param passwd2 the passwd2 to set
+	 * @param passwd2
+	 *            the passwd2 to set
 	 */
 	public void setPasswd2(String passwd2) {
 		this.passwd2 = passwd2;
-	}
-
-	/**
-	 * 口令验证
-	 * @return
-	 */
-	public boolean passwordCheck() {
-		return passwd.equals(passwd2);
 	}
 
 }

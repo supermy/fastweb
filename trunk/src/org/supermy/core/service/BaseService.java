@@ -1,5 +1,6 @@
 package org.supermy.core.service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -14,21 +15,17 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.supermy.core.domain.BaseDomain;
+import org.supermy.core.domain.User;
 
-//JdbcDaoSupport
-
-//@Transactional 
-//extends HibernateDaoSupport
 public class BaseService implements IBaseService {
-
-	// @Autowired
-	// public SessionFactory sessionFactory;
 
 	@Autowired
 	public HibernateTemplate hibernateTemplate;
 
-	// 分页查询 1.查询数据总量；2.根据页面尺寸计算页面数；3.返回说要查询页面的数据
-	// 获取记录总数
+	/**
+	 * @param detachedCriteria
+	 * @return
+	 */
 	private Long getRecordCount(final DetachedCriteria detachedCriteria) {
 		return (Long) hibernateTemplate.execute(new HibernateCallback() {
 			public Object doInHibernate(Session session)
@@ -67,7 +64,14 @@ public class BaseService implements IBaseService {
 		return result.intValue();
 	}
 
-	// 分页查找
+	/**
+	 * FIXME
+	 * 
+	 * @param detachedCriteria
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
 	public Set findByPage(final DetachedCriteria detachedCriteria,
 			final int pageNum, final int pageSize) {
 		int startResult = startResult(detachedCriteria, pageNum, pageSize);
@@ -76,20 +80,20 @@ public class BaseService implements IBaseService {
 	}
 
 	/**
-	 * 获取记录总数
+	 * get total record
 	 * 
 	 * @param detachedCriteria
 	 * @return
 	 */
 	private Long getRecordCount(StringBuffer otherHql) {
-		StringBuffer hql = new StringBuffer(" select count(*) ").append(otherHql);
+		StringBuffer hql = new StringBuffer(" select count(*) ")
+				.append(otherHql);
 		Long result = new Long(hibernateTemplate.find(hql.toString()).get(0)
 				.toString());
 		return result;
 	}
 
 	/**
-	 * 查询指定范围的数据
 	 * 
 	 * @param detachedCriteria
 	 * @param startResult
@@ -108,7 +112,7 @@ public class BaseService implements IBaseService {
 	}
 
 	/**
-	 * 计算开始记录
+	 * one page start record
 	 * 
 	 * @param detachedCriteria
 	 * @param pageNum
@@ -123,7 +127,9 @@ public class BaseService implements IBaseService {
 
 	/**
 	 * 
-	 * 分页查找 分页查询 1.查询数据总量；2.根据页面尺寸计算页面数；3.返回说要查询页面的数据
+	 * query by page 1.query data total lines；2.page number by page
+	 * size；3.return page data
+	 * 
 	 * @param selectHql
 	 * @param otherHql
 	 * @param pageNum
@@ -138,13 +144,59 @@ public class BaseService implements IBaseService {
 		return new HashSet(result);
 	}
 
-	/* 内部测试专用
+	/*
 	 * @see org.supermy.core.service.IBaseService#save(org.supermy.core.domain.BaseDomain)
 	 */
 	@Override
-	@Transactional(readOnly=false)
-	public void save(BaseDomain o) {
+	@Transactional(readOnly = false)
+	public BaseDomain save(BaseDomain o) {
+		if (o.isOld()) {
+			o.setCreate(new Date());
+			o.setUpate(new Date());
+		} else {
+			o.setUpate(new Date());
+		}
+		;
 		hibernateTemplate.saveOrUpdate(o);
+		return o;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.supermy.core.service.IBaseService#delAll(org.supermy.core.domain.BaseDomain)
+	 */
+	@Override
+	public void delAll(Class o) {
+		hibernateTemplate.bulkUpdate(" delete from " + o.getName());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.supermy.core.service.IBaseService#delete(org.supermy.core.domain.BaseDomain)
+	 */
+	@Override
+	public void delete(Class o, long id) {
+		hibernateTemplate.bulkUpdate(" delete from " + o.getName()
+				+ " where id=", id);
+	}
+
+	@Override
+	public HashSet loadAll(Class o) {
+		List result = hibernateTemplate.loadAll(o);
+		return new HashSet(result);
+	}
+
+	@Override
+	public Object load(Class o, long id) {
+		Object result = hibernateTemplate.load(o, id);
+		return result;
+	}
+
+	public Set saveAll(Set users) {
+		hibernateTemplate.saveOrUpdateAll(users);
+		return users;
 	}
 
 }

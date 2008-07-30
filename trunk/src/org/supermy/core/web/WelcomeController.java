@@ -1,11 +1,13 @@
 package org.supermy.core.web;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.supermy.core.domain.Address;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 
@@ -21,19 +23,15 @@ public class WelcomeController {
 
 	@RequestMapping("/welcome.do")
 	public void welcomeHandler() {
+		Set users=new HashSet();
 		for (int i = 0; i < 20; i++) {
-			Address a = new Address();
-			a.setQq("123456");
-			a.setMsn("msn@msn.com");
-			us.save(a);
-			
 			User u = new User();
 			u.setName("活着" + i);
 			u.setPasswd("test");
 			u.setEmail("my@my.com");
-			u.setAddress(a);
-			us.saveUser(u);
+			users.add(u);
 		}
+		us.saveUsers(users);
 	}
 
 }
