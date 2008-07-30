@@ -14,6 +14,12 @@
 		<pathelement location="${build.dir}" />
 	</path>	
 
+	<target name="native" description="Convent messages.properties to utf-8 ">
+		<delete file="${build.dir}/messages.properties"/>
+		<delete file="${build.dir}/messages_zh_CN.properties"/>
+		<native2ascii encoding="UTF-8" src="${src.java.dir}" dest="${build.dir}" includes="messages*.properties"/>
+	</target>
+
 	<target name="build" description="Compile main Java sources">
 		<delete dir="${target.dir}"/>
 		<delete dir="${build.dir}"/>
@@ -21,8 +27,8 @@
 		<mkdir dir="${target.dir}"/>
 		<!--target="1.5" -->
 		<javac destdir="${build.dir}" 
-			debug="true" deprecation="false" optimize="false" 
-			failonerror="true" encoding="utf-8">
+				debug="true" deprecation="false" optimize="false" 
+				failonerror="true" encoding="utf-8">
 			<src path="${src.java.dir}"/>
 			<classpath refid="all-libs"/>
 		</javac>
@@ -31,14 +37,13 @@
 		<copy todir="${build.dir}" preservelastmodified="true">
 			<fileset dir="${src.java.dir}">
 				<exclude name="**/*.java"/>
-				<exclude name="**/*.hbm.xml"/>
 			</fileset>
 		</copy>
 	</target>
 
 
 
-	<target name="junit" depends="build"  description="Run unit test">
+	<target name="junit" depends="build,native"  description="Run unit test">
 		<mkdir dir="${test.dir}"/>
 		<mkdir dir="${test.dir}/reports"/>
 
@@ -72,8 +77,8 @@
 	</target>
 
 
-	<target name="run"  depends="build"  
-		description="starts tomcat in the current console window">
+	<target name="run"  depends="build,native"  
+			description="starts tomcat in the current console window">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="yes">
 			<jvmarg value="-Dcatalina.home=${tomcat_home}"/>
 			<jvmarg	line="-Dorg.apache.tapestry.disable-caching=true"/>
@@ -88,36 +93,21 @@
 			</classpath>
 		</java>
 	</target>
+
+
 	<target name="javadoc15" description="Generate framework Javadocs on JDK 1.5" >
 		<delete dir="${javadocs.dir}"/>
 		<mkdir dir="${javadocs.dir}"/>
 		<javadoc sourcepath="${src.java.dir}" encoding="UTF-8" charset="UTF-8" destdir="${javadocs.dir}" windowtitle="FastWeb" additionalparam="-breakiterator" source="1.5" access="package" author="true" version="true" use="true"
-			defaultexcludes="true">
+				defaultexcludes="true">
 			<doctitle><![CDATA[<h1>FastWeb Api</h1>]]></doctitle>
 			<bottom><![CDATA[<i>Copyright (C) 2008 The FastWeb Project.</i>]]></bottom>
-			<classpath refid="all-libs"/>
-			<packageset dir="${src.java.dir}">
-				<include name="org/supermy/**"/>
-			</packageset>
-		</javadoc>
-
-	</target>
-
-	<target name="hbm2doc" description="Generate a html description of the mappings">
-		<taskdef 
-			name="hibernatetool"  
-			classname="org.hibernate.tool.ant.HibernateToolTask" 
-			classpathref="all-libs"/>
-		<hibernatetool destdir="${javadoc.dir}">
-			<annotationconfiguration  configurationfile="hibernate.cfg.xml"/>
-			<configuration > 
-				<fileset dir="${src.dir}">
-					<include name="**/domain/**/*.java" />
-				</fileset>  
-			</configuration>
-			<hbm2doc />
-		</hibernatetool>
-	</target>
+		<classpath refid="all-libs"/>
+		<packageset dir="${src.java.dir}">
+			<include name="org/supermy/**"/>
+		</packageset>
+	</javadoc>
+</target>
 
 </project>
 

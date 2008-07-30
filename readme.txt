@@ -3,6 +3,7 @@
 三、Include 用户状态工具条 同时完成是否会员用户的权限管理；
 四、事件验证和程序级别验证；
 	js验证 hibernate validator to spring-commons validator
+	hibernate 含默认中文校验信息
 五、启用自动索引；
 六、cglib的升级 废弃 asm.jar asm-attrs.jar cglib-2.1.3.jar
    使用spring cglib-nodep.jar  asm2.*版本；	

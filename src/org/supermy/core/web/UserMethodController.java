@@ -16,7 +16,7 @@ public class UserMethodController {
  // <—— ② 如果URL请求中包括"method=listAllBoard"的参数，由本方法进行处理
     @RequestMapping(params = "method=listUsers")
     public String listAllUsers() {
-        userService.findUsers();
+        userService.findUsers(1,10);
         System.out.println("call listAllBoard method.");
         return "listUsers";
     }

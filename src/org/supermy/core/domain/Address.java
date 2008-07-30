@@ -3,18 +3,28 @@ package org.supermy.core.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.Length;
 
+/**
+* @author supermy E-mail:springclick@gmail.com
+* @version create time：2008-7-30 下午04:30:38
+* 
+*/
 @Entity
 @Table(name = "c_address")
 @org.hibernate.annotations.Entity(dynamicUpdate = true,dynamicInsert = true)
 public class Address extends BaseDomain {
 
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+	
 	@Column(name = "qq", length = 20)
-	@Length(max = 20, message = "{QQ号的长度最大20个字符}")
-	// 一般情况下使用默认提示。
+	@Length(max = 20)
 	private String qq;
 	@Column(name = "phone", length = 20)
 	@Length(max = 20)
@@ -66,6 +76,20 @@ public class Address extends BaseDomain {
 	 */
 	public void setMsn(String msn) {
 		this.msn = msn;
+	}
+
+	/**
+	 * @return the user
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @param user the user to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

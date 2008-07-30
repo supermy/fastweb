@@ -11,11 +11,19 @@ import org.supermy.core.domain.User;
 */
 public interface IUserService extends IBaseService{
 
-	public abstract Set<User> findUsers();
+	/**
+	 * find user by page
+	 * @param i
+	 * @return
+	 */
+	public abstract Set<User> findUsers(int numPage,int sizePage);
 
 	public abstract void saveUser(User user);
 
 	public abstract User loadUser(Long userId);
 
 	public abstract void delUser(Long userId);
+
+	public abstract void saveUsers(Set<User> users);
+
 }

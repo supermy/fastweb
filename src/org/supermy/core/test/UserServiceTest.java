@@ -2,12 +2,14 @@ package org.supermy.core.test;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.validator.ClassValidator;
 import org.hibernate.validator.InvalidValue;
 import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.supermy.core.domain.Address;
 import org.supermy.core.domain.BaseDomain;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
@@ -25,45 +26,44 @@ import org.supermy.core.service.IUserService;
 @ContextConfiguration(locations = { "/springs.xml" })
 public class UserServiceTest extends
 		AbstractTransactionalJUnit4SpringContextTests {
-
+	static private Log log = LogFactory.getLog(UserServiceTest.class);
 	@Autowired
 	private IUserService us;
 
 	@Test
 	public void userService() {
-		Set<User> result = us.findUsers();
+
+		Set<User> result = us.findUsers(1, 10);
 		for (User user : result) {
-			System.out.println("u:" + user.getName());
+			log.debug("u:" + user.getName());
 		}
 	}
 
 	@Test
 	public void updateUser() {
-		Set<User> result = us.findUsers();
-		for (User user : result) {
-			user.setName("update");
-			us.save(user);
-		}
+		User u = us.loadUser(new Long(1));
+		u.setName("update");
+		us.saveUser(u);
 	}
 
 	@Test
 	public void validator() {
 		User u = new User();
 		StringBuffer m = getErrorMsg(u);
-		System.out.println("============================error messages:" + m);
+		log.debug("============================error messages:" + m);
 	}
 
-	public StringBuffer getErrorMsg(BaseDomain u) {
+	private StringBuffer getErrorMsg(BaseDomain u) {
 		Annotation[] annotations = u.getClass().getAnnotations();
 
 		for (Annotation annotation : annotations) {
-			System.out.println(annotation.annotationType().getName());
+			log.debug(annotation.annotationType().getName());
 		}
 
 		Field[] fs = u.getClass().getDeclaredFields();
 		for (Field field : fs) {
-			System.out.println("field " + field.getName() + ":");
-			System.out.println(field.isAnnotationPresent(NotEmpty.class));
+			log.debug("field " + field.getName() + ":");
+			log.debug(field.isAnnotationPresent(NotEmpty.class));
 		}
 
 		ClassValidator v = new ClassValidator(u.getClass());
@@ -78,29 +78,20 @@ public class UserServiceTest extends
 
 	@Before
 	public void addUsers() {
+		Set<User> users = new HashSet<User>();
 		for (int i = 0; i < 20; i++) {
 			User u = new User();
 			u.setName("奥运" + i);
 			u.setEmail("my@my.com");
 			u.setPasswd("test");
-			Address a = new Address();
-			a.setQq("123456");
-			a.setMsn("msn@msn.com");
-			us.save(a);
-			u.setAddress(a);
-			System.out.println("jdbc insert after get key id ...begin");
-			us.saveUser(u);
-			System.out.println(u.getId());
-			System.out.println("jdbc insert after get key id ...end");
+			users.add(u);
 		}
+		us.saveUsers(users);
 	}
 
 	@After
 	public void delUsers() {
-		Set<User> users = us.findUsers();
-		for (User user : users) {
-			us.delUser(user.getId());
-		}
+		us.delAll(User.class);
 	}
 
 }
