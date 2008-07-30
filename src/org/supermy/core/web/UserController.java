@@ -59,7 +59,7 @@ public class UserController {
 	@RequestMapping("/user.do")
 	public ModelMap userHandler(@RequestParam("userId")
 	long id) {
-		return new ModelMap(this.us.loadUser(id));
+		return new ModelMap(this.us.load(User.class,id));
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class UserController {
 	 */
 	@RequestMapping("/delUser.do")
 	public String delUser(long userId) {
-		us.delUser(userId);
+		us.delete(User.class,userId);
 		return "listUsers";
 	}
 
@@ -97,7 +97,7 @@ public class UserController {
 	@RequestMapping("/editUser.do")
 	public String setupForm(@RequestParam("userId")
 	long userId, Model model) {
-		User u = this.us.loadUser(userId);
+		User u = (User)this.us.load(User.class,userId);
 		model.addAttribute(u);
 		return "userForm";
 	}
@@ -112,7 +112,7 @@ public class UserController {
 	@RequestMapping("/saveUser.do")
 	public String processSubmit(@ModelAttribute
 	User user, SessionStatus status) {
-		this.us.saveUser(user);
+		this.us.save(user);
 		// hibernate数据验证
 		// if (result.hasErrors()) {
 		// return "userForm";
@@ -161,7 +161,7 @@ public class UserController {
 			model.addAttribute("errors",emsg);
 			return "register";
 		}
-		this.us.saveUser(user);
+		this.us.save(user);
 		status.setComplete();
 		return "redirect:user.do?userId=" + user.getId();
 	}

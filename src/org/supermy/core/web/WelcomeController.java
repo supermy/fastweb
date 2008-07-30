@@ -31,7 +31,7 @@ public class WelcomeController {
 			u.setEmail("my@my.com");
 			users.add(u);
 		}
-		us.saveUsers(users);
+		us.saveAll(users);
 	}
 
 }

@@ -24,7 +24,7 @@ public interface IBaseService {
 	 * @param o
 	 */
 	public BaseDomain save(BaseDomain o);
-	public Set saveAll(Set users) ;
+	public Set saveAll(Set objects) ;
 	/**
 	 * @param o
 	 */
