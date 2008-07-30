@@ -19,3 +19,4 @@
 	
 	yui直接使用yahoo的。
 	 	
+done upload file ...
