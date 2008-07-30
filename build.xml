@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="supermy" basedir="." default="usage">
+
+	<property name="project.name" value="fastweb"/>
+	<property file="build.properties"/>
+
+	<path id="all-libs">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>	
+
+	<path id="all-compile">
+		<pathelement location="${build.dir}" />
+	</path>	
+
+	<target name="build" description="Compile main Java sources">
+		<delete dir="${target.dir}"/>
+		<delete dir="${build.dir}"/>
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${target.dir}"/>
+		<!--target="1.5" -->
+		<javac destdir="${build.dir}" 
+			debug="true" deprecation="false" optimize="false" 
+			failonerror="true" encoding="utf-8">
+			<src path="${src.java.dir}"/>
+			<classpath refid="all-libs"/>
+		</javac>
+
+		<!-- copy other none java files -->
+		<copy todir="${build.dir}" preservelastmodified="true">
+			<fileset dir="${src.java.dir}">
+				<exclude name="**/*.java"/>
+				<exclude name="**/*.hbm.xml"/>
+			</fileset>
+		</copy>
+	</target>
+
+
+
+	<target name="junit" depends="build"  description="Run unit test">
+		<mkdir dir="${test.dir}"/>
+		<mkdir dir="${test.dir}/reports"/>
+
+		<junit printsummary="withOutAndErr" haltonfailure="no" haltonerror="no" showoutput="true" fork="true">
+			<classpath location="${build.dir}"/>
+			<classpath refid="all-libs"/>
+			<formatter type="xml"/>
+			<batchtest fork="yes" todir="${test.dir}/reports" unless="t">
+				<fileset dir="${build.dir}" includes="**/*Test.class" excludes="**/*AbstractTest.class"/>
+			</batchtest>
+
+			<batchtest fork="yes" todir="${test.dir}/reports" if="t">
+				<fileset dir="${build.dir}" includes="**/*${t}*" excludes="**/*TestCase.class"/>
+			</batchtest>
+
+		</junit>
+		<junitreport todir="${test.dir}">
+			<fileset dir="${test.dir}/reports">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${test.dir}/reports" />
+		</junitreport>
+	</target>
+
+	<target name="reports" description="Generate test reports">
+		<property name="browser" location="C:/Program Files/Internet Explorer/iexplore.exe"/>
+		<property name="file" location="${test.dir}/reports/index.html"/>
+		<exec executable="${browser}" spawn="true">
+			<arg value="${file}"/>
+		</exec>
+	</target>
+
+
+	<target name="run"  depends="build"  
+		description="starts tomcat in the current console window">
+		<java classname="org.apache.catalina.startup.Bootstrap" fork="yes">
+			<jvmarg value="-Dcatalina.home=${tomcat_home}"/>
+			<jvmarg	line="-Dorg.apache.tapestry.disable-caching=true"/>
+			<jvmarg	line="-Dorg.apache.tapestry.enable-reset-service=true"/>
+			<jvmarg	line="-Xss64k -Xms64m"/>
+			<arg value="start"/>
+			<classpath>
+				<pathelement path="${java_home}/../lib/tools.jar"/>
+				<fileset dir="${tomcat_home}">
+					<include name="bin/bootstrap.jar"/>
+				</fileset>
+			</classpath>
+		</java>
+	</target>
+	<target name="javadoc15" description="Generate framework Javadocs on JDK 1.5" >
+		<delete dir="${javadocs.dir}"/>
+		<mkdir dir="${javadocs.dir}"/>
+		<javadoc sourcepath="${src.java.dir}" encoding="UTF-8" charset="UTF-8" destdir="${javadocs.dir}" windowtitle="FastWeb" additionalparam="-breakiterator" source="1.5" access="package" author="true" version="true" use="true"
+			defaultexcludes="true">
+			<doctitle><![CDATA[<h1>FastWeb Api</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Copyright (C) 2008 The FastWeb Project.</i>]]></bottom>
+			<classpath refid="all-libs"/>
+			<packageset dir="${src.java.dir}">
+				<include name="org/supermy/**"/>
+			</packageset>
+		</javadoc>
+
+	</target>
+
+	<target name="hbm2doc" description="Generate a html description of the mappings">
+		<taskdef 
+			name="hibernatetool"  
+			classname="org.hibernate.tool.ant.HibernateToolTask" 
+			classpathref="all-libs"/>
+		<hibernatetool destdir="${javadoc.dir}">
+			<annotationconfiguration  configurationfile="hibernate.cfg.xml"/>
+			<configuration > 
+				<fileset dir="${src.dir}">
+					<include name="**/domain/**/*.java" />
+				</fileset>  
+			</configuration>
+			<hbm2doc />
+		</hibernatetool>
+	</target>
+
+</project>
+
