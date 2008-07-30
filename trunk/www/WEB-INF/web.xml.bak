@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+    <display-name>Spring Annotation MVC Sample</display-name>
+
+    <!--  Spring 服务层的配置文件 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:springs.xml</param-value>
+    </context-param>
+     
+    <!--  Spring 容器启动监听器 -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    <!--  Spring MVC 的Servlet，它将加载WEB-INF/fastweb-servlet.xml 的
+    配置文件，以启动Spring MVC模块-->
+    <servlet>
+        <servlet-name>fastweb</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>fastweb</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<!-- Redirects to "welcome.htm" for dispatcher handling -->
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+
+</web-app>
+

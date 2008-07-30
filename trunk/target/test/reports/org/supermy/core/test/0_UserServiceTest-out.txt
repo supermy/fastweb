@@ -1,0 +1,499 @@
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+1
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+2
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+3
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+4
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+5
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+6
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+7
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+8
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+9
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+10
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+11
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+12
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+13
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+14
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+15
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+16
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+17
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+18
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+19
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+20
+jdbc insert after get key id ...end
+Hibernate: select count(*) as col_0_0_ from c_user user0_
+Hibernate: select limit ? ? user0_.c_id as c1_0_, user0_.c_create as c2_0_, user0_.c_update as c3_0_, user0_.OPTLOCK as OPTLOCK0_, user0_.address_id as address10_0_, user0_.email as email0_, user0_.u_intro as u6_0_, user0_.c_name as c7_0_, user0_.c_passwd as c8_0_, user0_.u_salary as u9_0_ from c_user user0_
+u:奥运5
+u:奥运10
+u:奥运6
+u:奥运9
+u:奥运4
+u:奥运11
+u:奥运8
+u:奥运13
+u:奥运7
+u:奥运12
+Hibernate: select count(*) as col_0_0_ from c_user user0_
+Hibernate: select limit ? ? user0_.c_id as c1_0_, user0_.c_create as c2_0_, user0_.c_update as c3_0_, user0_.OPTLOCK as OPTLOCK0_, user0_.address_id as address10_0_, user0_.email as email0_, user0_.u_intro as u6_0_, user0_.c_name as c7_0_, user0_.c_passwd as c8_0_, user0_.u_salary as u9_0_ from c_user user0_
+Hibernate: delete from c_user where c_id='6'
+Hibernate: delete from c_user where c_id='11'
+Hibernate: delete from c_user where c_id='7'
+Hibernate: delete from c_user where c_id='10'
+Hibernate: delete from c_user where c_id='5'
+Hibernate: delete from c_user where c_id='12'
+Hibernate: delete from c_user where c_id='9'
+Hibernate: delete from c_user where c_id='14'
+Hibernate: delete from c_user where c_id='8'
+Hibernate: delete from c_user where c_id='13'
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+21
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+22
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+23
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+24
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+25
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+26
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+27
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+28
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+29
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+30
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+31
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+32
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+33
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+34
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+35
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+36
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+37
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+38
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+39
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+40
+jdbc insert after get key id ...end
+Hibernate: select count(*) as col_0_0_ from c_user user0_
+Hibernate: select limit ? ? user0_.c_id as c1_0_, user0_.c_create as c2_0_, user0_.c_update as c3_0_, user0_.OPTLOCK as OPTLOCK0_, user0_.address_id as address10_0_, user0_.email as email0_, user0_.u_intro as u6_0_, user0_.c_name as c7_0_, user0_.c_passwd as c8_0_, user0_.u_salary as u9_0_ from c_user user0_
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: update c_user set OPTLOCK=?, c_name=? where c_id=? and OPTLOCK=?
+Hibernate: select count(*) as col_0_0_ from c_user user0_
+Hibernate: select limit ? ? user0_.c_id as c1_0_, user0_.c_create as c2_0_, user0_.c_update as c3_0_, user0_.OPTLOCK as OPTLOCK0_, user0_.address_id as address10_0_, user0_.email as email0_, user0_.u_intro as u6_0_, user0_.c_name as c7_0_, user0_.c_passwd as c8_0_, user0_.u_salary as u9_0_ from c_user user0_
+Hibernate: delete from c_user where c_id='34'
+Hibernate: delete from c_user where c_id='32'
+Hibernate: delete from c_user where c_id='28'
+Hibernate: delete from c_user where c_id='31'
+Hibernate: delete from c_user where c_id='26'
+Hibernate: delete from c_user where c_id='30'
+Hibernate: delete from c_user where c_id='33'
+Hibernate: delete from c_user where c_id='25'
+Hibernate: delete from c_user where c_id='27'
+Hibernate: delete from c_user where c_id='29'
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+41
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+42
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+43
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+44
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+45
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+46
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+47
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+48
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+49
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+50
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+51
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+52
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+53
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+54
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+55
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+56
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+57
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+58
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+59
+jdbc insert after get key id ...end
+Hibernate: insert into c_address (c_create, c_update, OPTLOCK, msn, qq, c_id) values (?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+jdbc insert after get key id ...begin
+Hibernate: insert into c_user (c_create, c_update, OPTLOCK, address_id, email, c_name, c_passwd, c_id) values (?, ?, ?, ?, ?, ?, ?, null)
+Hibernate: call identity()
+60
+jdbc insert after get key id ...end
+javax.persistence.Entity
+javax.persistence.Table
+org.hibernate.annotations.Entity
+field name:
+true
+field passwd:
+true
+field passwd2:
+false
+field address:
+false
+field intro:
+false
+field salary:
+false
+field email:
+true
+============================error messages:name:may not be null or empty  passwd:may not be null or empty  email:may not be null or empty  
+Hibernate: select count(*) as col_0_0_ from c_user user0_
+Hibernate: select limit ? ? user0_.c_id as c1_0_, user0_.c_create as c2_0_, user0_.c_update as c3_0_, user0_.OPTLOCK as OPTLOCK0_, user0_.address_id as address10_0_, user0_.email as email0_, user0_.u_intro as u6_0_, user0_.c_name as c7_0_, user0_.c_passwd as c8_0_, user0_.u_salary as u9_0_ from c_user user0_
+Hibernate: delete from c_user where c_id='47'
+Hibernate: delete from c_user where c_id='51'
+Hibernate: delete from c_user where c_id='46'
+Hibernate: delete from c_user where c_id='52'
+Hibernate: delete from c_user where c_id='53'
+Hibernate: delete from c_user where c_id='48'
+Hibernate: delete from c_user where c_id='45'
+Hibernate: delete from c_user where c_id='54'
+Hibernate: delete from c_user where c_id='49'
+Hibernate: delete from c_user where c_id='50'
+

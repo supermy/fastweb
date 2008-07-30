@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context" xmlns:jee="http://www.springframework.org/schema/jee"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+
+<!--引入外部配置文件-->
+<!---->
+<context:property-placeholder location="classpath:jdbc.properties"/>
+ 
+<bean id="dataSource" 
+	class="com.mchange.v2.c3p0.ComboPooledDataSource" 
+	destroy-method="close">
+	<property name="driverClass" value="${jdbc.driverClassName}"/>
+	<property name="jdbcUrl" value="${jdbc.url}"/>
+	<property name="user" value="${jdbc.username}"/>
+	<property name="password" value="${jdbc.password}"/>
+</bean>
+
+<bean id="sessionFactory" 
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+  	<property name="dataSource">
+		<ref bean="dataSource"/>
+  	</property>
+	<property name="annotatedClasses"> 
+		<list> 
+			<value>org.supermy.core.domain.User</value> 
+			<value>org.supermy.core.domain.Address</value> 
+		</list> 
+	</property > 
+</bean>
+
+<bean id="hibernateTemplate"
+	class="org.springframework.orm.hibernate3.HibernateTemplate">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory"/>
+	</property>
+</bean>
+	
+<!--事务配置
+-->	
+<bean id="transactionManager"
+	class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	<property name="sessionFactory">
+		<ref bean="sessionFactory"/>
+	</property>
+</bean>
+
+<tx:annotation-driven transaction-manager="transactionManager"/>
+<!-- bean驱动 -->
+<context:annotation-config/>
+<!--增加包注意配置-->
+<context:component-scan base-package="org.supermy.core.service"/>
+   
+   
+<!-- js 验证 -->   
+<bean id="validatorFactory" class="org.springmodules.validation.commons.DefaultValidatorFactory">
+    <property name="validationConfigLocations">
+        <list>
+            <value>classpath:validation.xml</value>
+            <value>classpath:validator-rules.xml</value>
+            <value>classpath:validator-rules-custom.xml</value>
+        </list>
+    </property>
+</bean>
+
+<bean id="beanValidator" class="org.springmodules.validation.commons.DefaultBeanValidator">
+    <property name="validatorFactory" ref="validatorFactory"/>
+</bean>   
+   
+</beans>
