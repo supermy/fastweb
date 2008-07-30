@@ -194,9 +194,9 @@ public class BaseService implements IBaseService {
 		return result;
 	}
 
-	public Set saveAll(Set users) {
-		hibernateTemplate.saveOrUpdateAll(users);
-		return users;
+	public Set saveAll(Set lines) {
+		hibernateTemplate.saveOrUpdateAll(lines);
+		return lines;
 	}
 
 }

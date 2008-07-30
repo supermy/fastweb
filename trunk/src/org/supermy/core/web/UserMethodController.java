@@ -11,12 +11,12 @@ import org.supermy.core.service.IUserService;
 public class UserMethodController {
 
     @Autowired
-    private IUserService userService;
+    private IUserService us;
 
  // <—— ② 如果URL请求中包括"method=listAllBoard"的参数，由本方法进行处理
     @RequestMapping(params = "method=listUsers")
     public String listAllUsers() {
-        userService.findUsers(1,10);
+        us.findUsers(1,10);
         System.out.println("call listAllBoard method.");
         return "listUsers";
     }
@@ -24,7 +24,7 @@ public class UserMethodController {
     // <—— ③ 如果URL请求中包括"method=viewUser"的参数，由本方法进行处理
     @RequestMapping(params = "method=viewUser")
     public String getUser(long userId) {
-        User u=userService.loadUser(userId);
+        User u=(User)us.load(User.class,userId);
         System.out.println("call listBoardTopic method.");
         return "viewUser";
     }

@@ -32,6 +32,7 @@
 		<property name="annotatedClasses"> 
 			<list> 
 				<value>org.supermy.core.domain.User</value> 
+				<value>org.supermy.core.domain.Role</value> 
 				<value>org.supermy.core.domain.Address</value> 
 			</list> 
 		</property > 
