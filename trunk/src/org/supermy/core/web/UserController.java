@@ -23,16 +23,18 @@ import org.supermy.core.service.IUserService;
 
 /**
  * @author supermy E-mail:springclick@gmail.com
- * @version 创建时间：2008-7-23 上午10:21:29 实现User的CRUD,在线用户
+ * @version create time：2008-7-31 上午11:10:51
+ * 
  */
 @Controller
 // ①让ModelMap的currUser属性拥有session级作用域
 @SessionAttributes("currUser")
 public class UserController {
+
 	private static Log log = LogFactory.getLog(UserController.class);
 
-	//#@Autowired
-	//#private DefaultBeanValidator beanValidator;
+	// #@Autowired
+	// #private DefaultBeanValidator beanValidator;
 
 	@Autowired
 	private IUserService us;
@@ -47,7 +49,7 @@ public class UserController {
 	@RequestMapping("/users.do")
 	@ModelAttribute("users")
 	public Set<User> usersHandler() {
-		return this.us.findUsers(1,3);
+		return this.us.findUsers(0, 13);
 	}
 
 	/**
@@ -59,7 +61,7 @@ public class UserController {
 	@RequestMapping("/user.do")
 	public ModelMap userHandler(@RequestParam("userId")
 	long id) {
-		return new ModelMap(this.us.load(User.class,id));
+		return new ModelMap(this.us.load(User.class, id));
 	}
 
 	/**
@@ -70,7 +72,7 @@ public class UserController {
 	 */
 	@RequestMapping("/delUser.do")
 	public String delUser(long userId) {
-		us.delete(User.class,userId);
+		us.delete(User.class, userId);
 		return "listUsers";
 	}
 
@@ -81,7 +83,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "/addUser.do", method = RequestMethod.GET)
-	public String setupForm(Model model) {
+	public String addUser(Model model) {
 		User user = new User();
 		model.addAttribute(user);
 		return "userForm";
@@ -95,9 +97,10 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/editUser.do")
-	public String setupForm(@RequestParam("userId")
+	public String editUser(@RequestParam("userId")
 	long userId, Model model) {
-		User u = (User)this.us.load(User.class,userId);
+		User u = (User) this.us.load(User.class, userId);
+		u.setPasswd2(u.getPasswd());
 		model.addAttribute(u);
 		return "userForm";
 	}
@@ -111,59 +114,82 @@ public class UserController {
 	 */
 	@RequestMapping("/saveUser.do")
 	public String processSubmit(@ModelAttribute
-	User user, SessionStatus status) {
-		this.us.save(user);
-		// hibernate数据验证
-		// if (result.hasErrors()) {
-		// return "userForm";
-		// } else {
-		// status.setComplete();
-		// return "redirect:user.do?userId=" + user.getId();
-		// }
+	User user,Model model, SessionStatus status) {
+		StringBuffer emsg = new StringBuffer("");
+		if (!user.passwordCheck()) {
+			emsg.append("用户两次口令输入不一致；");
+		}
+		emsg.append(getErrorMsg(user));
+		if (emsg.length() > 0) {
+			//emsg.append("error info:");
+			model.addAttribute("errors","error info ："+ emsg);
+			model.addAttribute("user",user);
+			return "userForm";
+		}
+		if (user.isOld()){this.us.merge(user);}else{this.us.save(user);}
+		
 		status.setComplete();
 		return "redirect:user.do?userId=" + user.getId();
 	}
 
 	/**
-	 * 注册用户准备
 	 * 
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value = "/register.do", method = RequestMethod.GET)
-	public String regForm(Model model) {
+	public String register(Model model) {
 		User user = new User();
 		model.addAttribute(user);
 		return "register";
 	}
 
-	public StringBuffer getErrorMsg(BaseDomain u) {
-		
-		ClassValidator v = new ClassValidator(u.getClass());
-		InvalidValue[] msgs = v.getInvalidValues(u);
-		StringBuffer errorMsg = new StringBuffer("");
-		for (InvalidValue line : msgs) {
-			errorMsg.append(line.getPropertyPath()).append(":").append(
-					line.getMessage()).append("  ");
-		}
-		return errorMsg;
-	}
-
 	@RequestMapping(value = "/register.do", method = RequestMethod.POST)
 	public String register(@ModelAttribute
-	User user, BindingResult result,Model model, SessionStatus status) {
-		StringBuffer emsg=new StringBuffer("");
+	User user, BindingResult result, Model model, SessionStatus status) {
+		StringBuffer emsg = new StringBuffer("");
 		if (!user.passwordCheck()) {
 			emsg.append("用户两次口令输入不一致；");
 		}
 		emsg.append(getErrorMsg(user));
-		if (emsg.length()>0){
-			model.addAttribute("errors",emsg);
+		if (emsg.length() > 0) {
+			//emsg.append("error info:");
+			model.addAttribute("errors","error info ："+ emsg);
+			model.addAttribute("user",user);
 			return "register";
 		}
 		this.us.save(user);
 		status.setComplete();
 		return "redirect:user.do?userId=" + user.getId();
+	}
+
+/**
+	 * 
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
+	public String login(Model model) {
+		User user = new User();
+		model.addAttribute(user);
+		return "login";
+	}
+
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public String login(@ModelAttribute
+	User user, BindingResult result, Model model, SessionStatus status) {
+		User u=us.login(user.getEmail(),user.getPasswd());
+		StringBuffer emsg = new StringBuffer("");
+		if(u==null){
+			emsg.append("user email or password error");
+			model.addAttribute("errors","error info ："+ emsg);
+			model.addAttribute("user",user);
+			return "login";
+		}
+		model.addAttribute("currUser",u);
+		model.addAttribute("loginMsg","login success id:"+u.getId()+" name: "+u.getEmail());
+		status.setComplete();
+		return "redirect:user.do?userId=" + u.getId();
 	}
 
 	/**
@@ -175,10 +201,22 @@ public class UserController {
 	 */
 	@RequestMapping("/findUsers.do")
 	public String listUsers(ModelMap model) {
-		Set<User> users = us.findUsers(1,3);
+		Set<User> users = us.findUsers(1, 3);
 		model.addAttribute("users", users);
 		// model.addAttribute("currUser",user);
 		return "listUsers";
+	}
+	public StringBuffer getErrorMsg(BaseDomain u) {
+		ClassValidator v = new ClassValidator(u.getClass());
+		InvalidValue[] msgs = v.getInvalidValues(u);
+		StringBuffer errorMsg = new StringBuffer("");
+		for (InvalidValue line : msgs) {
+			errorMsg.append(line.getPropertyPath()).append(":").append(
+					line.getMessage()).append("  ");
+		}
+		v=null;
+		msgs=null;
+		return errorMsg;
 	}
 
 }

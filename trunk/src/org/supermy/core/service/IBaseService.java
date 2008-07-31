@@ -24,6 +24,7 @@ public interface IBaseService {
 	 * @param o
 	 */
 	public BaseDomain save(BaseDomain o);
+	public BaseDomain merge(BaseDomain o);
 	public Set saveAll(Set objects) ;
 	/**
 	 * @param o

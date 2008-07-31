@@ -12,7 +12,6 @@
 </div>
 
 <div id="center1">
-
 	<ul>
 		<li><a href="<c:url value="/users.do"/>">Users</a></li>
 	</ul>

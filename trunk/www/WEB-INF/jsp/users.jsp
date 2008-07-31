@@ -1,15 +1,10 @@
 ﻿<%@ include file="/WEB-INF/jsp/includes.jsp" %>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-
-
 <div id="right1">
-    <b>奔流到海不复回</b>
 </div>
 
 <div id="left1">
-    <p>黄河之水天上来</p>
-
 </div>
 
 <div id="center1">
@@ -20,7 +15,7 @@
 		  <tr>
 		  <thead>
 		    <th>Name</th>
-		    <th>Address</th>
+		    <th>Email</th>
 		  </thead>
 		  </tr>
 		  <br/>
@@ -30,7 +25,7 @@
 		      <td>
 		          <a href="user.do?userId=${user.id}">${user.name}</a>
 		      </td>
-		      <td> QQ:${user.address.qq}  MSN:${user.address.msn}  EMail:${user.email} </td>
+		      <td>EMail:${user.email} </td>
 		    </tr>
 		  </c:forEach>
 		</table>

@@ -34,7 +34,7 @@ public class BaseDomain {
 	}
 
 	public int hashCode() {
-		return (id != null ? id.hashCode() + create.hashCode() : 0);
+		return (id != null ? id.hashCode() : 0);
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class BaseDomain {
 	@Id
 	@GeneratedValue
 	@Column(name = "c_id")
-	private Long id;
+	private Long id;//=new Long(0);
 
 	@Version
 	@Column(name = "OPTLOCK")

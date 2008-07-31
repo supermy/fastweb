@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="supermy" basedir="." default="usage">
+<project name="supermy" basedir="." default="build">
 
 	<property name="project.name" value="fastweb"/>
 	<property file="build.properties"/>
@@ -7,6 +7,10 @@
 	<path id="all-libs">
 		<fileset dir="${lib.dir}">
 			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${tomcat_home}/lib/">
+			<include name="**/servlet-api.jar"/>
+			<include name="**/jsp-api.jar"/>
 		</fileset>
 	</path>	
 
@@ -43,7 +47,7 @@
 
 
 
-	<target name="junit" depends="build,native"  description="Run unit test">
+	<target name="junit" depends="build,native"  description="Run unit test:ant junit -Dt=UserControllerTest">
 		<mkdir dir="${test.dir}"/>
 		<mkdir dir="${test.dir}/reports"/>
 

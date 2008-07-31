@@ -1,20 +1,19 @@
 ﻿<%@ include file="/WEB-INF/jsp/includes.jsp" %>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
+<script type="text/javascript" src="<c:url value="/js/validator.jsp"/>"></script>
+<v:javascript formName="user" staticJavascript="false" xhtml="true" cdata="false"/>
 
 <h2>注册:</h2>
 
 <div id="right1">
-    <b>奔流到海不复回</b>
 </div>
 
 <div id="left1">
-    <p>黄河之水天上来</p>
-
 </div>
 
 <div id="center1">
-
-<form:form modelAttribute="user" >
+	${errors}
+<form:form modelAttribute="user" onsubmit="return validateUser(this);">
   <table>
     <tr>
       <th>
@@ -25,23 +24,22 @@
     </tr>
     <tr>
       <th>
-        EMail:登陆凭证，要求有效EMail
-        <br/>
-        <form:input path="email" size="16" maxlength="30"/>
+        EMail:登陆凭证，要求有效EMail<br/>
+        <form:input path="email" size="16" maxlength="20"/>
       </th>
     </tr>
     <tr>
       <th>
-        口令:<form:errors path="*" cssClass="errors"/>
+        口令:
         <br/>
-        <form:input path="passwd" size="10" maxlength="10"/>
+        <form:password path="passwd" size="10" maxlength="10"/>
       </th>
     </tr>
     <tr>
       <th>
         口令验证:
         <br/>
-        <form:input path="passwd2" size="10" maxlength="10"/>
+        <form:password path="passwd2" size="10" maxlength="10"/>
       </th>
     </tr>
     <tr>

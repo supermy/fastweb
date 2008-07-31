@@ -2,25 +2,21 @@
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
 <script type="text/javascript" src="<c:url value="/js/validator.jsp"/>"></script>
-<!--script type="text/javascript" src="<c:url value="/js/commons-validator-1.3.1-compress.j"/>"></script-->
-
 <v:javascript formName="user" staticJavascript="false" xhtml="true" cdata="false"/>
 
 <h2><c:if test="${!user.old}">New </c:if>User:</h2>
 
 <div id="right1">
-    <b>奔流到海不复回</b>
 </div>
 
 <div id="left1">
-    <p>黄河之水天上来</p>
-
 </div>
 
 <div id="center1">
-
-
+	${errors}
 <form:form modelAttribute="user" action="saveUser.do" onsubmit="return validateUser(this);">
+	<form:hidden path="id" />
+	<form:hidden path="version" />
   <table>
     <tr>
       <th>
@@ -33,20 +29,23 @@
       <th>
         PassWord:
         <br/>
-        <form:input path="passwd" size="30" maxlength="80"/>
+
+        <form:password path="passwd" showPassword="true" size="30" maxlength="80"/>
+        <form:password path="passwd2" showPassword="true" size="30" maxlength="80"/>
       </th>
     </tr>
-     <tr>
+      <tr>
       <th>
         Email:
         <br/>
         <form:input path="email" size="30" maxlength="80"/>
       </th>
     </tr>
-   <tr>
+    <tr>
       <th>
-        Address:
+        Intro:
         <br/>
+        <form:textarea path="intro" rows="6" cols="60"/>
       </th>
     </tr>
     <tr>

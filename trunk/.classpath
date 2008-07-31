@@ -28,6 +28,8 @@
 	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-test.jar"/>
 	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-webmvc.jar"/>
 	<classpathentry kind="lib" path="www/WEB-INF/lib/testng-5.5-jdk15.jar"/>
-	<classpathentry kind="lib" path="D:/env_java/opensource/spring-framework-2.5.1/lib/jakarta-commons/commons-lang.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/apache-tomcat-6.0.14/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/apache-tomcat-6.0.14/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/commons-lang.jar"/>
 	<classpathentry kind="output" path="www/WEB-INF/classes"/>
 </classpath>

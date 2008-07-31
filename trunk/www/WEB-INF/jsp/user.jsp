@@ -20,8 +20,8 @@
 	      <td><b>${user.name}</b></td>
 	    </tr>
 	    <tr>
-	      <th>Address</th>
-	      <td>QQ:${user.address.qq}  MSN:${user.address.msn}  EMail:${user.email}  </td>
+	      <th>Email</th>
+	      <td>EMail:${user.email}  </td>
 	    </tr>
 	  </table>
 	  <table class="table-buttons">

@@ -78,9 +78,36 @@
 		<property name="validatorFactory" ref="validatorFactory"/>
 	</bean>   
 
-
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages"/>
 	</bean>
+	<!--
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="officeHoursInterceptor"/>
+			</list>
+		</property>
+		<property name="mappings">
+			<value>
+				/*.form=editAccountFormController
+				/*.view=editAccountFormController
+			</value>
+		</property>
+	</bean>
+
+	<bean id="officeHoursInterceptor"
+		class="samples.TimeBasedAccessInterceptor">
+		<property name="openingTime" value="9"/>
+		<property name="closingTime" value="18"/>
+	</bean>
+	-->
+
+	<!--
+	<bean class="org.springframework.web.servlet.mvc.DefaultAnnotationHandlerMapping"/>
+	<bean class="org.springframework.web.servlet.mvc.AnnotationMethodHandlerAdapter"/>
+	建立dispatcher实现注解支持
+	-->
 
 </beans>
