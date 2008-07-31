@@ -3,21 +3,21 @@
 
 
 <div id="right1">
-    <b>奔流到海不复回</b>
+	<b>奔流到海不复回</b>
 </div>
 
 <div id="left1">
-    <p>黄河之水天上来</p>
+	<p>黄河之水天上来</p>
 
 </div>
 
 <div id="center1">
 
-		<ul>
-		  <li><a href="<c:url value="/users.do"/>">Users</a></li>
-		</ul>
-		
-		<p>&nbsp;</p>
+	<ul>
+		<li><a href="<c:url value="/users.do"/>">Users</a></li>
+	</ul>
+
+	<p>&nbsp;</p>
 
 </div>
 
