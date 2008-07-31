@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.supermy.core.domain.BaseDomain;
 import org.supermy.core.domain.User;
 
+@Transactional
 public class BaseService implements IBaseService {
 
 	@Autowired
@@ -151,13 +152,24 @@ public class BaseService implements IBaseService {
 	@Transactional(readOnly = false)
 	public BaseDomain save(BaseDomain o) {
 		if (o.isOld()) {
-			o.setCreate(new Date());
 			o.setUpate(new Date());
 		} else {
+			o.setCreate(new Date());
 			o.setUpate(new Date());
 		}
-		;
 		hibernateTemplate.saveOrUpdate(o);
+		return o;
+	}
+	@Transactional(readOnly = false)
+	public BaseDomain merge(BaseDomain o) {
+		if (o.isOld()) {
+			o.setUpate(new Date());
+			o.setCreate(null);
+		} else {
+			o.setUpate(new Date());
+			o.setCreate(new Date());
+		}
+		hibernateTemplate.merge(o);
 		return o;
 	}
 
@@ -198,5 +210,6 @@ public class BaseService implements IBaseService {
 		hibernateTemplate.saveOrUpdateAll(lines);
 		return lines;
 	}
+
 
 }

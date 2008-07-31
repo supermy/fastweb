@@ -28,10 +28,11 @@ public class WelcomeController {
 			User u = new User();
 			u.setName("活着" + i);
 			u.setPasswd("test");
-			u.setEmail("my@my.com");
+			u.setEmail(i+"my@my.com");
 			users.add(u);
 		}
 		us.saveAll(users);
+		log.debug("add users 20 ");
 	}
 
 }

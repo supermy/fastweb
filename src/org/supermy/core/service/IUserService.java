@@ -36,6 +36,8 @@ public interface IUserService extends IBaseService{
 
 	public abstract User getUserByName(String name);
 
+	public abstract User login(String email,String passwd);
+
 	public abstract Address getAddressByUserId(long userId);
 
 //	public abstract void saveAddress(Address a);

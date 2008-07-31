@@ -35,10 +35,14 @@ public class UserServiceTest extends
 
 	@Test
 	public void findUsersByPage() {
-		Set<User> result = us.findUsers(1, 10);
-		for (User line : result) {
-			log.debug("u:" + line.getName());
-		}
+		Set<User> result = us.findUsers(1, 6);
+		Assert.assertEquals(6,result.size());
+	}
+
+	@Test
+	public void login() {
+		User u = us.login("1my@my.com","test");
+		Assert.assertNotNull(u);
 	}
 
 	@Test
@@ -50,6 +54,18 @@ public class UserServiceTest extends
 		us.save(u);
 	}
 
+	@Test
+	public void register() {
+		User u = new User();
+		u.setName("qiaqia");
+		u.setPasswd("12345");
+		u.setPasswd2("12345");
+		u.setEmail("qian@m.com");
+		us.save(u);
+		Assert.assertNotNull(u);
+	}
+
+	
 	@Test
 	public void findRolesByUser() {
 		User u = us.getUserByName("奥运1");
@@ -80,7 +96,7 @@ public class UserServiceTest extends
 	}
 
 	@Test
-	public void findAddressByUser() {
+	public void getAddressByUser() {
 		log.debug("get address by user id ... ");
 		User u = us.getUserByName("奥运1");
 		// User u = us.loadUser(new Long(1));
@@ -135,12 +151,13 @@ public class UserServiceTest extends
 		for (int i = 0; i < 20; i++) {
 			User u = new User();
 			u.setName("奥运" + i);
-			u.setEmail("my@my.com");
+			u.setEmail(i+"my@my.com");
 			u.setPasswd("test");
 			users.add(u);
 		}
 		us.saveAll(users);
 		HashSet results = us.loadAll(User.class);
+		Assert.assertEquals(results.size(), 20);
 		Assert.assertEquals(results.size(), users.size());
 	}
 
