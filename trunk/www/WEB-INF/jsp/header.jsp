@@ -1,4 +1,5 @@
-﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+﻿<%@ page contentType="text/html;charset=UTF-8"%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" >
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -42,8 +43,8 @@
 	<body class=" yui-skin-sam">
 
 		<div id="top1">
-			<a href="welcome.do" >welcome</a>  <a href="users.do" >用户</a>  <a href="register.do" >注册</a> <a href="login.do" >登陆</a> <a href="userManager.do" >管理</a>
+			<a href="welcome.do" >welcome</a>  <a href="admin/users.do" >uuser list</a>  <a href="register.do" >register</a> <a href="login.do" >login</a> <a href="managerUserRoles.do" >user roles manager</a> <a href="userManager.do" >manager</a>
 			${loginMsg}    
-			<p id="toggle"><a href="#" id="tRight">右</a><a href="#" id="tLeft">左</a><a href="#" id="closeLeft">左隐</a><a href="#" id="padRight">宽线</a></p>
+			<p id="toggle"><a href="#" id="tRight">right</a><a href="#" id="tLeft">left</a><a href="#" id="closeLeft">left hide</a><a href="#" id="padRight">add line</a></p>
 		</div>
 

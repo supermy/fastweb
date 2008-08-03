@@ -1,3 +1,4 @@
+﻿<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/jsp/includes.jsp" %>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
@@ -9,7 +10,9 @@
 
 <div id="center1">
 	
-	<h2>没有权限查看该网页！</h2>
+	<div><h1>No Permission.</h1></div>
+	<div><a href="<c:url value="/"/>">home</a></div>
+	
 
 </div>
 

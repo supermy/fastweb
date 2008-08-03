@@ -19,5 +19,6 @@
 	使用一个action来解决针对一个对象操作的所有,并且尽量符合rest风格。
 	
 	yui直接使用yahoo的。
-	 	
+ 八、完成AutoScanAnnSpring...	 	
+九、引入acegi ,不同的权限页面位于不同的目录
 done upload file ...

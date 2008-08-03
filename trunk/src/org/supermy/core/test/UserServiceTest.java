@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,12 +26,18 @@ import org.supermy.core.domain.Role;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 
+/**
+* @author supermy E-mail:springclick@gmail.com
+* @version create time：2008-8-2 下午10:38:33
+* 
+*/
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/springs.xml" })
+@ContextConfiguration(locations = { "/springs.xml" ,"/security.xml"})
 public class UserServiceTest extends
 		AbstractTransactionalJUnit4SpringContextTests {
 	static private Log log = LogFactory.getLog(UserServiceTest.class);
 	@Autowired
+	//@Qualifier("UserService")
 	private IUserService us;
 
 	@Test

@@ -8,13 +8,28 @@
 	<!--  Spring 服务层的配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:/springs.xml</param-value>
+		<param-value>
+			classpath:/springs.xml
+			classpath:/security.xml
+		</param-value>
 	</context-param>
 
 	<!--  Spring 容器启动监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+	<!-- Spring 刷新Introspector防止内存泄露 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+    <!-- ============= anyOne Logon By one Time   ========== -->
+    <listener>
+        <listener-class>
+            org.springframework.security.ui.session.HttpSessionEventPublisher
+        </listener-class>
+    </listener>
+	
 
 	<!--  Spring MVC 的Servlet，
 	它将加载WEB-INF/fastweb-servlet.xml 的
@@ -30,6 +45,22 @@
 		<servlet-name>fastweb</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	<!-- Acegi filter-->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>	
+
+	<!-- FIXME  -->
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/j_security_check</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+
 
 	<filter>
 		<filter-name>hibernateFilter</filter-name>
@@ -59,11 +90,6 @@
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 
-
-	<session-config>
-		<session-timeout>10</session-timeout>
-	</session-config>
-
 	<welcome-file-list>
 		<!-- Redirects to "welcome.htm" for dispatcher handling -->
 		<welcome-file>index.jsp</welcome-file>
@@ -74,6 +100,11 @@
 		<!-- Displays a stack trace -->
 		<location>/WEB-INF/jsp/uncaughtException.jsp</location>
 	</error-page>
+	<!-- session超时定义,单位为分钟 -->
+	<session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
+
 
 	<!-- 
 	<error-page>

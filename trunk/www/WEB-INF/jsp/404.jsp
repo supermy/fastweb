@@ -1,3 +1,4 @@
+﻿<%@ page contentType="text/html;charset=UTF-8"%>
 <%@ include file="/WEB-INF/jsp/includes.jsp" %>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
@@ -8,9 +9,8 @@
 </div>
 
 <div id="center1">
-	
-	<h2>该页面不存在！</h2>
-
+	<div><h1>Page Not Found</h1></div>
+	<div><a href="<c:url value="/"/>">home</a></div>
 </div>
 
 
