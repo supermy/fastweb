@@ -160,6 +160,7 @@ public class BaseService implements IBaseService {
 		hibernateTemplate.saveOrUpdate(o);
 		return o;
 	}
+
 	@Transactional(readOnly = false)
 	public BaseDomain merge(BaseDomain o) {
 		if (o.isOld()) {
@@ -211,5 +212,9 @@ public class BaseService implements IBaseService {
 		return lines;
 	}
 
+	@Override
+	public void delSome(Set somes) {
+		hibernateTemplate.deleteAll(somes);
+	}
 
 }

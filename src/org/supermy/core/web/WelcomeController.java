@@ -8,7 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.supermy.core.domain.User;
+import org.supermy.core.domain.*;
 import org.supermy.core.service.IUserService;
 
 /**
@@ -32,6 +32,17 @@ public class WelcomeController {
 			users.add(u);
 		}
 		us.saveAll(users);
+
+		User u=(User)us.load(User.class,1);
+		Role r=new Role();
+		r.setName("admin");
+		r.setUser(u);
+		us.save(r);
+		Role r1=new Role();
+		r1.setName("superadmin");
+		r1.setUser(u);
+		us.save(r1);
+
 		log.debug("add users 20 ");
 	}
 

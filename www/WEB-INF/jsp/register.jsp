@@ -17,13 +17,6 @@
   <table>
     <tr>
       <th>
-        昵称:
-        <br/>
-        <form:input path="name" size="16" maxlength="20"/>
-      </th>
-    </tr>
-    <tr>
-      <th>
         EMail:登陆凭证，要求有效EMail<br/>
         <form:input path="email" size="16" maxlength="20"/>
       </th>
@@ -42,7 +35,14 @@
         <form:password path="passwd2" size="10" maxlength="10"/>
       </th>
     </tr>
-    <tr>
+     <tr>
+      <th>
+        昵称:
+        <br/>
+        <form:input path="name" size="16" maxlength="20"/>
+      </th>
+    </tr>
+   <tr>
       <td>
             <p class="submit"><input type="submit" value="注册"/></p>
       </td>

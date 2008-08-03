@@ -78,34 +78,34 @@ public class UserControllerTest extends
 	// // us.register(user, result, model, status)delUser();
 	// }
 	//
-//	@Test
-//	public void delUser() throws Exception {
-//		@SuppressWarnings("serial")
-//		DispatcherServlet servlet = new DispatcherServlet() {
-//			protected WebApplicationContext createWebApplicationContext(
-//					WebApplicationContext parent) {
-//				GenericWebApplicationContext wac = new GenericWebApplicationContext();
-//				wac.registerBeanDefinition("userController",
-//						new RootBeanDefinition(UserController.class));
-//				wac.refresh();
-//				return wac;
-//			}
-//		};
-//		servlet.init(new MockServletConfig());
-//
-//		MockHttpServletRequest request = new MockHttpServletRequest("GET",
-//				"/delUser.do");
-//		request.addParameter("userId", "2");
-//		MockHttpServletResponse response = new MockHttpServletResponse();
-//		servlet.service(request, response);
-//
-//		Assert.assertEquals("listUser", response.getForwardedUrl());
-//		log.debug(response.getErrorMessage());
-//		log.debug(response.getContentAsString());
-//
-//		// ModelAndViewAssert.assertViewName(mav, expectedName)
-//		// us.register(user, result, model, status)delUser();
-//	}
+	// @Test
+	// public void delUser() throws Exception {
+	// @SuppressWarnings("serial")
+	// DispatcherServlet servlet = new DispatcherServlet() {
+	// protected WebApplicationContext createWebApplicationContext(
+	// WebApplicationContext parent) {
+	// GenericWebApplicationContext wac = new GenericWebApplicationContext();
+	// wac.registerBeanDefinition("userController",
+	// new RootBeanDefinition(UserController.class));
+	// wac.refresh();
+	// return wac;
+	// }
+	// };
+	// servlet.init(new MockServletConfig());
+	//
+	// MockHttpServletRequest request = new MockHttpServletRequest("GET",
+	// "/delUser.do");
+	// request.addParameter("userId", "2");
+	// MockHttpServletResponse response = new MockHttpServletResponse();
+	// servlet.service(request, response);
+	//
+	// Assert.assertEquals("listUser", response.getForwardedUrl());
+	// log.debug(response.getErrorMessage());
+	// log.debug(response.getContentAsString());
+	//
+	// // ModelAndViewAssert.assertViewName(mav, expectedName)
+	// // us.register(user, result, model, status)delUser();
+	// }
 
 	@Before
 	public void addData() {

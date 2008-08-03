@@ -31,5 +31,15 @@
 	<classpathentry kind="lib" path="D:/env_java/source/apache-tomcat-6.0.14/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="D:/env_java/source/apache-tomcat-6.0.14/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="www/WEB-INF/lib/commons-lang.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-context.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-context-support.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-modules-validation.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-security-acl-2.0.3.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-security-core-2.0.3.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-security-core-tiger-2.0.3.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-security-taglibs-2.0.3.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/spring-web.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/commons-beanutils.jar"/>
+	<classpathentry kind="lib" path="www/WEB-INF/lib/commons-digester.jar"/>
 	<classpathentry kind="output" path="www/WEB-INF/classes"/>
 </classpath>

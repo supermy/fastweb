@@ -1,4 +1,5 @@
-﻿<div id="bottom1">
+﻿<%@ page contentType="text/html;charset=UTF-8"%>
+<div id="bottom1">
 	<a href="<c:url value="/welcome.do"/>">Home</a>
 </div>
 

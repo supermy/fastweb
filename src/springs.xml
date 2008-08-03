@@ -25,15 +25,13 @@
 	</bean>
 
 	<bean id="sessionFactory" 
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		class="org.supermy.core.spring.AutoScanAnnotationSessionFactoryBean">
 		<property name="dataSource">
 			<ref bean="dataSource"/>
 		</property>
-		<property name="annotatedClasses"> 
+		<property name="domainPackageNames"> 
 			<list> 
-				<value>org.supermy.core.domain.User</value> 
-				<value>org.supermy.core.domain.Role</value> 
-				<value>org.supermy.core.domain.Address</value> 
+				<value>domain</value> 
 			</list> 
 		</property > 
 	</bean>
