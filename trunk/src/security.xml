@@ -2,13 +2,15 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
 	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd"
+                                 http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.1.xsd"
 	default-autowire="byType" default-lazy-init="true">
 
 	<http auto-config="true">
 		<intercept-url pattern="/login.do*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/admin/*.do*" access="ROLE_ADMIN" />
-		<form-login login-page="/login.do" authentication-failure-url="/login.do?login_error=true" />
+		<form-login login-page="/login.do" authentication-failure-url="/login.do?login_error=1"   login-processing-url="/j_security_check"/>
+    <!--form-login login-page="/login.jsp" authentication-failure-url="/login.jsp?error=true" login-processing-url="/j_security_check"/-->
+
 		<logout logout-success-url="/" />
 		<remember-me user-service-ref="userDetailsService" key="e37f4b31-0c45-11dd-bd0b-0800200c9a66" />
 	</http>
@@ -19,9 +21,10 @@
 
 	<beans:bean id="userDetailsService" class="org.supermy.core.service.UserAcegiService" />
 
-	<beans:bean id="passwordEncoder" class="org.springframework.security.providers.encoding.PlaintextPasswordEncoder" />
+	    <beans:bean id="passwordEncoder" class="org.springframework.security.providers.encoding.Md5PasswordEncoder" />
+	
 	<!-- 密码可用加密SHA1或MD5
 		<beans:bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.ShaPasswordEncoder" />
-		<beans:bean id="passwordEncoder" class="org.acegisecurity.providers.encoding.ShaPasswordEncoder" />
+		<beans:bean id="passwordEncoder" class="org.springframework.security.providers.encoding.PlaintextPasswordEncoder" />
 	-->
 </beans:beans>

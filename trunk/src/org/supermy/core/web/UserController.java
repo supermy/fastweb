@@ -1,6 +1,5 @@
 package org.supermy.core.web;
 
-import java.util.Set;
 import java.util.*;
 
 import org.apache.commons.logging.Log;
@@ -111,6 +110,9 @@ public class UserController {
 				model.addAttribute("user", user);
 				return "userForm";
 			}
+			
+		    user.setMd5Passwd();
+		    
 			if (user.isOld()) {
 				this.us.merge(user);
 			} else {
@@ -147,6 +149,9 @@ public class UserController {
 				model.addAttribute("user", user);
 				return "register";
 			}
+			
+			user.setMd5Passwd();
+			
 			this.us.save(user);
 			// status.setComplete();
 			return "redirect:user.do?userId=" + user.getId();
@@ -167,6 +172,7 @@ public class UserController {
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 		public String login(@ModelAttribute
 				User user, BindingResult result, Model model) {
+			user.setMd5Passwd();
 			User u = us.login(user.getEmail(), user.getPasswd());
 			StringBuffer emsg = new StringBuffer("");
 			if (u == null) {

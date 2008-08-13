@@ -43,7 +43,7 @@
 	<body class=" yui-skin-sam">
 
 		<div id="top1">
-			<a href="welcome.do" >welcome</a>  <a href="admin/users.do" >uuser list</a>  <a href="register.do" >register</a> <a href="login.do" >login</a> <a href="managerUserRoles.do" >user roles manager</a> <a href="userManager.do" >manager</a>
+			<a href="welcome.do" >welcome</a>  <a href="admin/users.do" >user list</a>  <a href="register.do" >register</a> <a href="login.do" >login</a> <a href="managerUserRoles.do" >user roles manager</a> <a href="userManager.do" >manager</a>
 			${loginMsg}    
 			<p id="toggle"><a href="#" id="tRight">right</a><a href="#" id="tLeft">left</a><a href="#" id="closeLeft">left hide</a><a href="#" id="padRight">add line</a></p>
 		</div>
