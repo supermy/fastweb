@@ -49,6 +49,12 @@ public class User extends BaseDomain {
 	@Column(name = "u_salary", precision = 2)
 	private Double salary;// 薪水 两位小数
 
+	
+    
+	public void setMd5Passwd() {
+		this.passwd = new org.supermy.core.util.MD5().getMD5ofStr(passwd)
+		.toLowerCase();
+	}
 	/**
 	 * 
 	 * @return

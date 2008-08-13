@@ -12,8 +12,6 @@
 <meta http-equiv="Expires" content="0" />
 -->
 
-<script type="text/javascript" src="<c:url value="/js/validator.jsp"/>"></script>
-<v:javascript formName="login" staticJavascript="false" xhtml="true" cdata="false"/>
 
 <h2>Login</h2>
 
@@ -69,8 +67,7 @@
 				</table>
 			</form>
 			<P>（管理员用户名<b>admin</b>, 密码<b>admin</b>）</P>
-======================
-
+			<!--
 
 	${errors}
 <form:form modelAttribute="user" name="login" onsubmit="return validateLogin(this);">
@@ -96,6 +93,7 @@
     </tr>
   </table>
 </form:form>
+			-->
 </div>
 
 <%@ include file="/WEB-INF/jsp/footer.jsp" %>

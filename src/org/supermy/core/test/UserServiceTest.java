@@ -68,6 +68,7 @@ public class UserServiceTest extends
 		u.setPasswd("12345");
 		u.setPasswd2("12345");
 		u.setEmail("qian@m.com");
+		u.setMd5Passwd();
 		us.save(u);
 		Assert.assertNotNull(u);
 	}
@@ -160,6 +161,7 @@ public class UserServiceTest extends
 			u.setName("奥运" + i);
 			u.setEmail(i+"my@my.com");
 			u.setPasswd("test");
+			u.setMd5Passwd();
 			users.add(u);
 		}
 		us.saveAll(users);
