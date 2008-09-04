@@ -1,11 +1,15 @@
 package org.supermy.core.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.GrantedAuthorityImpl;
 import org.springframework.security.userdetails.UserDetails;
@@ -26,6 +30,48 @@ import org.supermy.core.domain.User;
 @Service
 public class UserService extends BaseService implements IUserService {
 	static Log log = LogFactory.getLog(UserService.class);
+
+	/**
+	 * spring mvc 提交直接拿到 map的bean,可以直接查询
+	 * 
+	 * @param m
+	 */
+	@Transactional(readOnly = false)
+	public void addRole(Map<String, Object> m) {
+		StringBuffer insert_roles = new StringBuffer(
+				"insert into c_role (name) values(:name)");
+		// 直接把map的参数绑定到map中
+		MapSqlParameterSource bean2param = new MapSqlParameterSource(m);
+		jdbcTemplate.update(new String(insert_roles), bean2param);
+	}
+
+	/*
+	 * 适用于插入并且返回主键的情况
+	 * 
+	 * @see org.supermy.core.service.IUserService#addRole(java.util.Map)
+	 */
+	@Transactional(readOnly = false)
+	public void insertRole(Map<String, Object> m) {
+		SimpleJdbcInsert exec = insertActor.withTableName("c_role")
+				.usingGeneratedKeyColumns("c_id");
+		Number key = exec.executeAndReturnKey(m);
+		m.put("c_id", key);
+	}
+
+	/**
+	 * 返回的list中都是Map,可以直接使用${o.name}
+	 * 
+	 * @return
+	 */
+	public List<Map<String, Object>> findRoles() {
+		StringBuffer roles = new StringBuffer("select name from c_role");
+		return jdbcTemplate.queryForList(new String(roles));
+	}
+
+	public void deleteRoles(String name) {
+		StringBuffer roles = new StringBuffer("delete from c_role where name=?");
+		jdbcTemplate.update(new String(roles), name);
+	}
 
 	/*
 	 * 

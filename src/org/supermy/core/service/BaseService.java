@@ -5,24 +5,41 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.sql.DataSource;
+
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.supermy.core.domain.BaseDomain;
-import org.supermy.core.domain.User;
 
 @Transactional
 public class BaseService implements IBaseService {
 
 	@Autowired
 	public HibernateTemplate hibernateTemplate;
+	
+	public SimpleJdbcTemplate jdbcTemplate;
+	public SimpleJdbcTemplate getJdbcTemplate(){
+		return this.jdbcTemplate;
+	}
 
+	@Autowired
+	public void init(DataSource dataSource) {
+		jdbcTemplate = new SimpleJdbcTemplate(dataSource);
+		insertActor = new SimpleJdbcInsert(dataSource);
+	}
+	
+	public SimpleJdbcInsert insertActor;
+	
+	
 	/**
 	 * @param detachedCriteria
 	 * @return
@@ -200,6 +217,7 @@ public class BaseService implements IBaseService {
 		List result = hibernateTemplate.loadAll(o);
 		return new HashSet(result);
 	}
+	
 
 	@Override
 	public Object load(Class o, long id) {
@@ -216,5 +234,8 @@ public class BaseService implements IBaseService {
 	public void delSome(Set somes) {
 		hibernateTemplate.deleteAll(somes);
 	}
+	
+	//jdbc
+	
 
 }

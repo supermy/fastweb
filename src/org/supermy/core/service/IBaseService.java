@@ -3,6 +3,7 @@ package org.supermy.core.service;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
 import org.supermy.core.domain.BaseDomain;
 
 /**
@@ -11,6 +12,7 @@ import org.supermy.core.domain.BaseDomain;
  * 
  */
 public interface IBaseService {
+	public SimpleJdbcTemplate getJdbcTemplate();
 	/**
 	 * @param o
 	 * @param id
