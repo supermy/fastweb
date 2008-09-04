@@ -24,35 +24,7 @@ public class WelcomeController {
 
 	@RequestMapping("/welcome.do")
 	public void welcomeHandler() {
-		Set users = new HashSet();
-		User u1 = new User();
-		u1.setName("admin");
-		u1.setPasswd("admin");
-		u1.setEmail("admin@my.com");
-		u1.setMd5Passwd();
-		users.add(u1);
-		
-		for (int i = 0; i < 20; i++) {
-			User u = new User();
-			u.setName("活着" + i);
-			u.setPasswd("test");
-			u.setEmail(i + "my@my.com");
-			u.setMd5Passwd();
-			users.add(u);
-		}
-		us.saveAll(users);
-
-		User u = (User) us.load(User.class, 1);
-		Role r = new Role();
-		r.setName("admin");
-		r.setUser(u);
-		us.save(r);
-		Role r1 = new Role();
-		r1.setName("superadmin");
-		r1.setUser(u);
-		us.save(r1);
-
-		log.debug("add users 20 ");
+		log.debug("hello,world!");
 	}
 
 }
