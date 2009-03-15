@@ -6,12 +6,13 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.supermy.core.domain.BaseDomain;
 
-@Repository
-public class FastwebTemplate<T, IdT extends Serializable> extends
-		BaseTemplate<T, IdT> {
+@Transactional
+public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
+		extends BaseTemplate<T, IdT> {
 
 	public FastwebTemplate(SessionFactory sessionFactory, Class<T> domainClass) {
 		super(sessionFactory, domainClass);
@@ -65,7 +66,7 @@ public class FastwebTemplate<T, IdT extends Serializable> extends
 		Query q = createQuery(hql, values);
 
 		if (page.isAutoTotal()) {
-			int totalCount = getRecordCount(otherHql);
+			int totalCount = getRecordCount(otherHql).intValue();
 			page.setTotalCount(totalCount);
 		}
 
@@ -89,10 +90,10 @@ public class FastwebTemplate<T, IdT extends Serializable> extends
 	 * @param otherHql
 	 * @return
 	 */
-	private Integer getRecordCount(String otherHql) {
+	private Long getRecordCount(String otherHql) {
 		StringBuffer hql = new StringBuffer(" select count(*) ")
 				.append(otherHql);
-		return (Integer) findUnique(hql.toString());
+		return (Long) findUnique(hql.toString());
 	}
 
 }

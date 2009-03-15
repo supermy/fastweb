@@ -29,45 +29,45 @@ import org.supermy.core.service.IUserService;
 @Controller
 @SessionAttributes("currUser")
 public class UserController {
-
+/*
 	private static Log log = LogFactory.getLog(UserController.class);
 
 	@Autowired
 		private IUserService us;
 
-	/**
+	*//**
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/users.do")
 		@ModelAttribute("users")
 		public Set<User> listAllUsers() {
 			return this.us.findUsers(0, 13);
 		}
 
-	/**
+	*//**
 	 * @param id
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/user.do")
 		public ModelMap viewUser(@RequestParam("userId")
 				long id) {
 			return new ModelMap(this.us.load(User.class, id));
 				}
 
-	/**
+	*//**
 	 * @param userId
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/delUser.do")
 		public String delUser(long userId) {
 			us.delete(User.class, userId);
 			return "listUsers";
 		}
 
-	/**
+	*//**
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/addUser.do", method = RequestMethod.GET)
 		public String addUser(Model model) {
 			User user = new User();
@@ -75,11 +75,11 @@ public class UserController {
 			return "userForm";
 		}
 
-	/**
+	*//**
 	 * @param userId
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/editUser.do")
 		public String editUser(@RequestParam("userId")
 				long userId, Model model) {
@@ -89,13 +89,13 @@ public class UserController {
 			return "userForm";
 				}
 
-	/**
+	*//**
 	 * 保存以后，切换到单数据浏览页面。 SessionStatus status
 	 * 
 	 * @param user
 	 * @param status
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/saveUser.do")
 		public String saveUser(@ModelAttribute
 				User user, Model model) {
@@ -123,11 +123,11 @@ public class UserController {
 			return "redirect:user.do?userId=" + user.getId();
 				}
 
-	/**
+	*//**
 	 * 
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/register.do", method = RequestMethod.GET)
 		public String register(Model model) {
 			User user = new User();
@@ -157,11 +157,11 @@ public class UserController {
 			return "redirect:user.do?userId=" + user.getId();
 				}
 
-	/**
+	*//**
 	 * 
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 		public String login(Model model) {
 			User user = new User();
@@ -188,11 +188,11 @@ public class UserController {
 			return "redirect:user.do?userId=" + u.getId();
 				}
 
-	/**
+	*//**
 	 * 
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping(value = "/managerUserRoles.do", method = RequestMethod.GET)
 		public String managerUserRoles(@ModelAttribute("currUser")
 				User currUser, Model model) {
@@ -223,11 +223,11 @@ public class UserController {
 			return "redirect:user.do?userId=" + currUser.getId();
 				}
 
-	/**
+	*//**
 	 * @param pageNum
 	 * @param model
 	 * @return
-	 */
+	 *//*
 	@RequestMapping("/findUsers.do")
 		public String listUsers(ModelMap model) {
 			Set<User> users = us.findUsers(1, 3);
@@ -247,6 +247,6 @@ public class UserController {
 		v = null;
 		msgs = null;
 		return errorMsg;
-	}
+	}*/
 
 }

@@ -1,25 +1,37 @@
 package org.supermy.core.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.FlushMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.annotations.FlushModeType;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.Type;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.supermy.core.domain.BaseDomain;
 
-public class BaseTemplate<T, IdT extends Serializable> {
+/**
+ * @author my
+ * 
+ * @param <T>
+ * @param <IdT>
+ */
+@Transactional
+public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 
-	protected Log log = LogFactory.getLog(getClass());
+	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 	protected SessionFactory sessionFactory;
 
@@ -43,15 +55,27 @@ public class BaseTemplate<T, IdT extends Serializable> {
 	}
 
 	/**
+	 * @param sessionFactory
+	 *            the sessionFactory to set
+	 */
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+
+	/**
 	 * 保存新增或修改的对象.
 	 */
 	public void save(final T obj) {
 		getSession().saveOrUpdate(obj);
-		log.debug("save:" + obj);
+		log.debug("save:{}" + obj);
 	}
-	public void saveObj(final Object obj) {
-		getSession().saveOrUpdate(obj);
-		log.debug("save:" + obj);
+
+	public void save(final List<T> objs) {
+		for (T t : objs) {
+			getSession().saveOrUpdate(t);
+		}
+		log.debug("save:{}", objs);
 	}
 
 	/**
@@ -59,22 +83,40 @@ public class BaseTemplate<T, IdT extends Serializable> {
 	 */
 	public void delete(final T obj) {
 		getSession().delete(obj);
-		log.debug("delete :" + obj);
+		log.debug("delete :{}", obj);
 	}
 
-	@Deprecated //todo
-	public void deleteAll(final List list) {
-		for (Object obj : list) {
-			getSession().delete(obj);
-			log.debug("delete :" + obj);
+	public void delete(final List<T> list) {
+
+		if (list.size() <= 0) {
+			return;
 		}
+		List<Long> ids = new ArrayList<Long>();// FIXME
+		for (T t : list) {
+			ids.add(t.getId());
+		}
+
+		StringBuffer hql = new StringBuffer(" delete ").append(
+				domainClass.getName()).append(" where id in (:ids) ");
+		log.debug("hql:{}", hql);
+		Query q = createQuery(hql.toString());
+		q.setParameterList("ids", ids);
+		int n = q.executeUpdate();
+		log.debug("delete:{}", n);
+
+		//getSession().flush();
 	}
 
 	public void deleteAll() {
-			Query q = createQuery("delete from "+domainClass.getSimpleName());
-			q.executeUpdate();
+		String hql = " delete " + domainClass.getName();
+		log.debug("hql:{}", hql);
+		Query q = createQuery(hql);
+		int n = q.executeUpdate();
+		log.debug("delete:{}", n);
+		getSession().setFlushMode(FlushMode.COMMIT);
+		getSession().flush();
 	}
-	
+
 	/**
 	 * 按id删除对象.
 	 */
@@ -173,8 +215,7 @@ public class BaseTemplate<T, IdT extends Serializable> {
 	}
 
 	/**
-	 * 单表查询返回对象
-	 * 建议直接使用hibernate
+	 * 单表查询返回对象 建议直接使用hibernate
 	 * 
 	 * @param queryString
 	 * @param values
@@ -266,9 +307,9 @@ public class BaseTemplate<T, IdT extends Serializable> {
 		ClassMetadata meta = getSessionFactory().getClassMetadata(domainClass);
 		return meta.getIdentifierType();
 	}
-	
+
 	public String getDomainName() {
 		return domainClass.getSimpleName();
 	}
-	
+
 }

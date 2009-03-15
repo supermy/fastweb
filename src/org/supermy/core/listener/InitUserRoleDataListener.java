@@ -1,26 +1,13 @@
 package org.supermy.core.listener;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.security.providers.encoding.Md5PasswordEncoder;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.supermy.core.domain.Role;
-import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 
 
-public class InitUserRoleDataListener implements
-		ServletContextListener {
+public class InitUserRoleDataListener {//implements	ServletContextListener {
 	IUserService us = null;
-
+/*
 	private static final Log log = LogFactory
 			.getLog(InitUserRoleDataListener.class);
 
@@ -82,5 +69,5 @@ public class InitUserRoleDataListener implements
 	public void contextDestroyed(ServletContextEvent arg0) {
 		
 	}
-
+*/
 }

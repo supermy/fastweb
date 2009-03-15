@@ -38,7 +38,7 @@ public class User extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_passwd", length = 20)
+	@Column(name = "c_passwd", length = 32)
 	private String passwd;
 
 	/**

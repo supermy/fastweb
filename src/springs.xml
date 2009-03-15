@@ -29,8 +29,9 @@
 	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
 	<context:component-scan base-package="org.supermy.core.service" />
 
-	<!-- bean驱动-->
+	<!-- bean驱动
 	<context:annotation-config />
+	-->
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
@@ -46,27 +47,7 @@
 		<jee:jndi-lookup id="dataSource"
 		jndi-name="java:comp/env/jdbc/ExampleDB" />
 	-->
-	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="namingStrategy">
-			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
-		</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
-				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
-				</prop>
-				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
-				</prop>
-			</props>
-		</property>
-		<property name="packagesToScan" value="org.supermy.core.domain.*" />
-	</bean>
 
-	<!-- 
 	<bean id="sessionFactory"
 		class="org.supermy.core.spring.AutoScanAnnotationSessionFactoryBean">
 		<property name="dataSource">
@@ -90,7 +71,6 @@
 			</list>
 		</property>
 	</bean>
- 	 -->
  
 	<!-- 事务管理器配置,单数据源事务 -->
 	<bean id="transactionManager"
@@ -109,7 +89,6 @@
 		class="org.springframework.transaction.jta.JtaTransactionManager or
 		WebLogicJtaTransactionManager" />
 	-->
-
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">

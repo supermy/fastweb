@@ -1,31 +1,11 @@
 package org.supermy.core.test;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.mock.web.MockServletConfig;
 import org.springframework.test.AbstractTransactionalDataSourceSpringContextTests;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.GenericWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
-import org.supermy.core.domain.Address;
-import org.supermy.core.domain.Role;
-import org.supermy.core.domain.User;
-import org.supermy.core.service.IUserService;
-import org.supermy.core.web.UserController;
 
 /**
  * @author supermy E-mail:springclick@gmail.com
@@ -41,7 +21,7 @@ public class UserControllerTest extends
 		AbstractTransactionalDataSourceSpringContextTests {
 
 	static private Log log = LogFactory.getLog(UserControllerTest.class);
-
+/*
 	@Autowired
 	private IUserService us;
 
@@ -186,6 +166,6 @@ public class UserControllerTest extends
 
 	private void delAddress() {
 		us.delAll(Address.class);
-	}
+	}*/
 
 }
