@@ -1,8 +1,8 @@
 package org.supermy.core.service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-import org.supermy.core.domain.Address;
 import org.supermy.core.domain.Role;
 import org.supermy.core.domain.User;
 
@@ -10,12 +10,15 @@ import org.supermy.core.domain.User;
  * @author supermy E-mail:springclick@gmail.com
  * @version 创建时间：2008-7-23 下午01:07:03 类说明
  */
-public interface IUserService extends IBaseService {
-	public void insertRole(Map<String, Object> m) ;
+public interface IUserService {
 
-	public void addRole(Map<String, Object> m);
+	public FastwebTemplate<User, Long> getUserUtil();
 
-	public List<Map<String, Object>> findRoles();
+	public FastwebTemplate<Role, Long> getRoleUtil();
+
+	public void addRole(Role obj);
+
+	public List<Map> findRoles();
 
 	public void deleteRoles(String name);
 
@@ -25,17 +28,14 @@ public interface IUserService extends IBaseService {
 	 * @param i
 	 * @return
 	 */
-	public abstract Set<User> findUsers(int numPage, int sizePage);
+	public abstract List<User> findUsers(Page<User> page);
 
-	public abstract Set<Role> findRolesByUserId(long userId, int pageNum,
-			int pageSize);
+	public abstract List<Role> findRolesByUserId(Page<Role> page, String userId);
 
 	public abstract User getUserByName(String name);
 
 	public abstract User login(String email, String passwd);
 
-	public abstract Address getAddressByUserId(long userId);
-
-	public abstract String[] findRoleNamesByUserId(long userId);
+	// public abstract String[] findRoleNamesByUserId(long userId);
 
 }
