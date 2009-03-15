@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.GrantedAuthority;
@@ -24,7 +25,7 @@ import org.supermy.core.domain.User;
 @Transactional
 @Service
 public class UserAcegiService  implements UserDetailsService {
-	static Log log = LogFactory.getLog(UserAcegiService.class);
+	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
 	private IUserService us;
@@ -41,7 +42,7 @@ public class UserAcegiService  implements UserDetailsService {
 		if (user == null)
 			throw new UsernameNotFoundException(userName + " not found");
 
-		Set<Role> roles = us.findRolesByUserId(user.getId(), 0, 30);
+		Set<Role> roles=null;// = us.findRolesByUserId(user.getId(), 0, 30);
 
 		GrantedAuthority[] arrayAuths = new GrantedAuthority[roles.size()];
 		int index = 0;

@@ -3,8 +3,9 @@ package org.supermy.core.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.hibernate.SessionFactory;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.supermy.core.domain.Role;
@@ -18,19 +19,21 @@ import org.supermy.core.domain.User;
 @Transactional
 @Service
 public class UserService extends BaseService implements IUserService {
-	static Log log = LogFactory.getLog(UserService.class);
-	
-//	@Override
-//	protected FastwebTemplate<User, Long> getDomainCrud() {
-//		return userUtil;
-//	}
-	
+	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
-	private FastwebTemplate<User, Long> userUtil = new FastwebTemplate<User, Long>(
-			getSessionFactory(), User.class);
-	
-	private FastwebTemplate<Role, Long> roleUtil = new FastwebTemplate<Role, Long>(
-			getSessionFactory(), Role.class);
+	private FastwebTemplate<User, Long> userUtil ;
+
+	private FastwebTemplate<Role, Long> roleUtil ;
+
+	@Autowired
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		userUtil = new FastwebTemplate<User, Long>(sessionFactory,
+				User.class);
+
+		roleUtil = new FastwebTemplate<Role, Long>(sessionFactory,
+				Role.class);
+	}
+
 
 	/**
 	 * @return the userUtil
@@ -96,6 +99,5 @@ public class UserService extends BaseService implements IUserService {
 		String hql = "from User u where u.email=:email and u.passwd=:passwd";
 		return (User) userUtil.findUnique(hql, email, passwd);
 	}
-
 
 }
