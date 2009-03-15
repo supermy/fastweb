@@ -1,28 +1,30 @@
 package org.supermy.core.domain;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.Length;
 
 /**
-* @author supermy E-mail:springclick@gmail.com
-* @version create time：2008-7-30 下午04:30:38
-* 
-*/
+ * @author supermy E-mail:springclick@gmail.com
+ * @version create time：2008-7-30 下午04:30:38
+ * 
+ */
 @Entity
 @Table(name = "c_address")
-@org.hibernate.annotations.Entity(dynamicUpdate = true,dynamicInsert = true)
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Address extends BaseDomain {
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
-	
+
 	@Column(name = "qq", length = 20)
 	@Length(max = 20)
 	private String qq;
@@ -86,7 +88,8 @@ public class Address extends BaseDomain {
 	}
 
 	/**
-	 * @param user the user to set
+	 * @param user
+	 *            the user to set
 	 */
 	public void setUser(User user) {
 		this.user = user;
