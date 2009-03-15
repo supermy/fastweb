@@ -1,16 +1,24 @@
 package org.supermy.core.domain;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.Email;
 
 /**
 * @author supermy E-mail:springclick@gmail.com
@@ -19,7 +27,8 @@ import org.hibernate.validator.Email;
 */
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "c_user")
+@Table(name = "c_users")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends BaseDomain {
 
 	@NotEmpty
@@ -49,6 +58,11 @@ public class User extends BaseDomain {
 	@Column(name = "u_salary", precision = 2)
 	private Double salary;// 薪水 两位小数
 
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "c_user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@OrderBy("id")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)	
+	private Set<Role> roles = new LinkedHashSet<Role>();
 	
     
 	public void setMd5Passwd() {
@@ -153,5 +167,18 @@ public class User extends BaseDomain {
 	public void setPasswd2(String passwd2) {
 		this.passwd2 = passwd2;
 	}
+	/**
+	 * @return the roles
+	 */
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
+	
 }

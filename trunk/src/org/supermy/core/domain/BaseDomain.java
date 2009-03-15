@@ -11,11 +11,9 @@ import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.hibernate.search.annotations.Indexed;
 
 
 @MappedSuperclass
-@Indexed
 public class BaseDomain {
 
 	public String toString() {
