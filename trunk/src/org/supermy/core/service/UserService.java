@@ -21,19 +21,16 @@ import org.supermy.core.domain.User;
 public class UserService extends BaseService implements IUserService {
 	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
-	private FastwebTemplate<User, Long> userUtil ;
+	private FastwebTemplate<User, Long> userUtil;
 
-	private FastwebTemplate<Role, Long> roleUtil ;
+	private FastwebTemplate<Role, Long> roleUtil;
 
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		userUtil = new FastwebTemplate<User, Long>(sessionFactory,
-				User.class);
+		userUtil = new FastwebTemplate<User, Long>(sessionFactory, User.class);
 
-		roleUtil = new FastwebTemplate<Role, Long>(sessionFactory,
-				Role.class);
+		roleUtil = new FastwebTemplate<Role, Long>(sessionFactory, Role.class);
 	}
-
 
 	/**
 	 * @return the userUtil
