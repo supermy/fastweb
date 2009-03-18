@@ -26,6 +26,7 @@ import org.hibernate.validator.Length;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseDomain {
 
+	
 	@Column(name = "name", length = 20)
 	@Length(max = 20)
 	private String name;
