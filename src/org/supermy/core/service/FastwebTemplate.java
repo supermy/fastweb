@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.supermy.core.domain.BaseDomain;
+import org.supermy.core.domain.User;
 
 @Transactional
 public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
@@ -94,6 +95,10 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 		StringBuffer hql = new StringBuffer(" select count(*) ")
 				.append(otherHql);
 		return (Long) findUnique(hql.toString());
+	}
+
+	public Page<T> get(final Page<T> page) {
+		return find(page, "", " from " + domainClass.getName());
 	}
 
 }
