@@ -31,6 +31,7 @@ import org.hibernate.validator.NotEmpty;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class User extends BaseDomain {
 
+	
 	@NotEmpty
 	@Length(min = 2)
 	@Column(name = "c_name",unique = true,length = 20)
@@ -47,6 +48,13 @@ public class User extends BaseDomain {
 	@Transient
 	private String passwd2;
 
+	@Column(name = "accountNonExpired")
+	private boolean accountNonExpired;
+	@Column(name = "credentialsNonExpired")
+	private boolean credentialsNonExpired;
+	@Column(name = "accountNonLocked")
+	private boolean accountNonLocked;
+	
 	@Email
 	@NotEmpty
 	@Column(name = "email", length = 20)
@@ -178,6 +186,42 @@ public class User extends BaseDomain {
 	 */
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+	/**
+	 * @return the accountNonExpired
+	 */
+	public boolean isAccountNonExpired() {
+		return accountNonExpired;
+	}
+	/**
+	 * @param accountNonExpired the accountNonExpired to set
+	 */
+	public void setAccountNonExpired(boolean accountNonExpired) {
+		this.accountNonExpired = accountNonExpired;
+	}
+	/**
+	 * @return the credentialsNonExpired
+	 */
+	public boolean isCredentialsNonExpired() {
+		return credentialsNonExpired;
+	}
+	/**
+	 * @param credentialsNonExpired the credentialsNonExpired to set
+	 */
+	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
+		this.credentialsNonExpired = credentialsNonExpired;
+	}
+	/**
+	 * @return the accountNonLocked
+	 */
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+	/**
+	 * @param accountNonLocked the accountNonLocked to set
+	 */
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
 	}
 
 	

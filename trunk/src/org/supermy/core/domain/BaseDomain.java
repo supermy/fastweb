@@ -10,15 +10,15 @@ import javax.persistence.Transient;
 import javax.persistence.Version;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 
 @MappedSuperclass
 public class BaseDomain {
 
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append(
-				this.id).toString();
+		return ToStringBuilder.reflectionToString(this);
+//		return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append(
+//				this.id).toString();
 	}
 
 	public boolean equals(BaseDomain o) {
@@ -66,6 +66,10 @@ public class BaseDomain {
 	@Column(name = "c_update")
 	private Date upate=new Date();
 
+	@Column(name = "c_enabled")
+	private boolean enabled;
+	
+	
 	/**
 	 * @return the version
 	 */
@@ -119,4 +123,19 @@ public class BaseDomain {
 		this.upate = upate;
 	}
 
+	/**
+	 * @return the enabled
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	
 }
