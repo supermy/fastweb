@@ -81,9 +81,7 @@
 	<target name="run" depends="build,native" description="starts tomcat in the current console window">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="yes">
 			<jvmarg value="-Dcatalina.home=${tomcat_home}" />
-			<jvmarg line="-Dorg.apache.tapestry.disable-caching=true" />
-			<jvmarg line="-Dorg.apache.tapestry.enable-reset-service=true" />
-			<jvmarg line="-Xss64k -Xms64m" />
+			<jvmarg line="-Xms256m -Xmx256m  -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m" />
 			<arg value="start" />
 			<classpath>
 				<pathelement path="${java_home}/../lib/tools.jar" />
