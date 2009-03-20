@@ -13,8 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/springs.xml" })
-// ,"/security.xml"
+@ContextConfiguration(locations = { "/app-springs.xml"})
 public class BaseServiceTest extends
 		AbstractTransactionalJUnit4SpringContextTests {
 
@@ -23,8 +22,10 @@ public class BaseServiceTest extends
 	public void flush() {
 		flush("sessionFactory");
 	}
+
 	public void flush(String sessionFactoryName) {
-		((SessionFactory) applicationContext.getBean(sessionFactoryName)).getCurrentSession().flush();
+		((SessionFactory) applicationContext.getBean(sessionFactoryName))
+				.getCurrentSession().flush();
 	}
 
 }

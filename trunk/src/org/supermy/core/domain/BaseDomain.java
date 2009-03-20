@@ -25,9 +25,9 @@ public class BaseDomain {
 		if (this == o) {
 			return true;
 		}
-		if (o.getClass().getName().equals(getClass().getName())) {// FIXME
-			return false;
-		}
+//		if (o.getClass().getName().equals(getClass().getName())) {// FIXME
+//			return false;
+//		}
 		return o.getId().equals(id);
 	}
 
@@ -58,32 +58,33 @@ public class BaseDomain {
 	@Column(name = "c_id")
 	private Long id;//=new Long(0);
 
-	@Version
-	@Column(name = "OPTLOCK")
-	private Integer version;
+//	@Version
+//	@Column(name = "OPTLOCK")
+//	private Integer version;
+	
 	@Column(name = "c_create")
 	private Date create=new Date();
 	@Column(name = "c_update")
 	private Date upate=new Date();
 
 	@Column(name = "c_enabled")
-	private boolean enabled;
+	private boolean enabled=true;
 	
 	
-	/**
-	 * @return the version
-	 */
-	public Integer getVersion() {
-		return version;
-	}
-
-	/**
-	 * @param version
-	 *            the version to set
-	 */
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+//	/**
+//	 * @return the version
+//	 */
+//	public Integer getVersion() {
+//		return version;
+//	}
+//
+//	/**
+//	 * @param version
+//	 *            the version to set
+//	 */
+//	public void setVersion(Integer version) {
+//		this.version = version;
+//	}
 
 	public Long getId() {
 		return id;

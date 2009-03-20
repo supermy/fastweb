@@ -8,8 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.transaction.AfterTransaction;
-import org.springframework.test.context.transaction.BeforeTransaction;
 import org.supermy.core.domain.Role;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
@@ -25,7 +23,7 @@ public class UserServiceTest extends BaseServiceTest {
 	@Autowired
 	private IUserService userService;
 
-	private Page<User> page = new Page<User>();
+	private Page<User> page = new Page<User>(10);
 
 	@Test
 	public void getSession() {
@@ -41,6 +39,12 @@ public class UserServiceTest extends BaseServiceTest {
 		Page<User> users = userService.getUserUtil().find(page, "",
 				" from " + User.class.getName());
 		log.debug("find:{}", users.getResult());
+		
+		for (User u : users.getResult()) {
+			log.debug("user info:{}",u.toString());
+		}
+		
+		Assert.assertEquals(users.getResult().size(), 10);
 		page.setPageNo(page.getNextPage());
 		Page<User> users1 = userService.getUserUtil().find(page, "",
 				" from " + User.class.getName());
@@ -127,7 +131,7 @@ public class UserServiceTest extends BaseServiceTest {
 			u.setName("奥运" + i);
 			u.setEmail(i + "my@my.com");
 			u.setPasswd("test");
-			u.setMd5Passwd();
+			//u.setMd5Passwd();
 			users.add(u);
 		}
 		userService.getUserUtil().save(users);
@@ -148,11 +152,12 @@ public class UserServiceTest extends BaseServiceTest {
 	}
 
 	@Before
+	//@Test
 	public void addData() {
 		log.debug("init data ... ...");
 
-		page.setPageSize(10);
-		page.setAutoCount(true);
+//		page.setPageSize(10);
+//		page.setAutoCount(true);
 
 		addUsers();
 		addRoles();
@@ -161,8 +166,8 @@ public class UserServiceTest extends BaseServiceTest {
 	@After
 	public void destoryData() {
 		log.debug("destroy data ... ...");
-		delRoles();
-		delUsers();
+//		delRoles();
+//		delUsers();
 	}
 
 	public void delUsers() {

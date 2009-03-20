@@ -23,11 +23,12 @@ import org.supermy.core.domain.User;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+	
 	private FastwebTemplate<User, Long> userDao;
 
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		userDao = new FastwebTemplate<User, Long>(sessionFactory, User.class);
+		userDao = new FastwebTemplate<User, Long>(sessionFactory,null, User.class);
 	}
 
 	/**

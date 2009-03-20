@@ -1,11 +1,14 @@
 package org.supermy.core.domain;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -16,25 +19,28 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
+import org.supermy.core.util.ListUtils;
+import org.supermy.core.util.MD5;
 
 /**
-* @author supermy E-mail:springclick@gmail.com
-* @version create time：2008-7-30 下午04:30:58
-* 
-*/
+ * @author supermy E-mail:springclick@gmail.com
+ * @version create time：2008-7-30 下午04:30:58
+ * 
+ */
 @Entity
-@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+//@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "c_users")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Proxy(lazy=false)
 public class User extends BaseDomain {
 
-	
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_name",unique = true,length = 20)
+	@Column(name = "c_name", unique = true, length = 20)
 	private String name;
 
 	@NotEmpty
@@ -49,15 +55,15 @@ public class User extends BaseDomain {
 	private String passwd2;
 
 	@Column(name = "accountNonExpired")
-	private boolean accountNonExpired;
+	private boolean accountNonExpired = true;
 	@Column(name = "credentialsNonExpired")
-	private boolean credentialsNonExpired;
+	private boolean credentialsNonExpired = true;
 	@Column(name = "accountNonLocked")
-	private boolean accountNonLocked;
-	
+	private boolean accountNonLocked = true;
+
 	@Email
 	@NotEmpty
-	@Column(name = "email", length = 20)
+	@Column(name = "email",unique = true, length = 80)
 	private String email;
 
 	@Lob
@@ -66,17 +72,21 @@ public class User extends BaseDomain {
 	@Column(name = "u_salary", precision = 2)
 	private Double salary;// 薪水 两位小数
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinTable(name = "c_user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	@OrderBy("id")
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)	
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Role> roles = new LinkedHashSet<Role>();
-	
-    
-	public void setMd5Passwd() {
-		this.passwd = new org.supermy.core.util.MD5().getMD5ofStr(passwd)
-		.toLowerCase();
+
+	public String getRoleNames() throws Exception {
+		return ListUtils.propertyToString(new ArrayList<Object>(roles), "name",
+				", ");
 	}
+
+	public List<Long> getRoleIds() throws Exception {
+		return ListUtils.propertyToListLong(new ArrayList(roles), "id");
+	}
+
 	/**
 	 * 
 	 * @return
@@ -158,7 +168,7 @@ public class User extends BaseDomain {
 	 *            the passwd to set
 	 */
 	public void setPasswd(String passwd) {
-		this.passwd = passwd;
+		this.passwd =MD5.getMd5(passwd) ;
 	}
 
 	/**
@@ -173,56 +183,67 @@ public class User extends BaseDomain {
 	 *            the passwd2 to set
 	 */
 	public void setPasswd2(String passwd2) {
-		this.passwd2 = passwd2;
+		this.passwd2 =MD5.getMd5(passwd) ;
 	}
+
 	/**
 	 * @return the roles
 	 */
 	public Set<Role> getRoles() {
 		return roles;
 	}
+
 	/**
-	 * @param roles the roles to set
+	 * @param roles
+	 *            the roles to set
 	 */
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
 	/**
 	 * @return the accountNonExpired
 	 */
 	public boolean isAccountNonExpired() {
 		return accountNonExpired;
 	}
+
 	/**
-	 * @param accountNonExpired the accountNonExpired to set
+	 * @param accountNonExpired
+	 *            the accountNonExpired to set
 	 */
 	public void setAccountNonExpired(boolean accountNonExpired) {
 		this.accountNonExpired = accountNonExpired;
 	}
+
 	/**
 	 * @return the credentialsNonExpired
 	 */
 	public boolean isCredentialsNonExpired() {
 		return credentialsNonExpired;
 	}
+
 	/**
-	 * @param credentialsNonExpired the credentialsNonExpired to set
+	 * @param credentialsNonExpired
+	 *            the credentialsNonExpired to set
 	 */
 	public void setCredentialsNonExpired(boolean credentialsNonExpired) {
 		this.credentialsNonExpired = credentialsNonExpired;
 	}
+
 	/**
 	 * @return the accountNonLocked
 	 */
 	public boolean isAccountNonLocked() {
 		return accountNonLocked;
 	}
+
 	/**
-	 * @param accountNonLocked the accountNonLocked to set
+	 * @param accountNonLocked
+	 *            the accountNonLocked to set
 	 */
 	public void setAccountNonLocked(boolean accountNonLocked) {
 		this.accountNonLocked = accountNonLocked;
 	}
 
-	
 }
