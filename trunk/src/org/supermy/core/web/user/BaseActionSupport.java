@@ -46,6 +46,13 @@ public abstract class BaseActionSupport<T> extends ActionSupport implements
 		return list();
 	}
 
+	/* 关闭校验提高页面构造速度
+	 * @see com.opensymphony.xwork2.ActionSupport#validate()
+	 */
+	@Override
+	public void validate() {
+	}
+
 	/**
 	 * 建议return SUCCESS.
 	 */
@@ -55,8 +62,6 @@ public abstract class BaseActionSupport<T> extends ActionSupport implements
 	 * 建议return RELOAD.
 	 */
 	public abstract String save() throws Exception;
-
-
 
 	/**
 	 * 建议return RELOAD.

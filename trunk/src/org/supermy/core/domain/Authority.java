@@ -12,8 +12,8 @@ import org.hibernate.validator.NotEmpty;
 
 @Entity
 @Table(name = "c_authors")
-// @org.hibernate.annotations.Entity(dynamicUpdate = true,dynamicInsert = true)
-// @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+ @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @Proxy(lazy = false)
 public class Authority extends BaseDomain {
 
