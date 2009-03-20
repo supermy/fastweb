@@ -32,10 +32,10 @@ import org.supermy.core.util.MD5;
  * 
  */
 @Entity
-//@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "c_users")
-//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Proxy(lazy=false)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Proxy(lazy = false)
 public class User extends BaseDomain {
 
 	@NotEmpty
@@ -63,7 +63,7 @@ public class User extends BaseDomain {
 
 	@Email
 	@NotEmpty
-	@Column(name = "email",unique = true, length = 80)
+	@Column(name = "email", unique = true, length = 80)
 	private String email;
 
 	@Lob
@@ -168,14 +168,18 @@ public class User extends BaseDomain {
 	 *            the passwd to set
 	 */
 	public void setPasswd(String passwd) {
-		this.passwd =MD5.getMd5(passwd) ;
+		if (passwd.length() < 32) {
+			this.passwd = MD5.getMd5(passwd);
+		} else
+			this.passwd = passwd;
 	}
 
 	/**
 	 * @return the passwd2
 	 */
 	public String getPasswd2() {
-		return passwd2;
+		 return passwd2;
+		
 	}
 
 	/**
@@ -183,7 +187,11 @@ public class User extends BaseDomain {
 	 *            the passwd2 to set
 	 */
 	public void setPasswd2(String passwd2) {
-		this.passwd2 =MD5.getMd5(passwd) ;
+//		this.passwd2 = MD5.getMd5(passwd);
+		if (passwd2.length() < 32) {
+			this.passwd2 = MD5.getMd5(passwd2);
+		} else
+			this.passwd2 = passwd2;
 	}
 
 	/**

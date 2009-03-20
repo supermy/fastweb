@@ -47,6 +47,7 @@
 				</td>
 				<td>两周内记住我</td>
 			</tr>
+			
 			<tr>
 				<td colspan='2'><input value="登录" type="submit" /></td>
 			</tr>

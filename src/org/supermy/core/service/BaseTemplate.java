@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
@@ -156,6 +157,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		for (Criterion c : criterions) {
 			criteria.add(c);
 		}
+		
+		criteria.setCacheable(true);
+		
 		return criteria;
 	}
 
@@ -194,6 +198,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
+		
+		query.setCacheable(true);
+		
 		return query;
 	}
 
@@ -224,6 +231,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
+		
+		query.setCacheable(true);
+		
 		return query;
 	}
 
@@ -244,6 +254,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
+		
+		query.setCacheable(true);
+		
 		return query;
 	}
 
@@ -269,6 +282,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
+		
+		query.setCacheable(true);
+		
 		return query;
 	}
 
@@ -286,6 +302,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
+		
+		query.setCacheable(true);
+		
 		return query;
 	}
 
