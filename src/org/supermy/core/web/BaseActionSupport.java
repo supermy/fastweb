@@ -1,4 +1,4 @@
-package org.supermy.core.web.user;
+package org.supermy.core.web;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

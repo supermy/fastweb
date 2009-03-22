@@ -61,5 +61,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mysql-connector-java-5.1.6-bin.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/json-20080701.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/junit-4.4.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/oscache-2.4.1.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>

@@ -12,7 +12,7 @@
 	<http auto-config="true" access-decision-manager-ref="accessDecisionManager">
 		<intercept-url pattern="/user/user!save*" access="AUTH_MODIFY_USER" />
 		<intercept-url pattern="/user/user!delete*" access="AUTH_MODIFY_USER" />
-		<!-- intercept-url pattern="/user/user*" access="AUTH_ANONYMOUS,AUTH_VIEW_USER" /> -->
+		<!-- intercept-url pattern="/user/user*" access="roleAnonymous" /> -->
 		<intercept-url pattern="/user/role!save*" access="AUTH_MODIFY_ROLE" />
 		<intercept-url pattern="/user/role!delete*" access="AUTH_MODIFY_ROLE" />
 		<intercept-url pattern="/user/role*" access="AUTH_VIEW_ROLE" />

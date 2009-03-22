@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.supermy.core.domain.Authority;
 import org.supermy.core.domain.Role;
 import org.supermy.core.service.IUserService;
+import org.supermy.core.web.BaseActionSupport;
 
 /**
  * 角色管理Action.

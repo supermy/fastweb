@@ -7,7 +7,7 @@
 <head>
 	<title>角色管理</title>
 	<%@ include file="/common/meta.jsp"%>
-	<link href="${ctx}/css/default.css" type="text/css" rel="stylesheet">
+	<link href="${css}/css/default.css" type="text/css" rel="stylesheet">
 </head>
 
 <body>

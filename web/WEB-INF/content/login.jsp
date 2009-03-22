@@ -9,10 +9,10 @@
 <head>
 	<title>登录</title>
 	<%@ include file="/common/meta.jsp"%>
-	<link href="${ctx}/css/default.css" type="text/css" rel="stylesheet">
-	<script src="${ctx}/js/jquery.js" type="text/javascript"></script>
-	<script src="${ctx}/js/validate/jquery.validate.js" type="text/javascript"></script>
-	<script src="${ctx}/js/validate/messages_cn.js" type="text/javascript"></script>
+	<link href="${css}/css/default.css" type="text/css" rel="stylesheet">
+	<script src="${js}/js/jquery.js" type="text/javascript"></script>
+	<script src="${js}/js/validate/jquery.validate.js" type="text/javascript"></script>
+	<script src="${js}/js/validate/messages_cn.js" type="text/javascript"></script>
   	<script>
   		$(document).ready(function(){
     		$("#loginForm").validate();
