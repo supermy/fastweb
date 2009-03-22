@@ -1,4 +1,47 @@
-﻿最佳实践：全部注解，开发过程中不用写任何配置文件；在Hibernate中完成数据库的设计，验证和索引（TODO），自动生成数据库。
+﻿20090320
+		Concurrency Level:      1
+		Time taken for tests:   96.549572 seconds
+		Complete requests:      1000
+		Failed requests:        0
+		Write errors:           0
+		Total transferred:      2345000 bytes
+		HTML transferred:       2110000 bytes
+		Requests per second:    10.36 [#/sec] (mean)
+		Time per request:       96.550 [ms] (mean)
+		Time per request:       96.550 [ms] (mean, across all concurrent requests)
+		Transfer rate:          23.72 [Kbytes/sec] received
+		
+		Connection Times (ms)
+		              min  mean[+/-sd] median   max
+		Connect:        0    0   0.0      0       0
+		Processing:    64   95  25.1     91     440
+		Waiting:       63   94  24.7     90     440
+		Total:         64   95  25.1     91     440
+
+
+20090319
+	hibernate session close;
+	
+20090319
+	lazy 机制去掉，使用缓存。
+	注解结合表格实现rails的crud功能	
+	
+20090314
+	配置mysql数据库  准备写测试类 验证
+	
+20090313
+	升级版本 只使用hql(辅助sql) ;
+	hql提供分页，sql只是提供复杂查询的接口;	
+	
+	sql查询返回一个map对象，返回List<Map>,返回List<HibernateObject>
+	sql分页查询 TODO	
+
+20080904
+	使用sql查询，引入jdbcTemplate，mvc和逻辑层直接使用Map当作POJO。
+	详见UserService的方法展示
+2008.09.04之前
+
+最佳实践：全部注解，开发过程中不用写任何配置文件；在Hibernate中完成数据库的设计，验证和索引（TODO），自动生成数据库。
 只从Service层测试驱动开发。
 一、每个类一张表；
 二、只允许使用m2o关联；

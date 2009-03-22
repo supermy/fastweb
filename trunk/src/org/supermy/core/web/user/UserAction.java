@@ -14,6 +14,8 @@ import org.supermy.core.domain.Role;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 import org.supermy.core.service.Page;
+import org.supermy.core.web.BaseActionSupport;
+import org.supermy.core.web.Struts2Utils;
 
 /**
  * 用户管理Action.
