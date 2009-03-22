@@ -64,6 +64,7 @@ public class UserService extends BaseService implements IUserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public boolean isUniqueByEMail(String email) {
 		Long count = (Long) getUserUtil().findUnique(
 				"select count(obj.id) from " + User.class.getName()
