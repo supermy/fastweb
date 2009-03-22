@@ -39,6 +39,17 @@
 		<property name="jdbcUrl" value="${jdbc.url}" />
 		<property name="user" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
+		<property name="autoCommitOnClose" value="true" />
+		<property name="minPoolSize" value="5"/>
+		<property name="maxPoolSize" value="100"/>
+		<property name="maxIdleTime" value="600"/>
+		<property name="acquireIncrement" value="2"/>
+		<property name="maxStatements" value="0"/>
+		<property name="initialPoolSize" value="2"/>
+		<property name="idleConnectionTestPeriod" value="600"/>
+		<property name="acquireRetryAttempts" value="30"/>
+		<property name="breakAfterAcquireFailure" value="true"/>
+		<property name="testConnectionOnCheckout" value="false"/>
 	</bean>
 
 
@@ -59,10 +70,13 @@
 				</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+				
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
-				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
 				<prop key="hibernate.max_fetch_depth">1</prop>
 				<prop key="default-lazy">false</prop>
 			</props>

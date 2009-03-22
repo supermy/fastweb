@@ -8,18 +8,6 @@
 	<beans:description>使用SpringSecurity的安全配置文件
 	</beans:description>
 
-
-	<beans:bean id="anonymousProcessingFilter" 
-	    class="org.springframework.security.providers.anonymous.AnonymousProcessingFilter"> 
-	  <beans:property name="key" value="foobar"/> 
-	  <beans:property name="userAttribute" value="anonymousUser,AUTH_ANONYMOUS"/> 
-	</beans:bean> 
-	
-	<beans:bean id="anonymousAuthenticationProvider" 
-	    class="org.springframework.security.providers.anonymous.AnonymousAuthenticationProvider"> 
-	  <beans:property name="key" value="foobar"/> 
-	</beans:bean>
-
 	<!-- 在此定义URL与授权的关系. 而用户、角色、授权及三者的关系则保存在数据库中. -->
 	<http auto-config="true" access-decision-manager-ref="accessDecisionManager">
 		<intercept-url pattern="/user/user!save*" access="AUTH_MODIFY_USER" />
