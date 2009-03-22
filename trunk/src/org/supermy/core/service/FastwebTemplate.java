@@ -16,8 +16,9 @@ import org.supermy.core.domain.BaseDomain;
 public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 		extends BaseTemplate<T, IdT> {
 
-	public FastwebTemplate(SessionFactory sessionFactory,Session session, Class<T> domainClass) {
-		super(sessionFactory,session, domainClass);
+	public FastwebTemplate(SessionFactory sessionFactory, Session session,
+			Class<T> domainClass) {
+		super(sessionFactory, session, domainClass);
 	}
 
 	// //////////////////////////////////////
@@ -27,6 +28,7 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 	 * 
 	 * @return 分页查询结果,附带结果列表及所有查询时的参数.
 	 */
+	@Transactional(readOnly = true)
 	public Page<T> find(final Page<T> page, final String selectHql,
 			final String otherHql, final Object... values) {
 		Assert.notNull(page);
@@ -49,8 +51,8 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 					if (i > 0) {
 						orderHql.append(",");
 					}
-					orderHql.append(" obj").append(".")
-							.append(orderByArray[i]).append(" asc ");
+					orderHql.append(" obj").append(".").append(orderByArray[i])
+							.append(" asc ");
 				} else {
 					if (i > 0) {
 						orderHql.append(",");
@@ -67,7 +69,7 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 		Query q = createQuery(hql, values);
 
 		if (page.isAutoTotal()) {
-			int totalCount = getRecordCount(otherHql,values).intValue();
+			int totalCount = getRecordCount(otherHql, values).intValue();
 			page.setTotalCount(totalCount);
 		}
 
@@ -77,14 +79,15 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 		return page;
 	}
 
+	@Transactional(readOnly = true)
 	public Page<T> search(final Page<T> page, final Map<String, Object> filters) {
 		Assert.notNull(page);
 		Assert.notNull(filters);
 
 		String wherehql = " " + filters.get("hql").toString();
 		filters.remove("hql");
-		return find(page, "", " from " + domainClass.getName()+" obj " + wherehql,
-				filters.values().toArray());
+		return find(page, "", " from " + domainClass.getName() + " obj "
+				+ wherehql, filters.values().toArray());
 
 	}
 
@@ -100,19 +103,21 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 
 	/**
 	 * @param otherHql
-	 * @param values 
+	 * @param values
 	 * @return
 	 */
 	private Long getRecordCount(String otherHql, Object... values) {
 		StringBuffer hql = new StringBuffer(" select count(*) ")
 				.append(otherHql);
-		return (Long) findUnique(hql.toString(),values);
+		return (Long) findUnique(hql.toString(), values);
 	}
 
+	@Transactional(readOnly = true)
 	public Page<T> get(final Page<T> page) {
-		return find(page, "", " from " + domainClass.getName()+" obj");
+		return find(page, "", " from " + domainClass.getName() + " obj");
 	}
 
+	@Transactional(readOnly = true)
 	public List<T> getAll() {
 		return createQuery(" from " + domainClass.getName()).list();
 	}

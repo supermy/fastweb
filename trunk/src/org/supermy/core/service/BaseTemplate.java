@@ -23,6 +23,7 @@ import org.hibernate.transform.Transformers;
 import org.hibernate.type.Type;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.supermy.core.domain.BaseDomain;
 
@@ -37,21 +38,21 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 	protected SessionFactory sessionFactory;
-	
+
 	protected Session session;
 
 	protected Class<T> domainClass;
 
-	public BaseTemplate(final SessionFactory sessionFactory,final Session session,
-			final Class<T> domainClass) {
+	public BaseTemplate(final SessionFactory sessionFactory,
+			final Session session, final Class<T> domainClass) {
 		this.domainClass = domainClass;
 		this.sessionFactory = sessionFactory;
-//		this.session = sessionFactory.openSession();
-//		this.session = session;
+		// this.session = sessionFactory.openSession();
+		// this.session = session;
 	}
 
 	public Session getSession() {
-		//return this.session;
+		// return this.session;
 		return sessionFactory.getCurrentSession();
 	}
 
@@ -132,16 +133,17 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 */
 
 	public void delete(final IdT id) {
-//		T obj = (T) getSession().load(domainClass, id);
-//		getSession().delete(obj);
+		// T obj = (T) getSession().load(domainClass, id);
+		// getSession().delete(obj);
 		delete(get(id));
-		//getSession().flush();
+		// getSession().flush();
 		log.debug("delete:" + id);
 	}
 
 	/**
 	 * 按id获取对象.
 	 */
+	@Transactional(readOnly = true)
 	public T get(final IdT id) {
 		return (T) getSession().load(domainClass, id);
 	}
@@ -157,9 +159,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		for (Criterion c : criterions) {
 			criteria.add(c);
 		}
-		
+
 		criteria.setCacheable(true);
-		
+
 		return criteria;
 	}
 
@@ -169,15 +171,18 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 * @param criterions
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public List<T> findByCriteria(final Criterion... criterions) {
 		return createCriteria(criterions).list();
 	}
 
+	@Transactional(readOnly = true)
 	public List<T> findByProperty(final String propertyName, final Object value) {
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		return findByCriteria(criterion);
 	}
 
+	@Transactional(readOnly = true)
 	public T findUniqueByProperty(final String propertyName, final Object value) {
 		Criterion criterion = Restrictions.eq(propertyName, value);
 		return (T) createCriteria(criterion).uniqueResult();
@@ -198,9 +203,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
-		
+
 		query.setCacheable(true);
-		
+
 		return query;
 	}
 
@@ -211,6 +216,7 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 * @param values
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public List<T> find(final String hql, final Object... values) {
 		return createQuery(hql, values).list();
 	}
@@ -218,6 +224,7 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	/**
 	 * 按HQL查询唯一对象.
 	 */
+	@Transactional(readOnly = true)
 	public Object findUnique(final String hql, final Object... values) {
 		return createQuery(hql, values).uniqueResult();
 	}
@@ -231,9 +238,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
-		
+
 		query.setCacheable(true);
-		
+
 		return query;
 	}
 
@@ -254,9 +261,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
-		
+
 		query.setCacheable(true);
-		
+
 		return query;
 	}
 
@@ -282,9 +289,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
-		
+
 		query.setCacheable(true);
-		
+
 		return query;
 	}
 
@@ -302,9 +309,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 				query.setParameter(i, values[i]);
 			}
 		}
-		
+
 		query.setCacheable(true);
-		
+
 		return query;
 	}
 
@@ -315,14 +322,17 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 * @param values
 	 * @return
 	 */
+	@Transactional(readOnly = true)
 	public List<T> findBySQL(final String sql, final Object... values) {
 		return createSqlQuery(sql, values).list();
 	}
 
+	@Transactional(readOnly = true)
 	public List<Map> findBySQL4ListMap(final String sql, final Object... values) {
 		return createSqlQuery4ListMap(sql, values).list();
 	}
 
+	@Transactional(readOnly = true)
 	public Map<IdT, Map> findBySQL4Map(final String sql, final Object... values) {
 		return (Map<IdT, Map>) createSqlQuery4Map(sql, values).list().get(0);
 	}
