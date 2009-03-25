@@ -66,10 +66,12 @@ public class User extends BaseDomain {
 	@Column(name = "email", unique = true, length = 80)
 	private String email;
 
+	
 	@Lob
-	@Column(name = "u_intro")
+	@Column(name = "c_intro")
 	private String intro;
-	@Column(name = "u_salary", precision = 2)
+	
+	@Column(name = "c_salary", precision = 2)
 	private Double salary;// 薪水 两位小数
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)

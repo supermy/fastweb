@@ -40,14 +40,14 @@
 		<property name="user" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 		<property name="autoCommitOnClose" value="true" />
-		<property name="minPoolSize" value="5"/>
-		<property name="maxPoolSize" value="100"/>
+		<property name="minPoolSize" value="50"/>
+		<property name="maxPoolSize" value="200"/>
 		<property name="maxIdleTime" value="600"/>
-		<property name="acquireIncrement" value="2"/>
+		<property name="acquireIncrement" value="5"/>
 		<property name="maxStatements" value="0"/>
-		<property name="initialPoolSize" value="2"/>
+		<property name="initialPoolSize" value="60"/>
 		<property name="idleConnectionTestPeriod" value="600"/>
-		<property name="acquireRetryAttempts" value="30"/>
+		<property name="acquireRetryAttempts" value="3"/>
 		<property name="breakAfterAcquireFailure" value="true"/>
 		<property name="testConnectionOnCheckout" value="false"/>
 	</bean>
@@ -58,7 +58,11 @@
 		<jee:jndi-lookup id="dataSource"
 		jndi-name="java:comp/env/jdbc/ExampleDB" />
 	-->
+	<!-- memcached 单机性能不如oscache
 
+				<prop key="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</prop>
+				<prop key="hibernate.memcached.servers">localhost:11211</prop>
+	  -->
 	<bean id="sessionFactory"
 		class="org.supermy.core.spring.AutoScanAnnotationSessionFactoryBean">
 		<property name="dataSource">
@@ -74,9 +78,12 @@
 				<prop key="hibernate.generate_statistics">true</prop>
 				
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
+
 				<prop key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
+
 				<prop key="hibernate.max_fetch_depth">1</prop>
 				<prop key="default-lazy">false</prop>
 			</props>

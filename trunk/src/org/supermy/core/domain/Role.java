@@ -18,6 +18,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.Length;
+import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.NotNull;
 import org.supermy.core.util.ListUtils;
 
 /**
@@ -31,7 +33,7 @@ import org.supermy.core.util.ListUtils;
 @Proxy(lazy=false)
 public class Role extends BaseDomain {
 
-	
+	@NotNull
 	@Column(name = "name", length = 20)
 	@Length(max = 20)
 	private String name;
