@@ -23,7 +23,7 @@
 	</appender>
 	
 	<logger name="org.supermy.core">
-		<level value="DEBUG" />
+		<level value="ERROR" />
 	</logger>
 
 	<logger name="org.hibernate.SQL">
@@ -39,8 +39,12 @@
 		<level value="ERROR" />
 	</logger>
 
+	<logger name="com.opensymphony.xwork2.validator.ValidationInterceptor">
+		<level value="ERROR" />
+	</logger>
+
 	<root>
-		<level value="WARN" />
+		<level value="ERROR" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="logfile" />
 	</root>

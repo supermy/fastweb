@@ -23,6 +23,7 @@ import com.opensymphony.xwork2.Preparable;
  *            CRUD所管理的对象类型.
  * 
  */
+
 public abstract class BaseActionSupport<T> extends ActionSupport implements
 		ModelDriven<T>, Preparable {
 
@@ -46,12 +47,6 @@ public abstract class BaseActionSupport<T> extends ActionSupport implements
 		return list();
 	}
 
-	/* 关闭校验提高页面构造速度
-	 * @see com.opensymphony.xwork2.ActionSupport#validate()
-	 */
-	@Override
-	public void validate() {
-	}
 
 	/**
 	 * 建议return SUCCESS.

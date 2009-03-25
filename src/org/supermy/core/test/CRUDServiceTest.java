@@ -37,4 +37,17 @@ public class CRUDServiceTest extends BaseServiceTest {
 		userService.getRoleUtil().delete(r.getId());
 	}
 
+	@Test
+	public void validRole() {
+		Role r = new Role();
+		//r.setName("superadmin");
+		userService.getRoleUtil().save(r);
+
+		r = userService.getRoleUtil().findUniqueByProperty("name",
+				"superadmin");
+		log.debug("find:{}", r);
+		
+		userService.getRoleUtil().delete(r.getId());
+	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 import org.supermy.core.service.Page;
+import org.supermy.core.spring.AutoScanAnnotationSessionFactoryBean;
 
 /**
  * @author supermy E-mail:springclick@gmail.com
@@ -25,6 +26,5 @@ public class DbServiceTest extends BaseServiceTest {
 
 	@Test
 	public void test() {
-		
 	}
 }
