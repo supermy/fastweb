@@ -1,0 +1,10 @@
+org.supermy.core.domain
+org.supermy.core.hql
+org.supermy.core.listener
+org.supermy.core.security
+org.supermy.core.service
+org.supermy.core.spring
+org.supermy.core.test
+org.supermy.core.util
+org.supermy.core.web
+org.supermy.core.web.user
