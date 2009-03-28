@@ -10,3 +10,5 @@
 <c:set var="css" value="${pageContext.request.contextPath}"/>
 <c:set var="image" value="${pageContext.request.contextPath}"/>
 <c:set var="js" value="${pageContext.request.contextPath}"/>
+<c:set var="extjs" value="${pageContext.request.contextPath}"/>
+

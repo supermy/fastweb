@@ -1,5 +1,7 @@
 package org.supermy.core.domain;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -66,8 +68,8 @@ public class BaseDomain {
 	// @Column(name = "OPTLOCK")
 	// private Integer version;
 
-//	@Column(name = "c_create")
-//	private Date create = new Date();
+	@Column(name = "c_create")
+	private Date create = new Date();
 //	@Column(name = "c_update")
 //	private Date upate = new Date();
 
@@ -97,20 +99,20 @@ public class BaseDomain {
 		id = long1;
 	}
 
-//	/**
-//	 * @return the create
-//	 */
-//	public Date getCreate() {
-//		return create;
-//	}
-//
-//	/**
-//	 * @param create
-//	 *            the create to set
-//	 */
-//	public void setCreate(Date create) {
-//		this.create = create;
-//	}
+	/**
+	 * @return the create
+	 */
+	public Date getCreate() {
+		return create;
+	}
+
+	/**
+	 * @param create
+	 *            the create to set
+	 */
+	public void setCreate(Date create) {
+		this.create = create;
+	}
 
 //	/**
 //	 * @return the upate

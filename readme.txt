@@ -1,4 +1,9 @@
-﻿20090320
+﻿20090328
+	ext 可以用于管理后台
+	ext-debug.html ext测试使用
+	hql-debug.actin hql查询测试使用
+	
+20090320
 		Concurrency Level:      1
 		Time taken for tests:   96.549572 seconds
 		Complete requests:      1000

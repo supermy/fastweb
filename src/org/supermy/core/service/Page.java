@@ -16,7 +16,7 @@ public class Page<T> {
 	public static final String ASC = "asc";
 	public static final String DESC = "desc";
 
-	public static final int MIN_PAGESIZE = 5;
+	public static final int MIN_PAGESIZE = 2;
 	public static final int MAX_PAGESIZE = 200;
 
 	//分页参数
@@ -92,6 +92,7 @@ public class Page<T> {
 	public int getFirst() {
 		return ((pageNo - 1) * pageSize);
 	}
+	
 
 	/**
 	 * 获得排序字段,无默认值.多个排序字段时用','分隔

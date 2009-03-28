@@ -7,11 +7,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import net.sf.json.util.PropertyFilter;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.supermy.core.service.Page;
 
 /**
  * Struts2 Utils类.
@@ -20,7 +24,8 @@ import org.slf4j.LoggerFactory;
  * 
  */
 public class Struts2Utils {
-
+	private static final Logger log = LoggerFactory
+			.getLogger(Struts2Utils.class);
 	// header 常量定义
 	private static final String ENCODING_PREFIX = "encoding:";
 	private static final String NOCACHE_PREFIX = "no-cache:";
@@ -88,7 +93,9 @@ public class Struts2Utils {
 
 			// 设置headers参数
 			String fullContentType = contentType + ";charset=" + encoding;
+			log.debug("fullContentType:{}", fullContentType);
 			response.setContentType(fullContentType);
+
 			if (noCache) {
 				response.setHeader("Pragma", "No-cache");
 				response.setHeader("Cache-Control", "no-cache");
@@ -149,7 +156,8 @@ public class Struts2Utils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void renderJson(final Map map, final String... headers) {
-		String jsonString =  new JSONObject(map).toString();
+		String jsonString = JSONObject.fromObject(map).toString();
+		log.debug("json:{}", jsonString);
 		renderJson(jsonString, headers);
 	}
 
@@ -160,8 +168,53 @@ public class Struts2Utils {
 	 *            Java对象,将被转化为json字符串.
 	 * @see #render(String, String, String...)
 	 */
-	public static void renderJson(final Object object, final String... headers) {
-		String jsonString =  new JSONObject(object).toString();
+	public static void renderJson(final Object object, final String[] filters,
+			final String... headers) {
+		// 虑掉部分不用的属性
+		String jsonString = JSONObject.fromObject(object, getFilter(filters))
+				.toString();
+
+		// "invalid label"错误
+		// String cb = getRequest().getParameter("callback");
+		// if (cb != null) {
+		// jsonString = "(" + jsonString + ")";
+		// }
+		// log.debug("json:{}", jsonString);
 		renderJson(jsonString, headers);
 	}
+
+	/**
+	 * 构造属性过滤器
+	 * 
+	 * @param filters
+	 * @return
+	 */
+	private static JsonConfig getFilter(final String[] filters) {
+		JsonConfig config = new JsonConfig();
+		if (filters == null) {
+			return config;
+		}
+		config.setJsonPropertyFilter(new PropertyFilter() {
+			public boolean apply(Object source, String name, Object value) {
+				for (String fname : filters) {
+					if (name.equals(fname)) {
+						return true;
+					}
+				}
+				return false;
+			}
+		});
+		return config;
+	}
+
+	public static Page getPage(Page page) {
+		String limit = getRequest().getParameter("limit");
+		String start = getRequest().getParameter("start");
+		limit = limit == null ? "0" : limit;
+		start = start == null ? "0" : start;
+		page.setPageSize(Integer.parseInt(limit));
+		page.setPageNo(Integer.parseInt(start)/page.getPageSize()+1);
+		return page;
+	}
+
 }

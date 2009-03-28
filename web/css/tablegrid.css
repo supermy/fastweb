@@ -1,0 +1,43 @@
+.list
+{
+    border-right:solid 1px #888888;
+    border-top:solid 1px #888888;
+}
+tr.listheader td,th
+{
+    border-left:solid 1px #BBBBBB;
+    border-bottom:solid 1px #BBBBBB;
+    background-color:#E6F6F6;
+    color:#444444;
+    white-space:nowrap;
+    padding:1px 1px 1px 1px;
+    font-weight:bold;
+}
+tr.listitem1 td
+{
+    border-left:solid 1px #BBBBBB;
+    border-bottom:solid 1px #BBBBBB;
+    background-color:#FFFFFF;
+    padding:1px 1px 1px 1px;
+    text-indent:1px;
+}
+tr.listitem2 td
+{
+    border-left:solid 1px #BBBBBB;
+    border-bottom:solid 1px #BBBBBB;
+    background-color:#F6F6F6;
+    padding:1px 1px 1px 1px;
+    text-indent:1px;
+}
+tr.over td
+{
+    border-left:solid 1px #BBBBBB;
+    border-bottom:solid 1px #BBBBBB;
+    background-color:#FEE6BA;
+    padding:1px 1px 1px 1px;
+    text-indent:1px;
+}
+.cmdtd
+{
+    text-align:center;
+}
