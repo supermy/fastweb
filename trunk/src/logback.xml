@@ -23,7 +23,7 @@
 	</appender>
 	
 	<logger name="org.supermy.core">
-		<level value="ERROR" />
+		<level value="DEBUG" />
 	</logger>
 
 	<logger name="org.hibernate.SQL">
@@ -44,7 +44,7 @@
 	</logger>
 
 	<root>
-		<level value="ERROR" />
+		<level value="WARN" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="logfile" />
 	</root>

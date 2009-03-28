@@ -7,51 +7,54 @@
 <head>
 	<title>角色管理</title>
 	<%@ include file="/common/meta.jsp"%>
-	<link href="${css}/css/default.css" type="text/css" rel="stylesheet">
+	<%@ include file="/common/css.jsp"%>
 </head>
 
 <body>
-<div id="menu">
-<h3>
-	<a href="${ctx}/user/user.action">用户列表</a>
-	<a href="${ctx}/user/role.action">角色列表</a> 
-	<a href="${ctx}/j_spring_security_logout">退出登录</a>
-</h3>
-</div>
 
-<div id="message"><s:actionmessage theme="mytheme"/></div>
+<div class="container">
 
-<div id="filter">你好,<%=SecurityUtils.getCurrentUserName()%>.</div>
+	<%@ include file="/common/tools.jsp"%>
+	
+	<%@ include file="/common/nav.jsp"%>
 
-<div id="listContent">
-<table>
-	<tr>
-		<th><b>名称</b></th>
-		<th><b>授权</b></th>
-		<th><b>操作</b></th>
-	</tr>
+	<div class="span-15 prepend-1 colborder">
+	
+		<table>
+			<tr>
+				<th><b>名称</b></th>
+				<th><b>授权</b></th>
+				<th><b>操作</b></th>
+			</tr>
+		
+			<s:iterator value="allRoles">
+				<tr>
+					<td>${name}</td>
+					<td>${authNames}</td>
+					<td>&nbsp; 
+						<security:authorize ifAnyGranted="AUTH_MODIFY_ROLE">
+							<a href="role!input.action?id=${id}">修改</a>、
+							<a href="role!delete.action?id=${id}">删除</a>
+						</security:authorize>
+					</td>
+				</tr>
+			</s:iterator>
+		</table>
+	</div>
 
-	<s:iterator value="allRoles">
-		<tr>
-			<td>${name}</td>
-			<td>${authNames}</td>
-			<td>&nbsp; 
-				<security:authorize ifAnyGranted="AUTH_MODIFY_ROLE">
-					<a href="role!input.action?id=${id}">修改</a>、
-					<a href="role!delete.action?id=${id}">删除</a>
-				</security:authorize>
-			</td>
-		</tr>
-	</s:iterator>
-</table>
-</div>
-
-<div id="footer">
-	<security:authorize ifAnyGranted="AUTH_MODIFY_ROLE">
+	<div class="column span-7 last">
+		<s:actionmessage theme="mytheme"/>
+		<hr class="space"/>
+		<security:authorize ifAnyGranted="AUTH_MODIFY_ROLE">
 		<a href="role!input.action">增加新角色</a>
-	</security:authorize>
+		</security:authorize>
+	</div>
+	
+	
+	
+	<%@ include file="/common/footer.jsp"%>
+	
 </div>
 
-<div id="comment">TODO.</div>
 </body>
 </html>

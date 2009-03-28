@@ -1,0 +1,51 @@
+.list
+{
+    border-right:solid 1px #E6F6F6;
+    border-top:solid 1px #E6F6F6;
+}
+tr.listheader td,th
+{
+    border-left:solid 1px #E6F6F6;
+    border-bottom:solid 1px #E6F6F6;
+    background-color:#E6F6F6;
+    color:#444444;
+    white-space:nowrap;
+    padding:1px 1px 1px 1px;
+    font-weight:bold;
+}
+tr.listitem1 td
+{
+    border-left:solid 1px #FFFFFF;
+    border-bottom:solid 1px #FFFFFF;
+    background-color:#FFFFFF;
+    padding:1px 1px 1px 1px;
+    text-indent:1px;
+}
+tr.listitem2 td
+{
+    border-left:solid 1px #FFFFFF;
+    border-bottom:solid 1px #FFFFFF;
+    background-color:#F6F6F6;
+    padding:1px 1px 1px 1px;
+    text-indent:1px;
+}
+tr.over td
+{
+    border-left:solid 1px #FEE6BA;
+    border-bottom:solid 1px #FEE6BA;
+    background-color:#FEE6BA;
+    padding:1px 1px 1px 1px;
+    text-indent:1px;
+}
+.cmdtd
+{
+    text-align:center;
+}
+.lefttd
+{
+    text-align:left;
+}
+.righttd
+{
+    text-align:right;
+}

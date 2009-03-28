@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
-import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.supermy.core.domain.Role;
 import org.supermy.core.domain.User;
@@ -136,12 +135,12 @@ public class UserAction extends BaseActionSupport<User> {
 	 * 根据属性过滤条件搜索用户.
 	 */
 	public String search() throws Exception {
-		
+
 		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
 		pageUser.setPageSize(Page.MAX_PAGESIZE);
 
 		Map<String, Object> filters = buildPropertyFilters("filter_");
-		if (filters.size()<=0) {
+		if (filters.size() <= 0) {
 			addActionMessage("没有搜索条件");
 		}
 		pageUser = userService.getUserUtil().search(pageUser, filters);
@@ -151,7 +150,7 @@ public class UserAction extends BaseActionSupport<User> {
 	/**
 	 * 支持使用Jquery.validate Ajax检验用户名是否重复. 登录名称不允许修改
 	 */
-	public String checkLoginEMail() {
+	public void checkLoginEMail() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String email = request.getParameter("email");
 
@@ -160,7 +159,18 @@ public class UserAction extends BaseActionSupport<User> {
 		} else {
 			Struts2Utils.renderText("false");
 		}
-		// 因为直接输出内容而不经过jsp,因此返回null.
-		return null;
 	}
+
+	/**
+	 * 配合extjs控件进行数据处理
+	 * 
+	 * @return
+	 */
+	public void jsonList() {
+		pageUser = Struts2Utils.getPage(pageUser);
+		pageUser = userService.getUserUtil().get(pageUser);
+		Struts2Utils.renderJson(pageUser, new String[] { "roles", "passwd",
+				"passwd2" });
+	}
+
 }
