@@ -6,10 +6,15 @@ import org.springframework.security.providers.encoding.MessageDigestPasswordEnco
 
 /**
  * @author my
- *
+ * 
  */
 public class MD5 {
 	private static Logger log = LoggerFactory.getLogger(MD5.class);
+
+	public static void main(String[] args) {
+		log.debug(getMd5("123456"));
+	}
+
 	// 直接指定待采用的加密算法（MD5）
 	private static final MessageDigestPasswordEncoder mdpeMd5 = new MessageDigestPasswordEncoder(
 			"MD5");

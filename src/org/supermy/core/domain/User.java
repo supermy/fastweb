@@ -45,7 +45,7 @@ public class User extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_passwd", length = 32)
+	@Column(name = "c_passwd", length = 40)
 	private String passwd;
 
 	/**
@@ -66,11 +66,10 @@ public class User extends BaseDomain {
 	@Column(name = "email", unique = true, length = 80)
 	private String email;
 
-	
 	@Lob
 	@Column(name = "c_intro")
 	private String intro;
-	
+
 	@Column(name = "c_salary", precision = 2)
 	private Double salary;// 薪水 两位小数
 
@@ -85,7 +84,7 @@ public class User extends BaseDomain {
 				", ");
 	}
 
-	public List<String> getRoleNameList() throws Exception {
+	public List<String> getRoleNameList() {
 		return ListUtils.propertyToListString(new ArrayList(roles), "name");
 	}
 
@@ -170,6 +169,8 @@ public class User extends BaseDomain {
 	}
 
 	/**
+	 * //123456//e10adc3949ba59abbe56e057f20f883e
+	 * 
 	 * @param passwd
 	 *            the passwd to set
 	 */
@@ -184,8 +185,8 @@ public class User extends BaseDomain {
 	 * @return the passwd2
 	 */
 	public String getPasswd2() {
-		 return passwd2;
-		
+		return passwd2;
+
 	}
 
 	/**
@@ -193,7 +194,7 @@ public class User extends BaseDomain {
 	 *            the passwd2 to set
 	 */
 	public void setPasswd2(String passwd2) {
-//		this.passwd2 = MD5.getMd5(passwd);
+		// this.passwd2 = MD5.getMd5(passwd);
 		if (passwd2.length() < 32) {
 			this.passwd2 = MD5.getMd5(passwd2);
 		} else

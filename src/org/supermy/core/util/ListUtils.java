@@ -6,11 +6,15 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author my
  */
 public class ListUtils {
+	private static org.slf4j.Logger log = LoggerFactory
+			.getLogger(ListUtils.class);
+
 	/**
 	 * 提取集合中的对象的属性,组合成List.
 	 * 
@@ -40,11 +44,15 @@ public class ListUtils {
 	}
 
 	public static List<String> propertyToListString(
-			final Collection<Object> collection, final String propertyName)
-			throws Exception {
+			final Collection<Object> collection, final String propertyName) {
 		List<String> list = new ArrayList<String>();
-		for (Object obj : collection) {
-			list.add((String) PropertyUtils.getProperty(obj, propertyName));
+		try {
+			for (Object obj : collection) {
+				list.add((String) PropertyUtils.getProperty(obj, propertyName));
+			}
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			throw new RuntimeException(e.getMessage());
 		}
 		return list;
 	}

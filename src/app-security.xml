@@ -24,12 +24,11 @@
 	</http>
 
 	<authentication-provider user-service-ref="UserDetailsService">
-		<!--
-			<password-encoder ref="passwordEncoder" />
+		<!--<password-encoder hash="plaintext" />
+			
 			可设置hash使用sha1或md5散列密码后再存入数据库
 		-->
-
-		<password-encoder hash="plaintext" />
+		<password-encoder ref="passwordEncoder" />
 	</authentication-provider>
 
 	<beans:bean id="passwordEncoder"
