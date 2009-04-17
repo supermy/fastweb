@@ -4,7 +4,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.taskmgmt.def.AssignmentHandler;
 import org.jbpm.taskmgmt.exe.Assignable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.workflow.service.ApproveService;
+import org.supermy.workflow.service.WorkflowService;
 
 /**
  * 授权直接与权限绑定,可以直接用于泳道
@@ -14,7 +14,7 @@ import org.supermy.workflow.service.ApproveService;
  */
 public class AuthAssignment implements AssignmentHandler {
 	@Autowired
-	private ApproveService daoService;
+	private WorkflowService daoService;
 
 	public void assign(Assignable arg0, ExecutionContext arg1) throws Exception {
 		// arg0.setPooledActors(boss);

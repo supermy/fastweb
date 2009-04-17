@@ -11,7 +11,7 @@ import org.supermy.core.service.Page;
 import org.supermy.core.service.ResourceService;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
-import org.supermy.workflow.service.ApproveService;
+import org.supermy.workflow.service.WorkflowService;
 
 /**
  * 资源管理Action.
@@ -26,7 +26,7 @@ public class ResourceAction extends BaseActionSupport<Resource> {
 	private ResourceService resourceService;
 
 	@Autowired
-	private ApproveService approveService;
+	private WorkflowService approveService;
 
 	// 基本属性
 	private Resource resource;

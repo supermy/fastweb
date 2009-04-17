@@ -1,5 +1,6 @@
 package org.supermy.workflow.web.workflow;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
+import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -14,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.supermy.core.security.SecurityUtils;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
-import org.supermy.workflow.service.ApproveService;
+import org.supermy.workflow.service.WorkflowService;
 
 /**
  * 工作流方面的查询，分页的话需要重写查询语句.
@@ -30,7 +32,7 @@ import org.supermy.workflow.service.ApproveService;
 public class WorkflowAction extends BaseActionSupport<ProcessDefinition> {
 
 	@Autowired
-	public ApproveService approveService;
+	public WorkflowService approveService;
 
 	// 基本属性
 	public ProcessDefinition processDefinition;
@@ -70,6 +72,7 @@ public class WorkflowAction extends BaseActionSupport<ProcessDefinition> {
 	public String list() throws Exception {
 		results = approveService.getAllWorkFlow();
 		log.debug("find :{}", results.size());
+
 		return SUCCESS;
 	}
 
@@ -125,10 +128,9 @@ public class WorkflowAction extends BaseActionSupport<ProcessDefinition> {
 		String businessKey = "1";
 
 		ProcessInstance startProcess = approveService.startProcess(
-				processDefinition, variables, businessKey);
-		approveService.startTask(startProcess, SecurityUtils
-				.getCurrentUserName());
+				processDefinition.getName(), businessKey);
+		approveService.startTask(SecurityUtils.getCurrentUserName(), 5000);
 
-		return SUCCESS;
+		return RELOAD;
 	}
 }

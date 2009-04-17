@@ -2,44 +2,23 @@ package org.supermy.workflow.action;
 
 import org.jbpm.graph.def.ActionHandler;
 import org.jbpm.graph.exe.ExecutionContext;
-import org.jbpm.msg.db.DbMessageService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.workflow.domain.OrigApprove;
-import org.supermy.workflow.domain.OriginalCertificate;
-import org.supermy.workflow.service.ApproveService;
+import org.supermy.workflow.service.WorkflowService;
 
 public class ProcessResult implements ActionHandler {
+	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 	@Autowired
-	private ApproveService daoService;
+	private WorkflowService daoService;
 
-	public void execute(ExecutionContext arg0) throws Exception {
-		String baoxiaoId = (String) arg0.getContextInstance().getVariable(
-				"baoxiaoId");
-		OriginalCertificate orig = daoService.getOrigUtil().get(
-				Long.parseLong(baoxiaoId));
-
-		String issueUser = orig.getUser().getName();
-
-		OrigApprove list = daoService.getApproveUtil().get(
-				Long.parseLong(baoxiaoId));
-		String result = "不被批准";
-		if (list != null) {
-			result = list.getResult();
-		}
+	public void execute(ExecutionContext executionContext) throws Exception {
 		StringBuffer message = new StringBuffer();
-		message.append(issueUser + ":您好！ ");
-		message.append("您申请的" + orig.getTitle());
-		message.append("已经被" + result);
-
-		// Message msg=new TextMessage(message.toString());
-		// msg.setDestination(issueUser);
-		// msg.setToken(arg0.getProcessInstance().getRootToken());
-
-		DbMessageService msgService = new DbMessageService();
-		// msgService.send(msg);
-		msgService.close();
-
+		message.append(":您好！ ");
+		message.append("您申请的");
+		message.append("已经被");
+		log.debug(message.toString());
+		executionContext.leaveNode();
 	}
 
 }

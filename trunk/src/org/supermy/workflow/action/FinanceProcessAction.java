@@ -15,9 +15,23 @@ public class FinanceProcessAction implements ActionHandler {
 	 * org.jbpm.graph.def.ActionHandler#execute(org.jbpm.graph.exe.ExecutionContext
 	 * )
 	 */
-	public void execute(ExecutionContext arg0) throws Exception {
-		Object financeId = arg0.getContextInstance().getVariable("financeId");
-		log.info("财务处理子流程中报销ID:{}", financeId);
+	public void execute(ExecutionContext executionContext) throws Exception {
+		log.debug("财务处理...");
+
+		String actorId = executionContext.getJbpmContext().getActorId();
+		log.debug("actorId:{}", actorId);
+
+		int count = (Integer) executionContext.getProcessInstance()
+				.getContextInstance().getVariable("money");
+		String mainID = (String) executionContext.getProcessInstance()
+				.getContextInstance().getVariable("businessKey");
+
+		log.debug("businessKey:{} ,money:{}", mainID, count);
+
+		// Object financeId = executionContext.getContextInstance().getVariable(
+		// "financeId");
+		// log.info("财务处理子流程中报销ID:{}", financeId);
+		executionContext.leaveNode();
 	}
 
 }

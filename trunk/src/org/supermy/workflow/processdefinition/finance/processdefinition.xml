@@ -5,6 +5,7 @@
 		<transition name="" to="自动财务处理"></transition>
 	</start-state>
 	<end-state name="end1"></end-state>
+	
 	<node name="自动财务处理">
 		<event type="node-enter">
 			<!--

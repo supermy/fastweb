@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<process-definition xmlns="" name="baoxiao">
+<process-definition xmlns="" name="expenditure">
 
 	<swimlane name="employee">
 		<assignment pooled-actors="员工"></assignment>
@@ -14,47 +14,49 @@
 	</swimlane>
 
 
-	<start-state name="start">
-		<task name="填写报销单" swimlane="employee">
-		</task>
-		<transition name="" to="部门主管审核"></transition>
+	<start-state name="开始">
+		<transition name="" to="申请填写报销单"></transition>
 	</start-state>
-	
+
+	<task-node name="申请填写报销单">
+		<task name="填写报销单">
+			<assignment class="org.supermy.workflow.assignment.UserAssignment"></assignment>
+		</task>
+		<transition name="提交" to="部门主管审核"></transition>
+		<transition name="放弃" to="end1"></transition>
+	</task-node>
+
+
 	<task-node name="部门主管审核">
 		<task name="主管审核" swimlane="manager">
 			<description>
 				是否符合报销的项目
 			</description>
 		</task>
-      <transition name="要求修改" to="申请人修改报销单"></transition>
-      <transition name="主管同意" to="判断走向"></transition>
-	</task-node>
-	
-	<task-node name="申请人修改报销单">
-		<task name="修改报销单" swimlane="employee">
-		</task>
-      <transition name="提交重审" to="部门主管审核"></transition>
-      <transition name="放弃申请" to="end1"></transition>
+		<transition name="主管驳回" to="申请填写报销单"></transition>
+		<transition name="主管审批通过" to="判断走向"></transition>
 	</task-node>
 
 	<decision name="判断走向">
 		<handler class="org.supermy.workflow.decision.ProcessDecision" />
-	      <transition name="大于10000" to="经理审核申请"></transition>
-	      <transition name="小于10000" to="财务处理流程"></transition>
-	      <transition name="主管不同意" to="自动处理申请结果"></transition>
+		<transition name="大于10000" to="经理审核申请"></transition>
+		<transition name="小于10000" to="财务处理流程"></transition>
 	</decision>
 
 	<task-node name="经理审核申请">
 		<task name="经理审核" swimlane="boss">
 		</task>
-      <transition name="经理同意" to="财务处理流程"></transition>
-      <transition name="经理不同意" to="自动处理申请结果"></transition>
+		<transition name="经理同意" to="财务处理流程"></transition>
+		<transition name="经理不同意" to="自动处理申请结果"></transition>
 	</task-node>
+
 	<process-state name="财务处理流程">
-		<sub-process name="finance" />
-		<variable name="financeId" access="read"></variable>
+		<sub-process name="finance"></sub-process>
+		<variable access="read,write" name="businessKey" mapped-name="businessKey"></variable>
+		<variable access="read,write" name="money" mapped-name="money"></variable>
 		<transition name="" to="自动处理申请结果"></transition>
 	</process-state>
+
 	<node name="自动处理申请结果">
 		<event type="node-enter">
 			<action name="action1" class="org.supermy.workflow.action.ProcessResult"></action>

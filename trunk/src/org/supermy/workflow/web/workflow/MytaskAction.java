@@ -1,10 +1,7 @@
 package org.supermy.workflow.web.workflow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -13,17 +10,13 @@ import org.dom4j.XPath;
 import org.dom4j.xpath.DefaultXPath;
 import org.jbpm.JbpmContext;
 import org.jbpm.db.TaskMgmtSession;
-import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.core.domain.Role;
 import org.supermy.core.domain.User;
 import org.supermy.core.security.SecurityUtils;
 import org.supermy.core.web.BaseActionSupport;
-import org.supermy.core.web.Struts2Utils;
-import org.supermy.workflow.service.ApproveService;
+import org.supermy.workflow.service.WorkflowService;
 
 /**
  * 工作流方面的查询，分页的话需要重写查询语句.
@@ -39,7 +32,7 @@ import org.supermy.workflow.service.ApproveService;
 public class MytaskAction extends BaseActionSupport<TaskInstance> {
 
 	@Autowired
-	private ApproveService approveService;
+	private WorkflowService approveService;
 
 	// 基本属性
 	private TaskInstance task;
