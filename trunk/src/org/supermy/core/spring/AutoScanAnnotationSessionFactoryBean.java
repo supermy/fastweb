@@ -22,6 +22,7 @@ import org.springframework.util.ClassUtils;
 */
 public class AutoScanAnnotationSessionFactoryBean extends
 		AnnotationSessionFactoryBean {
+	
 	private ResourcePatternResolver rl = new PathMatchingResourcePatternResolver();
 	private MetadataReaderFactory mrf = new CachingMetadataReaderFactory(
 			this.rl);
@@ -30,7 +31,7 @@ public class AutoScanAnnotationSessionFactoryBean extends
 	public void setDomainPackageNames(String[] packageNames) {
 		this.domainPackageNames = packageNames;
 	}
-
+	
 	@Override
 	protected void postProcessAnnotationConfiguration(
 			AnnotationConfiguration config) throws HibernateException {

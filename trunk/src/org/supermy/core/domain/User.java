@@ -85,6 +85,10 @@ public class User extends BaseDomain {
 				", ");
 	}
 
+	public List<String> getRoleNameList() throws Exception {
+		return ListUtils.propertyToListString(new ArrayList(roles), "name");
+	}
+
 	public List<Long> getRoleIds() throws Exception {
 		return ListUtils.propertyToListLong(new ArrayList(roles), "id");
 	}

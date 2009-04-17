@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.hibernate.SessionFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.GrantedAuthority;
@@ -22,13 +23,14 @@ import org.supermy.core.domain.User;
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
+	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
-	
 	private FastwebTemplate<User, Long> userDao;
 
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
-		userDao = new FastwebTemplate<User, Long>(sessionFactory,null, User.class);
+		userDao = new FastwebTemplate<User, Long>(sessionFactory, null,
+				User.class);
 	}
 
 	/**
@@ -38,16 +40,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			throws UsernameNotFoundException, DataAccessException {
 
 		User user = userDao.findUniqueByProperty("email", userEmail);
-
+		log.debug("find user:{}",user);
 		if (user == null)
 			throw new UsernameNotFoundException("用户" + userEmail + " 不存在");
 
 		GrantedAuthority[] grantedAuths = obtainGrantedAuthorities(user);
 
 		org.springframework.security.userdetails.User userdetail = new org.springframework.security.userdetails.User(
-				user.getEmail(), user.getPasswd(), user.isEnabled(),
-				user.isAccountNonExpired(), user.isCredentialsNonExpired(),user.isAccountNonLocked(),
-				grantedAuths);
+				user.getEmail(), user.getPasswd(), user.isEnabled(), user
+						.isAccountNonExpired(), user.isCredentialsNonExpired(),
+				user.isAccountNonLocked(), grantedAuths);
 
 		return userdetail;
 	}

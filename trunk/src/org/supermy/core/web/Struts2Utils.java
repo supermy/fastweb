@@ -1,8 +1,16 @@
 package org.supermy.core.web;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.util.WebUtils;
 import org.supermy.core.service.Page;
 
 /**
@@ -31,10 +40,18 @@ public class Struts2Utils {
 	private static final String NOCACHE_PREFIX = "no-cache:";
 	private static final String ENCODING_DEFAULT = "UTF-8";
 	private static final boolean NOCACHE_DEFAULT = true;
+	public static final String savePath = "upload";
 
 	private static Logger logger = LoggerFactory.getLogger(Struts2Utils.class);
 
 	private Struts2Utils() {
+	}
+
+	/**
+	 * 取得HttpSession的简化方法.
+	 */
+	public static ServletContext getServletContext() {
+		return ServletActionContext.getServletContext();
 	}
 
 	/**
@@ -184,6 +201,23 @@ public class Struts2Utils {
 	}
 
 	/**
+	 * 直接输出图片
+	 * 
+	 * @param bytes
+	 */
+	public static void renderImage(byte[] bytes) {
+		OutputStream out;
+		try {
+			out = getResponse().getOutputStream();
+			out.write(bytes);
+			out.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+			log.error(e.getMessage());
+		}
+	}
+
+	/**
 	 * 构造属性过滤器
 	 * 
 	 * @param filters
@@ -207,14 +241,121 @@ public class Struts2Utils {
 		return config;
 	}
 
+	@Deprecated
+	public static String generateFilePathName(String fileName) {
+		return getUploadPath() + generateFileName(fileName);
+	}
+
+	public static String getFilePathName(String fileName) {
+		return getUploadPath() + "/" + fileName;
+	}
+
+	public static void delete(String fileName) {
+		File file = new File(getFilePathName(fileName));
+		file.delete();
+	}
+
+	public static String getUploadPath() {
+		return getServletContext().getRealPath(savePath);
+	}
+
+	public static String generateFileName(String fileName) {
+		DateFormat dirf = new SimpleDateFormat("yyyyMMdd");
+		String formatDir = dirf.format(new Date());
+
+		DateFormat format = new SimpleDateFormat("yyMMddHHmmss");
+		String formatDate = format.format(new Date());
+
+		int random = new Random().nextInt(10000);
+
+		int position = fileName.lastIndexOf(".");
+		String extension = fileName.substring(position);
+
+		return formatDir + "/" + formatDate + random + extension;
+	}
+
 	public static Page getPage(Page page) {
 		String limit = getRequest().getParameter("limit");
 		String start = getRequest().getParameter("start");
 		limit = limit == null ? "0" : limit;
 		start = start == null ? "0" : start;
 		page.setPageSize(Integer.parseInt(limit));
-		page.setPageNo(Integer.parseInt(start)/page.getPageSize()+1);
+		page.setPageNo(Integer.parseInt(start) / page.getPageSize() + 1);
 		return page;
+	}
+
+	public static Map<String, Object> buildPropertyFilters(String filterPrefix) {
+	
+		HttpServletRequest request = getRequest();
+	
+		// 从request中获取含属性前缀名的参数,构造去除前缀名后的参数Map.
+		Map filterParamMap = WebUtils.getParametersStartingWith(request,
+				filterPrefix);
+	
+		StringBuffer wherehql = new StringBuffer();
+		Map<String, Object> result = new LinkedHashMap<String, Object>();
+	
+		// 分析参数Map,构造PropertyFilter列表
+		for (Object filterName : filterParamMap.keySet()) {
+			Object value = filterParamMap.get(filterName);
+	
+			// 如果value值为空,则忽略此filter.
+			boolean omit = StringUtils.isBlank((String) value);
+			if (!omit) {
+	
+				// 分析filterName,获取matchType与propertyName
+				String matchTypeCode = StringUtils.substringBefore(
+						(String) filterName, "_");
+	
+				if ("eq like".contains(matchTypeCode)) {
+					throw new IllegalArgumentException(
+							"filter名称没有按规则编写,无法得到属性比较类型." + matchTypeCode);
+				}
+	
+				if (matchTypeCode.equalsIgnoreCase("eq")) {
+					matchTypeCode = " = ";
+				}
+				if (matchTypeCode.equalsIgnoreCase("like")) {
+					matchTypeCode = " like ";
+					value = value + "%";
+				}
+	
+				String propertyName = StringUtils.substringAfter(
+						(String) filterName, "_");
+	
+				if (wherehql.length() > 0) {
+					wherehql.append(" and ");
+				}
+	
+				if (propertyName.contains("|")) {
+					String[] split = StringUtils.split(propertyName, "|");
+					wherehql.append("(");
+					for (String string : split) {
+	
+						wherehql.append(" obj.").append(string).append(
+								matchTypeCode).append(" ").append(" ? ")
+								.append(" or ");
+	
+						result.put(string + '1', value);
+	
+					}
+					wherehql.delete(wherehql.length() - 3, wherehql.length());
+					wherehql.append(")");
+				} else {
+					wherehql.append(" obj.").append(propertyName).append(
+							matchTypeCode).append(" ").append(" ? ")
+							.append(" ");
+	
+					result.put(propertyName, value);
+				}
+			}
+		}
+		if (result.size() > 0) {
+			// wherehql.delete( wherehql.length()-3,wherehql.length() );
+			result.put("hql", new StringBuffer(" where ").append(wherehql));
+		}
+		return result;
+	
 	}
 
 }

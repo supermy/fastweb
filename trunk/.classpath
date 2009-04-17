@@ -70,5 +70,9 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/struts2-spring-plugin-2.1.6.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/xml-apis-1.0.b2.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/xwork-2.1.2.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jbpm-jpdl.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/asm.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/bsh.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-modules-jbpm31.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>

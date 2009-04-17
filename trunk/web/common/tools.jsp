@@ -7,7 +7,6 @@
 
 <div class="span-10">
 	<br/>
-	<br/>
 	<h4><B>FastWeb</B></h4>
 	Beta1
 </div>

@@ -29,7 +29,7 @@
 	<div class="span-17 prepend-1 colborder">
 
 		
-		<h2>手工展示数据<h2>
+		<h2>手工展示数据</h2>
 		<table >
 			<tr>
 				<th ><a href="user.action?page.orderBy=email&page.order=

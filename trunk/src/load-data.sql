@@ -15,6 +15,13 @@ e057f20f883e','pig@super.com',1,1,1,1);
 insert into c_roles (NAME,c_enabled) values('管理员',1);
 insert into c_roles (NAME,c_enabled) values('用户',1);
 
+insert into c_roles (NAME,c_enabled) values('员工',1);
+insert into c_roles (NAME,c_enabled) values('主管',1);
+insert into c_roles (NAME,c_enabled) values('副主管',1);
+insert into c_roles (NAME,c_enabled) values('经理',1);
+insert into c_roles (NAME,c_enabled) values('副经理',1);
+
+
 insert into c_authors (c_name,c_nickname,c_enabled) values('AUTH_VIEW_USER','用户',1);
 insert into c_authors (c_name,c_nickname,c_enabled) values('AUTH_MODIFY_USER','用户修改',1);
 insert into c_authors (c_name,c_nickname,c_enabled) values('AUTH_VIEW_ROLE','角色',1);
