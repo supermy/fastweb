@@ -139,7 +139,7 @@ public class UserAction extends BaseActionSupport<User> {
 		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
 		pageUser.setPageSize(Page.MAX_PAGESIZE);
 
-		Map<String, Object> filters = buildPropertyFilters("filter_");
+		Map<String, Object> filters = Struts2Utils.buildPropertyFilters("filter_");
 		if (filters.size() <= 0) {
 			addActionMessage("没有搜索条件");
 		}

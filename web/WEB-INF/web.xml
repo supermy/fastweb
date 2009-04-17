@@ -9,13 +9,13 @@
 		Context Loader
 	-->
 
-    <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
             classpath:/app-springs.xml
             classpath:/app-security.xml
         </param-value>
-    </context-param>
+	</context-param>
 
 	<!-- Character Encoding filter -->
 	<filter>
@@ -70,6 +70,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
+	<filter>
+		<filter-name>JbpmContextFilter</filter-name>
+		<filter-class>org.jbpm.web.JbpmContextFilter</filter-class>
+	</filter>
+	 
+	<filter-mapping>
+		<filter-name>JbpmContextFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
 	<!--
 		在做上传文件的时候，要在web.xml中增加ActionContextCleanUp这个filter，如果不增加，会发生第一次上传取不到文件的情况
 	-->
@@ -97,10 +108,19 @@
 		<filter-name>struts2Filter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-
-
-
+       
+    <servlet>   
+        <servlet-name>ProcessImageServlet</servlet-name>   
+        <servlet-class>   
+            com.credit.common.ProcessImageServlet   
+        </servlet-class>   
+    </servlet>   
+    <servlet-mapping>   
+        <servlet-name>ProcessImageServlet</servlet-name>   
+        <url-pattern>/processimage</url-pattern>   
+    </servlet-mapping>
+        
+        
 	<!--Spring的ApplicationContext 载入 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

@@ -26,8 +26,15 @@
 		</property>
 	</bean>
 
-	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 -->
+	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 
 	<context:component-scan base-package="org.supermy.core.service" />
+	<context:component-scan base-package="org.supermy.workflow.service" />
+	-->
+	
+    <context:component-scan base-package="org.supermy">
+        <context:include-filter type="regex" expression=".service.*"/>
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>	
 
 	<!-- bean驱动
 	<context:annotation-config />
@@ -40,16 +47,16 @@
 		<property name="user" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 		<property name="autoCommitOnClose" value="true" />
-		<property name="minPoolSize" value="50"/>
-		<property name="maxPoolSize" value="200"/>
-		<property name="maxIdleTime" value="600"/>
-		<property name="acquireIncrement" value="5"/>
-		<property name="maxStatements" value="0"/>
-		<property name="initialPoolSize" value="60"/>
-		<property name="idleConnectionTestPeriod" value="600"/>
-		<property name="acquireRetryAttempts" value="3"/>
-		<property name="breakAfterAcquireFailure" value="true"/>
-		<property name="testConnectionOnCheckout" value="false"/>
+		<property name="minPoolSize" value="50" />
+		<property name="maxPoolSize" value="200" />
+		<property name="maxIdleTime" value="600" />
+		<property name="acquireIncrement" value="5" />
+		<property name="maxStatements" value="0" />
+		<property name="initialPoolSize" value="60" />
+		<property name="idleConnectionTestPeriod" value="600" />
+		<property name="acquireRetryAttempts" value="3" />
+		<property name="breakAfterAcquireFailure" value="true" />
+		<property name="testConnectionOnCheckout" value="false" />
 	</bean>
 
 
@@ -58,43 +65,61 @@
 		<jee:jndi-lookup id="dataSource"
 		jndi-name="java:comp/env/jdbc/ExampleDB" />
 	-->
-	<!-- memcached 单机性能不如oscache
+	<!--
+		memcached 单机性能不如oscache <prop
+		key="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</prop>
+		<prop key="hibernate.memcached.servers">localhost:11211</prop>
+	-->
 
-				<prop key="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</prop>
-				<prop key="hibernate.memcached.servers">localhost:11211</prop>
-	  -->
-	  
 	<bean id="sessionFactory"
 		class="org.supermy.core.spring.AutoScanAnnotationSessionFactoryBean">
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
+		<property name="typeDefinitions">
+			<ref bean="jbpmTypes" />
+		</property>
 		<property name="hibernateProperties">
 			<props>
+				<prop key="hibernate.query.substitutions">true 1, false 0</prop>
+
 				<prop key="hibernate.dialect">${hibernate.dialect}
 				</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
 				<prop key="hibernate.use_sql_comments">true</prop>
 				<prop key="hibernate.generate_statistics">true</prop>
-				
-				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}
+				</prop>
 
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
-
-				<prop key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
+				<!--
+					<prop
+					key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
+				-->
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
+				</prop>
+				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
+				</prop>
 
 				<prop key="hibernate.max_fetch_depth">1</prop>
 				<prop key="default-lazy">false</prop>
 			</props>
 		</property>
-        <!-- property name="mappingJarLocations">   
-            <list>   
-                <value>WEB-INF/lib/jbpm-jpdl.jar</value>   
-            </list>   
-        </property -->  
-        <property name="domainPackageNames">
+		<!--
+			<property name="namingStrategy"> <bean
+			class="org.hibernate.cfg.ImprovedNamingStrategy" /> </property>
+		-->
+		<property name="mappingJarLocations">
+			<list>
+				<!-- <value>WEB-INF/lib/jbpm-jpdl.jar</value> -->
+				<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>
+			</list>
+		</property>
+
+		<property name="domainPackageNames">
 			<list>
 				<value>domain</value>
 			</list>
@@ -123,6 +148,27 @@
 		class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="messages" />
 	</bean>
+
+	<!-- jbpm configuration -->
+	<!-- 大字段处理 -->
+	<bean id="jbpmTypes" class="org.springframework.orm.hibernate3.TypeDefinitionBean">
+		<property name="typeName" value="string_max" />
+		<property name="typeClass" value="org.jbpm.db.hibernate.StringMax" />
+	</bean>
+
+	<bean id="jbpmConfiguration"
+		class="org.springmodules.workflow.jbpm31.LocalJbpmConfigurationFactoryBean">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="configuration" value="classpath:jbpm.cfg.xml" />
+		<property name="createSchema" value="false" />
+	</bean>
+
+	<bean id="jbpmTemplate" class="org.springmodules.workflow.jbpm31.JbpmTemplate">
+		<constructor-arg index="0" ref="jbpmConfiguration" />
+	</bean>
+
+
+	<!-- end jbpm configuration -->
 
 </beans>
 

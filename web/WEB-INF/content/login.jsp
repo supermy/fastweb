@@ -54,7 +54,7 @@
 		</table>
 	</form>
 	
-	<p>（管理员<b>springclick@gmail.com/123456</b> ,普通用户<b>user/123456</b>）</p>
+	<p>（管理员<b>springclick@gmail.com/123456</b> ,普通用户<b>user@super.com/123456</b>）</p>
 </body>
 </html>
 

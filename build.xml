@@ -93,29 +93,41 @@
 	</target>
 
 	<target name="jar" depends="build,native" description="Build the distribution .jar file">
-		<mkdir dir="${basedir}/build"/>
-		<mkdir dir="${build.dir}/META-INF"/>
+		<mkdir dir="${basedir}/build" />
+		<mkdir dir="${build.dir}/META-INF" />
 		<manifest file="${build.dir}/META-INF/MANIFEST.MF">
-			<attribute name="Product" value="${project.name}"/>
-			<attribute name="Version" value="${project.version}"/>
+			<attribute name="Product" value="${project.name}" />
+			<attribute name="Version" value="${project.version}" />
 		</manifest>
-	    <jar filesetmanifest="merge" jarfile="${basedir}/build/fastweb-build.jar" basedir="${build.dir}"/>
+		<jar filesetmanifest="merge" jarfile="${basedir}/build/fastweb-build.jar" basedir="${build.dir}" />
 	</target>
 
 	<target name="javadoc15" description="Generate framework Javadocs on JDK 1.5">
 		<delete dir="${javadocs.dir}" />
 		<mkdir dir="${javadocs.dir}" />
 		<javadoc sourcepath="${src.java.dir}" encoding="UTF-8" charset="UTF-8" destdir="${javadocs.dir}" windowtitle="FastWeb" additionalparam="-breakiterator" source="1.5" access="package" author="true" version="true" use="true" defaultexcludes="true">
-			<doctitle>
-				<![CDATA[<h1>FastWeb Api</h1>]]></doctitle>
-		<bottom>
-			<![CDATA[<i>Copyright (C) 2008 The FastWeb Project.</i>]]></bottom>
-	<classpath refid="all-libs" />
-	<packageset dir="${src.java.dir}">
-		<include name="org/supermy/**" />
-	</packageset>
-</javadoc>
-</target>
+			<doctitle><![CDATA[<h1>FastWeb Api</h1>]]></doctitle>
+			<bottom><![CDATA[<i>Copyright (C) 2008 The FastWeb Project.</i>]]></bottom>
+			<classpath refid="all-libs" />
+			<packageset dir="${src.java.dir}">
+			<include name="org/supermy/**" />
+			</packageset>
+		</javadoc>
+	</target>
 
+	<!-- 远程操作还是不方便 -->
+	<target name="deploy.proc" depends="" description="deploys the jbpm processes">
+	    <taskdef name="deployprocess" classname="org.jbpm.ant.DeployProcessTask">
+	        <classpath refid="classpath.ant" />
+	    </taskdef>
+	    <deployprocess process="build/process1.process"
+	            cfg="config.files/hibernate.cfg.xml"
+	            properties="config.files/create.db.hibernate.properties">
+	        <!--多个流程档案时使用fileset元素
+	        <fileset dir="build" includes="*.process" />
+	        -->
+	    </deployprocess>
+	 </target>
+	
 </project>
 
