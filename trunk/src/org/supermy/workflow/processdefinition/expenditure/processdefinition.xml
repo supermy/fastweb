@@ -19,8 +19,8 @@
 	</start-state>
 
 	<task-node name="申请填写报销单">
-		<task name="填写报销单">
-			<assignment class="org.supermy.workflow.assignment.UserAssignment"></assignment>
+		<task name="填写报销单" swimlane="employee">
+			<!--assignment class="org.supermy.workflow.assignment.UserAssignment"></assignment-->
 		</task>
 		<transition name="提交" to="部门主管审核"></transition>
 		<transition name="放弃" to="end1"></transition>
@@ -33,8 +33,9 @@
 				是否符合报销的项目
 			</description>
 		</task>
-		<transition name="主管驳回" to="申请填写报销单"></transition>
-		<transition name="主管审批通过" to="判断走向"></transition>
+		<transition name="退回" to="申请填写报销单"></transition>
+		<transition name="不同意" to="自动处理申请结果"></transition>
+		<transition name="同意" to="判断走向"></transition>
 	</task-node>
 
 	<decision name="判断走向">
@@ -46,8 +47,8 @@
 	<task-node name="经理审核申请">
 		<task name="经理审核" swimlane="boss">
 		</task>
-		<transition name="经理同意" to="财务处理流程"></transition>
-		<transition name="经理不同意" to="自动处理申请结果"></transition>
+		<transition name="同意" to="财务处理流程"></transition>
+		<transition name="不同意" to="自动处理申请结果"></transition>
 	</task-node>
 
 	<process-state name="财务处理流程">

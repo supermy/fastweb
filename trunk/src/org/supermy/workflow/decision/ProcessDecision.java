@@ -18,7 +18,7 @@ public class ProcessDecision implements DecisionHandler {
 		String go = "";
 
 		String financeId = (String) ec.getProcessInstance().getKey();
-		int count = (Integer) ec.getProcessInstance().getContextInstance()
+		double count = (Double) ec.getProcessInstance().getContextInstance()
 				.getVariable("money");
 		
 		log.debug("id:{} ,money:{}",financeId, count);

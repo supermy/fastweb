@@ -27,7 +27,7 @@
 				<th>备注</th>
 				<th>名称</th>
 				<th>开始时间</th>
-				<th>流程图(位置)</th>
+				<th>流程图</th>
 				<th>操作</th>
 			</tr>
 		
@@ -37,10 +37,15 @@
 					<td >${description}&nbsp;</td>
 					<td >${name}&nbsp;</td>
 					<td >${create}&nbsp;</td>
-					<td >${token.name}&nbsp;</td>
-					<td >&nbsp; 
-							<a href="TODOTODOworkflow!workFlowImage.action?id=${id}">查看流程图</a>、
+					<td ><a href="${ctx}/workflow/workflowplan.action?taskId=${id}" 
+						target="_blank">进度</a></td>
+			
+					<td > 
+						<!--
+						<a href="mytask!pullTask.action?id=${id}">让别人处理</a>-->
+						<a href="mytask!input.action?id=${id}">处理</a>
 					</td>
+					
 				</tr>
 			</s:iterator>
 		</table>
@@ -51,7 +56,7 @@
 				<th>备注</th>
 				<th>名称</th>
 				<th>开始时间</th>
-				<th>流程图(位置)</th>
+				<th>流程图</th>
 				<th>操作</th>
 			</tr>
 		
@@ -60,10 +65,10 @@
 					<td >${description}&nbsp;</td>
 					<td >${name}&nbsp;</td>
 					<td >${create}&nbsp;</td>
-					<td >${token.name}&nbsp;</td>
+					<td ><a href="${ctx}/workflow/workflowplan.action?taskId=${id}" 
+						target="_blank">进度</a></td>
 					<td >&nbsp; 
-					<a href="workflow!workFlowImage.action?id=${id}">我来处理</a>、
-					<a href="TODOTODOworkflow!workFlowImage.action?id=${id}">查看流程图</a>、
+					<a href="mytask!pullTask.action?id=${id}">我来处理</a>
 					</td>
 				</tr>
 			</s:iterator>
