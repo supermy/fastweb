@@ -2,6 +2,7 @@ package org.supermy.workflow.service;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipInputStream;
@@ -9,10 +10,9 @@ import java.util.zip.ZipInputStream;
 import org.hibernate.SessionFactory;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
-import org.jbpm.db.TaskMgmtSession;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.graph.exe.Token;
+import org.jbpm.taskmgmt.exe.SwimlaneInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.junit.Assert;
 import org.slf4j.LoggerFactory;
@@ -22,9 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.BaseService;
 import org.supermy.core.service.FastwebTemplate;
+import org.supermy.core.service.Page;
 import org.supermy.workflow.domain.OrigApprove;
-
-import bsh.util.Util;
+import org.supermy.workflow.domain.TaskItem;
 
 /**
  * 审核报销流程的主要业务类
@@ -39,8 +39,9 @@ public class WorkflowService extends BaseService {
 	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 	private FastwebTemplate<User, Long> userUtil;
+	private FastwebTemplate<TaskItem, Long> taskItemUtil;
 	private FastwebTemplate<OrigApprove, Long> approveUtil;
-
+	private SessionFactory sessionFactory;
 	@Autowired
 	private JbpmConfiguration jbpmConfiguration;
 
@@ -48,8 +49,11 @@ public class WorkflowService extends BaseService {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		userUtil = new FastwebTemplate<User, Long>(sessionFactory, null,
 				User.class);
+		taskItemUtil = new FastwebTemplate<TaskItem, Long>(sessionFactory,
+				null, TaskItem.class);
 		approveUtil = new FastwebTemplate<OrigApprove, Long>(sessionFactory,
 				null, OrigApprove.class);
+		this.sessionFactory = sessionFactory;
 	}
 
 	public JbpmContext getJbpmContext() {
@@ -59,6 +63,9 @@ public class WorkflowService extends BaseService {
 			log.debug("create jbpm context ... ... ");
 			jbpmContext = jbpmConfiguration.createJbpmContext();
 		}
+		// 保持session 一致
+		jbpmContext.setSessionFactory(sessionFactory);
+		jbpmContext.setSession(sessionFactory.getCurrentSession());
 		return jbpmContext;
 	}
 
@@ -85,6 +92,13 @@ public class WorkflowService extends BaseService {
 	}
 
 	/**
+	 * @return the taskItemUtil
+	 */
+	public FastwebTemplate<TaskItem, Long> getTaskItemUtil() {
+		return taskItemUtil;
+	}
+
+	/**
 	 * 
 	 * 发布zip压缩的流程 <br />
 	 * 如下结构： <br/>
@@ -105,22 +119,17 @@ public class WorkflowService extends BaseService {
 	 * @param processZipFileName
 	 */
 	public void deployProcess(String processZipFileName) {
-		// 获取上下文
-		JbpmContext jbpmContext = getJbpmContext();
 		try {
 			ZipInputStream zin = new ZipInputStream(new FileInputStream(
 					processZipFileName));
 			ProcessDefinition processDefinition = ProcessDefinition
 					.parseParZipInputStream(zin);
-			jbpmContext.deployProcessDefinition(processDefinition);
+			getJbpmContext().deployProcessDefinition(processDefinition);
 			zin.close();
 
 		} catch (IOException e) {
 			throw new RuntimeException(e.getMessage());
 		}
-		// finally {
-		// jbpmContext.close();
-		// }
 	}
 
 	/**
@@ -129,57 +138,65 @@ public class WorkflowService extends BaseService {
 	 * @return 工作流定义列表 　　
 	 */
 	public List<ProcessDefinition> getAllWorkFlow() {
-		JbpmContext jbpmContext = getJbpmContext();
-		List<ProcessDefinition> results = jbpmContext.getGraphSession()
+		return getJbpmContext().getGraphSession()
 				.findLatestProcessDefinitions();
-		// jbpmContext.close();
-		return results;
 	}
 
 	/**
 	 * 启动流程
 	 * 
-	 * @param processDefinitionName
 	 * @param businessKey
+	 * @param money
+	 *            TODO
+	 * @param processDefinitionName
 	 * @param userName
+	 * 
 	 * @return
 	 */
-	public ProcessInstance startProcess(String processDefinitionName,
-			String businessKey) {
-		JbpmContext jbpmContext = getJbpmContext();
+	public ProcessInstance startProcess(Long id, String businessKey,
+			BigDecimal money) {
 
-		ProcessInstance pi;
+		ProcessDefinition pd = getJbpmContext().getGraphSession()
+				.getProcessDefinition(id);
 
-		ProcessDefinition pd = jbpmContext.getGraphSession()
-				.findLatestProcessDefinition(processDefinitionName);
-
-		pi = pd.createProcessInstance(new HashMap(), businessKey);
+		ProcessInstance pi = pd.createProcessInstance(new HashMap(),
+				businessKey);
 		// 子流程使用
 		pi.getContextInstance().createVariable("businessKey", businessKey);
+		pi.getContextInstance().createVariable("money", money.doubleValue());
+
 		pi.signal();
 
-		jbpmContext.save(pi);
+		getJbpmContext().save(pi);
+
+		List<TaskInstance> tis = getJbpmContext().getTaskMgmtSession()
+				.findTaskInstancesByProcessInstance(pi);
+		for (TaskInstance ti : tis) {
+			ti.setActorId(getJbpmContext().getActorId());
+			getJbpmContext().save(ti);
+		}
 
 		return pi;
 	}
 
-	public void startTask(String userName, int money) {
-		JbpmContext jbpmContext = getJbpmContext();
+	public void startTask(Double money) {
+		log.debug("=========== start task");
 		// 提交开始任务
-		List<TaskInstance> taskList = jbpmContext.getTaskList();
-		log.debug(userName + " task:{}", taskList);
+		List<TaskInstance> taskList = getJbpmContext().getTaskList();
+		log.debug("{} task:{}", getJbpmContext().getActorId(), taskList.size());
 		for (TaskInstance ti : taskList) {
 			ti.getContextInstance().createVariable("money", money);
+			log.debug("getActorId:{}",ti.getSwimlaneInstance().getActorId());
+			ti.getSwimlaneInstance().setActorId(getJbpmContext().getActorId());
 			ti.end();
-			jbpmContext.save(ti);
+			getJbpmContext().save(ti);
 		}
 	}
 
 	public void checkTasks(ProcessInstance pi) {
 		log.debug("FirstFlowProcessTest.checkTasks()");
-		JbpmContext jbpmContext = getJbpmContext();
-		pi = jbpmContext.getProcessInstance(pi.getId());
-		List<TaskInstance> coll = jbpmContext.getTaskMgmtSession()
+		pi = getJbpmContext().getProcessInstance(pi.getId());
+		List<TaskInstance> coll = getJbpmContext().getTaskMgmtSession()
 				.findTaskInstancesByProcessInstance(pi);
 		log.debug("Process has task:");
 		for (TaskInstance ti : coll) {
@@ -193,19 +210,24 @@ public class WorkflowService extends BaseService {
 		// jbpmContext.close();
 	}
 
-	public void approveByManager(boolean pass) {
+	public void approveByManager(String pass) {
+		approve(pass);
+	}
+
+	public void approveByBoss(String pass) {
+		approve(pass);
+	}
+
+	private void approve(String pass) {
 		JbpmContext jbpmContext = getJbpmContext();
+		log.debug("+++++++++++++++++++getActorId:{}",jbpmContext.getActorId());
 
 		// 登录用户的任务
 		List<TaskInstance> taskList = jbpmContext.getTaskList();
-		log.debug("主管:{}", taskList.size());
+		log.debug("self task:{}", taskList.size());
 
 		for (TaskInstance ti : taskList) {
-			if (pass) {
-				ti.end("主管审批通过");
-			} else {
-				ti.end("主管驳回");
-			}
+			ti.end(pass);
 		}
 
 		User user = getUserUtil().findUniqueByProperty("email",
@@ -215,51 +237,15 @@ public class WorkflowService extends BaseService {
 		List<TaskInstance> findTaskInstances = jbpmContext.getTaskMgmtSession()
 				.findPooledTaskInstances(user.getRoleNameList());
 
-		log.debug("主管:{}", findTaskInstances.size());
+		log.debug("shared task:{}", findTaskInstances.size());
 
 		for (TaskInstance ti : findTaskInstances) {
+			log.debug("task getSwimlaneInstance:{}",ti.getSwimlaneInstance().getActorId());
+			
 			// 当前任务转移给审批人 只有处置人可以看到当前任务
 			ti.setActorId(jbpmContext.getActorId());
-
-			if (pass) {
-				ti.end("主管审批通过");
-			} else {
-				ti.end("主管驳回");
-			}
-		}
-
-		// currentJbpmContext.close();
-	}
-
-	public void approveByBoss(boolean pass) {
-		JbpmContext jbpmContext = getJbpmContext();
-		// 登录用户的任务
-		List<TaskInstance> taskList = jbpmContext.getTaskList();
-		log.debug("经理:{}", taskList.size());
-
-		for (TaskInstance ti : taskList) {
-			if (pass) {
-				ti.end("经理同意");
-			} else {
-				ti.end("经理不同意");
-			}
-		}
-		User user = getUserUtil().findUniqueByProperty("email",
-				jbpmContext.getActorId());
-
-		// 退回
-		List<TaskInstance> findTaskInstances = jbpmContext.getTaskMgmtSession()
-				.findPooledTaskInstances(user.getRoleNameList());
-
-		log.debug("经理:{}", findTaskInstances.size());
-
-		for (TaskInstance ti : findTaskInstances) {
-			ti.setActorId(jbpmContext.getActorId());
-			if (pass) {
-				ti.end("经理同意");
-			} else {
-				ti.end("经理不同意");
-			}
+			ti.getSwimlaneInstance().setActorId(ti.getActorId());
+			ti.end(pass);
 		}
 
 		// currentJbpmContext.close();
@@ -268,29 +254,56 @@ public class WorkflowService extends BaseService {
 	/**
 	 * 将公用任务，转换为自己所有
 	 * 
-	 * @param taskid
-	 * @param userName
+	 * @param ti
 	 * @return
 	 */
-	public boolean pullTask(Long taskid, String userName) {
-		JbpmContext jbpmContext = getJbpmContext();
+	public boolean pullTask(TaskInstance ti) {
+		ti.setActorId(getJbpmContext().getActorId());
+		getJbpmContext().save(ti);
+		return true;
+	}
 
-		if (jbpmContext == null) {
-			jbpmContext = jbpmConfiguration.createJbpmContext();
-		}
-		try {
-			TaskInstance ti = jbpmContext.getTaskInstance(taskid);
-			ti.setActorId(userName);
-			return true;
-		} catch (Exception e) {
-			log.error(e.getMessage());
-			e.printStackTrace();
-		}
-		// finally {
-		// jbpmContext.close();
-		// }
+	/**
+	 * 让别人处理
+	 * 
+	 * @param ti
+	 * @return
+	 */
+	public boolean pushTask(TaskInstance ti) {
+		ti.setActorId(null);
+		getJbpmContext().save(ti);
+		return true;
+	}
 
-		return false;
+	public void TaskGo(TaskInstance task, String taskName) {
+		log.debug("task to {}",taskName);
+		task.end(taskName);
+		getJbpmContext().save(task);
+	}
+
+	public TaskInstance getTaskId(Long processInstanceId) {
+		ProcessInstance processInstance = getJbpmContext().getProcessInstance(
+				processInstanceId);
+
+		List<TaskInstance> tasks = getJbpmContext().getTaskMgmtSession()
+				.findTaskInstancesByProcessInstance(processInstance);
+		for (TaskInstance ti : tasks) {
+			return ti;
+		}
+		return null;
+
+		// TaskInstance next = processInstance.getTaskMgmtInstance()
+		// .getTaskInstances().iterator().next();
+		// return next.getToken().getId();
+	}
+
+	public Page<TaskItem> get(Page<TaskItem> page) {
+		page = getTaskItemUtil().get(page);
+		List<TaskItem> result = page.getResult();
+		for (TaskItem taskItem : result) {
+			taskItem.setTask(getTaskId(taskItem.getProcessInstanceId()));
+		}
+		return page;
 	}
 
 }

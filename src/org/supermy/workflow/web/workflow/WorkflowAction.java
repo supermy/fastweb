@@ -13,7 +13,6 @@ import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.core.security.SecurityUtils;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
 import org.supermy.workflow.service.WorkflowService;
@@ -104,33 +103,12 @@ public class WorkflowAction extends BaseActionSupport<ProcessDefinition> {
 	 * 
 	 * @throws Exception
 	 */
-	public void workFlowImage() throws Exception {
+	public void workflowImage() throws Exception {
 		prepareModel();
 
-		JbpmContext jbpmContext = approveService.getJbpmContext();
-		try {
-			Struts2Utils.renderImage(processDefinition.getFileDefinition()
-					.getBytes("processimage.jpg"));
-			// fileDefinition.getBytes("gpd.xml");
-		} finally {
-			jbpmContext.close();
-		}
+		Struts2Utils.renderImage(processDefinition.getFileDefinition()
+				.getBytes("processimage.jpg"));
+		// fileDefinition.getBytes("gpd.xml");
 	}
 
-	public String startProcessInstance() throws Exception {
-		prepareModel();
-
-		// 创建和提交，可以将任务分为两步
-		// TODO　改为从表单获取数据
-		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("title", "关于报销的申请");
-		variables.put("context", "XXX 报销差旅费 nnn 元。");
-		String businessKey = "1";
-
-		ProcessInstance startProcess = approveService.startProcess(
-				processDefinition.getName(), businessKey);
-		approveService.startTask(SecurityUtils.getCurrentUserName(), 5000);
-
-		return RELOAD;
-	}
 }

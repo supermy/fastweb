@@ -33,6 +33,7 @@ insert into c_user_roles values(4,2);
 insert into c_user_roles values(5,2);
 insert into c_user_roles values(6,2);
 
+insert into c_user_roles values(1,3);
 insert into c_user_roles values(2,3);
 insert into c_user_roles values(3,4);
 insert into c_user_roles values(4,6);

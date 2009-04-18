@@ -1,5 +1,6 @@
 package org.supermy.workflow.processdefinition.expenditure;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Map;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +24,8 @@ public class ExpenditureTest extends BaseServiceTest {
 	WorkflowService util;
 
 	Map<String, Object> doc;
+
+	long processDefinitionId;
 
 	@Before
 	public void before() {
@@ -39,6 +43,10 @@ public class ExpenditureTest extends BaseServiceTest {
 		doc.put("money", 5000);
 		doc.put("context", "关于JBPM流程测试的使用");
 
+		ProcessDefinition findLatestProcessDefinition = util.getJbpmContext()
+				.getGraphSession().findLatestProcessDefinition("expenditure");
+
+		processDefinitionId = findLatestProcessDefinition.getId();
 	}
 
 	/**
@@ -60,6 +68,10 @@ public class ExpenditureTest extends BaseServiceTest {
 		ProcessDefinition findLatestProcessDefinition1 = currentJbpmContext
 				.getGraphSession().findLatestProcessDefinition("expenditure");
 		Assert.assertNotNull(findLatestProcessDefinition1);
+
+		// Assert.assertNotNull(findLatestProcessDefinition1.getFileDefinition().getBytes("processimage.jpg"));
+		// Assert.assertNotNull(findLatestProcessDefinition1.getFileDefinition().getBytes("gpd.xml"));
+
 		ProcessDefinition findLatestProcessDefinition2 = currentJbpmContext
 				.getGraphSession().findLatestProcessDefinition("finance");
 		Assert.assertNotNull(findLatestProcessDefinition2);
@@ -73,9 +85,9 @@ public class ExpenditureTest extends BaseServiceTest {
 	@Test
 	public void processDefinitionList() {
 
-		JbpmContext currentJbpmContext = util.getJbpmContext();
+		JbpmContext jbpmContext = util.getJbpmContext();
 
-		List<ProcessDefinition> findAllProcessDefinitions = currentJbpmContext
+		List<ProcessDefinition> findAllProcessDefinitions = jbpmContext
 				.getGraphSession().findLatestProcessDefinitions();
 		for (ProcessDefinition processDefinition : findAllProcessDefinitions) {
 			log.debug("process definition:{}", processDefinition.getName());
@@ -85,7 +97,35 @@ public class ExpenditureTest extends BaseServiceTest {
 			log.debug("process definition:{}", processDefinition.getName());
 		}
 
-		currentJbpmContext.close();
+		jbpmContext.close();
+
+	}
+
+	/**
+	 * 某流程的所有实例列表
+	 */
+	@Test
+	public void processInstanceList() {
+
+		JbpmContext jbpmContext = util.getJbpmContext();
+
+		List<ProcessDefinition> allWorkFlow = util.getAllWorkFlow();
+		for (ProcessDefinition processDefinition : allWorkFlow) {
+			log.debug("process definition:{}", processDefinition.getName());
+			ProcessInstance processInstance = jbpmContext.getProcessInstance(
+					processDefinition, "1");
+			if (processInstance != null) {
+				log.debug(processInstance.getRootToken().getName());
+				List<TaskInstance> findTaskInstancesByProcessInstance = jbpmContext
+						.getTaskMgmtSession()
+						.findTaskInstancesByProcessInstance(processInstance);
+				for (TaskInstance taskInstance : findTaskInstancesByProcessInstance) {
+					log.debug("taskInstance:{}", taskInstance.getName());
+				}
+			}
+		}
+
+		jbpmContext.close();
 
 	}
 
@@ -98,11 +138,52 @@ public class ExpenditureTest extends BaseServiceTest {
 		// 设置登录的用户
 		util.getJbpmContext().setActorId("user@super.com");
 		// 任务
-		ProcessInstance pi = util.startProcess("expenditure", doc.get("id")
-				.toString());
-		util.startTask("test", 5000);
+		ProcessInstance pi = util.startProcess(processDefinitionId, doc.get(
+				"id").toString(), new BigDecimal(5000.00));
+		util.startTask(5000.00);
+
 		util.getJbpmContext().setActorId("manager@super.com");
-		util.approveByManager(true);
+		util.approveByManager("同意");
+		util.checkTasks(pi);
+
+		util.closeJbpmContext();
+	}
+
+	@Test
+	public void approve5000sendback() {
+		// 测试专用 web server 的时候 filter 会自动把登录用户设定
+		// 设置登录的用户
+		util.getJbpmContext().setActorId("user@super.com");
+		// 任务
+		ProcessInstance pi = util.startProcess(processDefinitionId, doc.get(
+				"id").toString(), new BigDecimal(5000.00));
+		util.startTask(5000.00);
+		util.getJbpmContext().setActorId("manager@super.com");
+		util.approveByManager("退回");
+		util.getJbpmContext().setActorId("user@super.com");
+		util.startTask(4000.00);
+		util.getJbpmContext().setActorId("manager@super.com");
+		util.approveByManager("同意");
+		util.checkTasks(pi);
+
+		util.closeJbpmContext();
+	}
+
+	@Test
+	public void approve0aggin() {
+		// 测试专用 web server 的时候 filter 会自动把登录用户设定
+		// 设置登录的用户
+		util.getJbpmContext().setActorId("user@super.com");
+		// 任务
+		ProcessInstance pi = util.startProcess(processDefinitionId, doc.get(
+				"id").toString(), new BigDecimal(5000.00));
+		util.startTask(5000.00);
+		util.getJbpmContext().setActorId("manager@super.com");
+		util.approveByManager("退回");
+		util.getJbpmContext().setActorId("user@super.com");
+		util.startTask(0.00);
+		util.getJbpmContext().setActorId("manager@super.com");
+		util.approveByManager("不同意");
 		util.checkTasks(pi);
 
 		util.closeJbpmContext();
@@ -113,13 +194,13 @@ public class ExpenditureTest extends BaseServiceTest {
 		// 测试专用 filter 会自动把登录用户设定
 		util.getJbpmContext().setActorId("user@super.com");
 		// 任务申请
-		ProcessInstance pi = util.startProcess("expenditure", doc.get("id")
-				.toString());
-		util.startTask("test", 15000);
+		ProcessInstance pi = util.startProcess(processDefinitionId, doc.get(
+				"id").toString(), new BigDecimal(5000.00));
+		util.startTask(15000.00);
 		util.getJbpmContext().setActorId("manager@super.com");
-		util.approveByManager(true);
+		util.approveByManager("同意");
 		util.getJbpmContext().setActorId("boss@super.com");
-		util.approveByBoss(true);
+		util.approveByBoss("同意");
 		util.checkTasks(pi);
 
 		util.closeJbpmContext();
@@ -130,13 +211,13 @@ public class ExpenditureTest extends BaseServiceTest {
 		// 测试专用 filter 会自动把登录用户设定
 		util.getJbpmContext().setActorId("user@super.com");
 		// 任务申请
-		ProcessInstance pi = util.startProcess("expenditure", doc.get("id")
-				.toString());
-		util.startTask("test", 20000);
+		ProcessInstance pi = util.startProcess(processDefinitionId, doc.get(
+				"id").toString(), new BigDecimal(5000.00));
+		util.startTask(20000.00);
 		util.getJbpmContext().setActorId("manager@super.com");
-		util.approveByManager(true);
+		util.approveByManager("同意");
 		util.getJbpmContext().setActorId("boss@super.com");
-		util.approveByBoss(false);
+		util.approveByBoss("不同意");
 		util.checkTasks(pi);
 
 		util.closeJbpmContext();

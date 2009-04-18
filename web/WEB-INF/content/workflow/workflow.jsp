@@ -41,9 +41,9 @@
 					<td >${version}&nbsp;</td>
 					<td >${description}&nbsp;</td>
 					<td >&nbsp; 
-							<!--img src="workflow!workFlowImage.action?id=${id}" height="60"/-->
-							<a href="workflow!workFlowImage.action?id=${id}">查看流程图</a>、
-							<a href="workflow!startProcessInstance.action?id=${id}">启动一个流程</a>
+							<!--img src="workflow!workflowImage.action?id=${id}" height="60"/-->
+							<a href="workflow!workflowImage.action?id=${id}">查看流程图</a>、
+							<a href="taskitem!input.action?processDefinitionId=${id}">启动一个流程</a>
 					</td>
 				</tr>
 			</s:iterator>

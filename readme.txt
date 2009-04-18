@@ -2,9 +2,8 @@
 	1、建立业务单据；2、开始流程并且绑定单据Id,单据绑定实例Id;3、开始提交任务；
 	4、节点任务处理(弹出并且审核 业务界面,填写审核意见)；5、任务流转；6、任务结束
 	
-	jbpmfilter 能够完成的事情，在测试之前再做一次。 
-     mysql -u root -p  fastweb<src/load-data.sql  --default-character-set=utf8	
-     	
+	所有权限
+	     	
 	web流程
 	并发子流程，会签
 20090416

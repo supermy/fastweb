@@ -21,7 +21,7 @@ public class FinanceProcessAction implements ActionHandler {
 		String actorId = executionContext.getJbpmContext().getActorId();
 		log.debug("actorId:{}", actorId);
 
-		int count = (Integer) executionContext.getProcessInstance()
+		double count = (Double) executionContext.getProcessInstance()
 				.getContextInstance().getVariable("money");
 		String mainID = (String) executionContext.getProcessInstance()
 				.getContextInstance().getVariable("businessKey");
