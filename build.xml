@@ -81,7 +81,8 @@
 	<target name="run" depends="build,native" description="starts tomcat in the current console window">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="yes">
 			<jvmarg value="-Dcatalina.home=${tomcat_home}" />
-			<jvmarg line="-Xms384m -Xmx384m  -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m" />
+			<!--jvmarg line="-Xms384m -Xmx384m  -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m" /-->
+			<jvmarg line="-server -Xms224m -Xmx224m -Xmn184m -XX:MaxPermSize=96m -XX:+UseConcMarkSweepGC" />
 			<arg value="start" />
 			<classpath>
 				<pathelement path="${java_home}/../lib/tools.jar" />
