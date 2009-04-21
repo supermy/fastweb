@@ -17,7 +17,7 @@
 	<%@ include file="/common/nav.jsp"%>
 	
 	<div class="span-18 prepend-1 colborder">
-		现有功能介绍：<br/>
+		现有功能介绍：测试驱动方式开发，每个功能都有测试驱动的最佳用例;整合JBPM，支持自定义工作流；整合CXF,支持WebService<br/>
 		一、完成一个页面的流程<br/>
 			1、分析业务需求，完成快速原型和流程图；<br/>
 			2、分析页面原型建立对象类图；<br/>
