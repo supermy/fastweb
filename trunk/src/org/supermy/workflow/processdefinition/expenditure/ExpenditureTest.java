@@ -14,11 +14,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.core.test.BaseServiceTest;
+import org.supermy.core.test.TestBaseService;
 import org.supermy.core.util.CommandUtil;
 import org.supermy.workflow.service.WorkflowService;
 
-public class ExpenditureTest extends BaseServiceTest {
+public class ExpenditureTest extends TestBaseService {
 
 	@Autowired
 	WorkflowService util;
@@ -30,7 +30,9 @@ public class ExpenditureTest extends BaseServiceTest {
 	@Before
 	public void before() {
 
-		CommandUtil.loadFastweb();
+		if (util.getUserUtil().getAll().size()<=0) {
+			CommandUtil.loadFastweb();
+		}
 
 		deployProcessDefinition();
 

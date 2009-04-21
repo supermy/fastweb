@@ -12,7 +12,6 @@ import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
-import org.jbpm.taskmgmt.exe.SwimlaneInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.junit.Assert;
 import org.slf4j.LoggerFactory;
@@ -232,10 +231,14 @@ public class WorkflowService extends BaseService {
 
 		User user = getUserUtil().findUniqueByProperty("email",
 				jbpmContext.getActorId());
-
+		log.debug("user roles:{}",user.getRoles());
 		// 待处理的任务
+		List<String> roleNameList = user.getRoleNameList();
+		Assert.assertNotNull(roleNameList);
+		log.debug("{}",roleNameList);
+		
 		List<TaskInstance> findTaskInstances = jbpmContext.getTaskMgmtSession()
-				.findPooledTaskInstances(user.getRoleNameList());
+				.findPooledTaskInstances(roleNameList);
 
 		log.debug("shared task:{}", findTaskInstances.size());
 

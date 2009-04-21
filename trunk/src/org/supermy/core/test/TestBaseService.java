@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/app-springs.xml"})
-public class BaseServiceTest extends
+public class TestBaseService extends
 		AbstractTransactionalJUnit4SpringContextTests {
 
 	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());

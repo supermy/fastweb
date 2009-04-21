@@ -3,6 +3,7 @@
         "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<constant name="struts.devMode" value="true" />
+	<constant name="struts.action.extension" value="action,do"/>
 
 	<constant name="struts.convention.default.parent.package"
 		value="crud-default" />
@@ -25,6 +26,7 @@
 				<interceptor-ref name="defaultStack">
 					<param name="validation.excludeMethods">*</param>
 				</interceptor-ref>
+ 				
 			</interceptor-stack>
 
 

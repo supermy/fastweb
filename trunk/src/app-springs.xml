@@ -26,15 +26,18 @@
 		</property>
 	</bean>
 
-	<!-- 使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入 
-	<context:component-scan base-package="org.supermy.core.service" />
-	<context:component-scan base-package="org.supermy.workflow.service" />
+	<!--
+		使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入
+		<context:component-scan base-package="org.supermy.core.service" />
+		<context:component-scan base-package="org.supermy.workflow.service" />
 	-->
-	
-    <context:component-scan base-package="org.supermy">
-        <context:include-filter type="regex" expression=".service.*"/>
-        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
-    </context:component-scan>	
+
+	<context:component-scan base-package="org.supermy">
+		<context:include-filter type="regex"
+			expression=".service.*" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
 
 	<!-- bean驱动
 	<context:annotation-config />
@@ -66,9 +69,10 @@
 		jndi-name="java:comp/env/jdbc/ExampleDB" />
 	-->
 	<!--
-		memcached 单机性能不如oscache <prop
-		key="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</prop>
-		<prop key="hibernate.memcached.servers">localhost:11211</prop>
+		memcached 单机性能不如oscache and ehcache<br/>
+		<propkey="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</prop>
+		<prop key="hibernate.memcached.servers">localhost:11211</prop> <prop
+		key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
 	-->
 
 	<bean id="sessionFactory"
@@ -95,10 +99,6 @@
 
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
-				<!--
-					<prop
-					key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
-				-->
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
 				</prop>
 				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
@@ -115,7 +115,8 @@
 		<property name="mappingJarLocations">
 			<list>
 				<!-- <value>WEB-INF/lib/jbpm-jpdl.jar</value> -->
-				<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>
+				<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar
+				</value>
 			</list>
 		</property>
 
@@ -123,6 +124,52 @@
 			<list>
 				<value>domain</value>
 			</list>
+		</property>
+
+		<property name="entityCacheStrategies">
+			<props>
+				<prop key="org.jbpm.context.def.VariableAccess">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Action">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Event">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ExceptionHandler">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Transition">nonstrict-read-write</prop>
+				<prop key="org.jbpm.instantiation.Delegation">nonstrict-read-write</prop>
+				<prop key="org.jbpm.module.def.ModuleDefinition">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskController">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Task">nonstrict-read-write</prop>
+			</props>
+		</property>
+
+		<property name="collectionCacheStrategies">
+			<props>
+				<prop key="org.jbpm.file.def.FileDefinition.processFiles">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.action.Script.variableAccesses">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Event.actions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ExceptionHandler.actions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.leavingTransitions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.arrivingTransitions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.nodes">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.actions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.definitions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.SuperState.nodes">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Transition.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Transition.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.node.Decision.decisionConditions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.node.ProcessState.variableAccesses">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.node.TaskNode.tasks">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Swimlane.tasks">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskController.variableAccesses">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Task.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Task.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskMgmtDefinition.swimlanes">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskMgmtDefinition.tasks">nonstrict-read-write</prop>
+			</props>
 		</property>
 	</bean>
 

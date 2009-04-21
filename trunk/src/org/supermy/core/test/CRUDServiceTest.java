@@ -17,7 +17,7 @@ import org.supermy.core.service.Page;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/app-springs.xml" })
-public class CRUDServiceTest extends BaseServiceTest {
+public class CRUDServiceTest extends TestBaseService {
 
 	@Autowired
 	private IUserService userService;
@@ -40,7 +40,7 @@ public class CRUDServiceTest extends BaseServiceTest {
 	@Test
 	public void validRole() {
 		Role r = new Role();
-		//r.setName("superadmin");
+		r.setName("superadmin");
 		userService.getRoleUtil().save(r);
 
 		r = userService.getRoleUtil().findUniqueByProperty("name",

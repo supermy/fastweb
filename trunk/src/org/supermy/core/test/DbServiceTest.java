@@ -18,7 +18,7 @@ import org.supermy.core.util.CommandUtil;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/app-springs.xml" })
-public class DbServiceTest extends BaseServiceTest {
+public class DbServiceTest extends TestBaseService {
 
 	@Autowired
 	private IUserService userService;

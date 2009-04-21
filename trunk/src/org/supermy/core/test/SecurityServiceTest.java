@@ -16,7 +16,7 @@ import org.supermy.core.service.Page;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/app-springs.xml", "/app-security.xml" })
-public class SecurityServiceTest extends BaseServiceTest {
+public class SecurityServiceTest extends TestBaseService {
 
 	@Autowired
 	private IUserService userService;
