@@ -34,7 +34,7 @@ import org.supermy.core.util.ListUtils;
 public class Role extends BaseDomain {
 
 	@NotNull
-	@Column(name = "name", length = 20)
+	@Column(name = "name",unique = true, length = 20)
 	@Length(max = 20)
 	private String name;
 

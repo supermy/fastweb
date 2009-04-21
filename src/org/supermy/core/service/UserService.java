@@ -1,5 +1,7 @@
 package org.supermy.core.service;
 
+import javax.jws.WebService;
+
 import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.supermy.core.domain.User;
  */
 @Transactional
 @Service
+@WebService
 public class UserService extends BaseService implements IUserService {
 
 	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());

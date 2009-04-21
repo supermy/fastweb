@@ -19,7 +19,7 @@ public class Authority extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_name", length = 20)
+	@Column(name = "c_name",unique = true, length = 20)
 	private String name;
 
 	@NotEmpty
