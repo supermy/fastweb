@@ -30,7 +30,7 @@ import org.supermy.core.util.ListUtils;
 @Table(name = "c_roles")
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Proxy(lazy=false)
+//@Proxy(lazy=false)
 public class Role extends BaseDomain {
 
 	@NotNull

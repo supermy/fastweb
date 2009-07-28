@@ -25,6 +25,7 @@ import org.supermy.workflow.service.WorkflowService;
 @Results( { @Result(name = BaseActionSupport.RELOAD, location = "mytask.action", type = "redirect") })
 public class MytaskAction extends BaseActionSupport<TaskInstance> {
 
+	
 	@Autowired
 	private WorkflowService approveService;
 

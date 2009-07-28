@@ -64,6 +64,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 				authSet.add(new GrantedAuthorityImpl(authority.getName()));
 			}
 		}
+		log.debug("auth size:{}",authSet.size());
 		return authSet.toArray(new GrantedAuthority[authSet.size()]);
 	}
 }

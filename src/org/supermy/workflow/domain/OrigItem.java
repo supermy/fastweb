@@ -20,7 +20,7 @@ import org.supermy.core.domain.BaseDomain;
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "w_orig_item")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Proxy(lazy = false)
+//@Proxy(lazy = false)
 public class OrigItem extends BaseDomain {
 
 	// Fields

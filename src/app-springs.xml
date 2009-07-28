@@ -105,7 +105,7 @@
 				</prop>
 
 				<prop key="hibernate.max_fetch_depth">1</prop>
-				<prop key="default-lazy">false</prop>
+				<!-- prop key="default-lazy">false</prop -->
 			</props>
 		</property>
 		<!--

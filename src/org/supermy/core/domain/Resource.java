@@ -14,7 +14,7 @@ import org.hibernate.validator.NotEmpty;
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "c_files")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Proxy(lazy = false)
+//@Proxy(lazy = false)
 public class Resource extends BaseDomain {
 
 	@NotEmpty
