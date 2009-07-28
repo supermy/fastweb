@@ -10,12 +10,16 @@
 
 	<!-- 在此定义URL与授权的关系. 而用户、角色、授权及三者的关系则保存在数据库中. -->
 	<http auto-config="true" access-decision-manager-ref="accessDecisionManager">
+		<!-- 必须是已登录用户 -->
+		<intercept-url pattern="/workflow/mytask*" access="AUTH_MODIFY_USER" />
+
 		<intercept-url pattern="/user/user!save*" access="AUTH_MODIFY_USER" />
 		<intercept-url pattern="/user/user!delete*" access="AUTH_MODIFY_USER" />
 		<!-- intercept-url pattern="/user/user*" access="roleAnonymous" /> -->
 		<intercept-url pattern="/user/role!save*" access="AUTH_MODIFY_ROLE" />
 		<intercept-url pattern="/user/role!delete*" access="AUTH_MODIFY_ROLE" />
 		<intercept-url pattern="/user/role*" access="AUTH_VIEW_ROLE" />
+		
 		<form-login login-page="/login.action" default-target-url="/user/user.action"
 			authentication-failure-url="/login.action?error=true" />
 		<logout logout-success-url="/" />

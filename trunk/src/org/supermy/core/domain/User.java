@@ -31,11 +31,12 @@ import org.supermy.core.util.MD5;
  * @version create time：2008-7-30 下午04:30:58
  * 
  */
+
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "c_users")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@Proxy(lazy = false)
+//@Proxy(lazy = false)
 public class User extends BaseDomain {
 
 	@NotEmpty

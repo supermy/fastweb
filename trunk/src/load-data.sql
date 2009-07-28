@@ -38,7 +38,6 @@ insert into c_user_roles values(2,3);
 insert into c_user_roles values(3,4);
 insert into c_user_roles values(4,6);
 
-
 insert into c_role_auths values(1,1);
 insert into c_role_auths values(1,2);
 insert into c_role_auths values(1,3);

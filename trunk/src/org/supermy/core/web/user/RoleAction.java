@@ -20,6 +20,7 @@ import org.supermy.core.web.BaseActionSupport;
 @Results( { @Result(name = BaseActionSupport.RELOAD, location = "role.action", type = "redirect") })
 public class RoleAction extends BaseActionSupport<Role> {
 
+	
 	@Autowired
 	private IUserService roleService;
 
@@ -70,6 +71,7 @@ public class RoleAction extends BaseActionSupport<Role> {
 				role.getAuths(), "id");
 		return INPUT;
 	}
+	
 
 	@Override
 	public String save() throws Exception {
