@@ -1,6 +1,5 @@
 package org.supermy.core.web.user;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 

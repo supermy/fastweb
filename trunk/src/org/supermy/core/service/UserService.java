@@ -66,7 +66,7 @@ public class UserService extends BaseService implements IUserService {
 		return authUtil;
 	}
 
-	@Override
+	//@Override
 	@Transactional(readOnly = true)
 	public boolean isUniqueByEMail(String email) {
 		Long count = (Long) getUserUtil().findUnique(
