@@ -103,16 +103,16 @@
 
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}
 				</prop>
-
+				<!-- 开发是数据量不大，暂时关闭。
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
 				</prop>
 				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
 				</prop>
-
+				-->
 				<prop key="hibernate.max_fetch_depth">1</prop>
-				<!-- prop key="default-lazy">false</prop -->
+				<!-- prop key="default-lazy">true</prop -->
 			</props>
 		</property>
 		<!--
