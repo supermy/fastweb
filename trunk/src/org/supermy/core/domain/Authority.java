@@ -11,7 +11,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 
 @Entity
-@Table(name = "c_authors")
+@Table(name = "_authors")
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
  @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
@@ -19,12 +19,12 @@ public class Authority extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_name",unique = true, length = 20)
+	@Column(name = "_name",unique = true, length = 20)
 	private String name;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_nickname", length = 20)
+	@Column(name = "_nickname", length = 20)
 	private String nickName;
 
 	/**

@@ -34,19 +34,19 @@ import org.supermy.core.util.MD5;
 
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "c_users")
+@Table(name = "_users")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class User extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_name", unique = true, length = 20)
+	@Column(name = "_name", unique = true, length = 20)
 	private String name;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_passwd", length = 40)
+	@Column(name = "_passwd", length = 40)
 	private String passwd;
 
 	/**
@@ -68,14 +68,14 @@ public class User extends BaseDomain {
 	private String email;
 
 	@Lob
-	@Column(name = "c_intro")
+	@Column(name = "_intro")
 	private String intro;
 
-	@Column(name = "c_salary", precision = 2)
+	@Column(name = "_salary", precision = 2)
 	private Double salary;// 薪水 两位小数
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
-	@JoinTable(name = "c_user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@JoinTable(name = "_user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	@OrderBy("id")
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Role> roles = new LinkedHashSet<Role>();

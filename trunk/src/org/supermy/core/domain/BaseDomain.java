@@ -10,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+
 /**
  * 减少属性的使用，提高效率。
  * 
@@ -61,19 +62,19 @@ public class BaseDomain {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "c_id")
+	@Column(name = "id_")
 	private Long id;// =new Long(0);
 
 	// @Version
 	// @Column(name = "OPTLOCK")
 	// private Integer version;
 
-	@Column(name = "c_create")
+	@Column(name = "_create")
 	private Date create = new Date();
-//	@Column(name = "c_update")
+//	@Column(name = "_update")
 //	private Date upate = new Date();
 
-	@Column(name = "c_enabled")
+	@Column(name = "_enabled")
 	private boolean enabled = true;
 
 	// /**

@@ -17,9 +17,9 @@
 				<!-- 标准配置 -->
 				<value>classpath*:/jdbc.properties
 				</value>
-				<!-- 本地开发环境配置 -->
+				<!-- 本地开发环境配置 
 				<value>classpath*:/jdbc.local.properties
-				</value>
+				</value>-->
 				<!-- 服务器生产环境配置 -->
 				<!-- <value>file:/var/myapp/jdbc.server.properties</value> -->
 			</list>
@@ -39,16 +39,23 @@
 			expression="org.springframework.stereotype.Repository" />
 	</context:component-scan>
 
+	<context:component-scan base-package="com.gogo">
+		<context:include-filter type="regex"
+			expression=".service.*" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
 	<!-- bean驱动
 	<context:annotation-config />
 	-->
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
-		<property name="driverClass" value="${jdbc.driverClassName}" />
-		<property name="jdbcUrl" value="${jdbc.url}" />
-		<property name="user" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
+		<property name="driverClass" value="${hibernate.connection.driver_class}" />
+		<property name="jdbcUrl" value="${hibernate.connection.url}" />
+		<property name="user" value="${hibernate.connection.username}" />
+		<property name="password" value="${hibernate.connection.password}" />
 		<property name="autoCommitOnClose" value="true" />
 		<property name="minPoolSize" value="50" />
 		<property name="maxPoolSize" value="200" />
@@ -213,6 +220,7 @@
 	<bean id="jbpmTemplate" class="org.springmodules.workflow.jbpm31.JbpmTemplate">
 		<constructor-arg index="0" ref="jbpmConfiguration" />
 	</bean>
+	
 
 
 	<!-- end jbpm configuration -->
