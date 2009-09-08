@@ -5,11 +5,17 @@
 
 	<jmxConfigurator />
 
-	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+	<!-- appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
 			<pattern>%date [%thread] %-5level %logger{80} - %msg%n</pattern>
 		</layout>
-	</appender>
+	</appender-->
+	
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">   
+        <layout class="ch.qos.logback.classic.PatternLayout">   
+            <pattern>%d{MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>   
+        </layout>   
+    </appender>   	
 
 	<appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<Encoding>UTF-8</Encoding>
@@ -22,6 +28,10 @@
 		</layout>
 	</appender>
 	
+	<logger name="org.apache.struts2.convention">
+		<level value="DEBUG" />
+	</logger>
+
 	<logger name="org.supermy">
 		<level value="DEBUG" />
 	</logger>

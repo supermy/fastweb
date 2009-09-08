@@ -7,8 +7,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.supermy.core.domain.Resource;
+import org.supermy.core.service.IResourceService;
 import org.supermy.core.service.Page;
-import org.supermy.core.service.ResourceService;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
 import org.supermy.workflow.service.WorkflowService;
@@ -23,7 +23,7 @@ import org.supermy.workflow.service.WorkflowService;
 public class ResourceAction extends BaseActionSupport<Resource> {
 
 	@Autowired
-	private ResourceService resourceService;
+	private IResourceService resourceService;
 
 	@Autowired
 	private WorkflowService approveService;

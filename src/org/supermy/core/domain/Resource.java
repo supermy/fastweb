@@ -12,32 +12,32 @@ import org.hibernate.validator.NotEmpty;
 
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "c_files")
+@Table(name = "_files")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class Resource extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_name", unique = true, length = 120)
+	@Column(name = "_name", unique = true, length = 120)
 	private String name;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_path", length = 240)
+	@Column(name = "_path", length = 240)
 	private String path;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_filetype", length = 80)
+	@Column(name = "_filetype", length = 80)
 	private String fileType;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "c_type", length = 30)
+	@Column(name = "_type", length = 30)
 	private String type;
 
-	@Column(name = "c_done")
+	@Column(name = "_done")
 	private boolean done;
 
 	/**

@@ -1,0 +1,56 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <mapping class="org.supermy.core.domain.Role"/>
+        <mapping class="org.supermy.core.domain.Authority"/>
+        <mapping class="com.gogo.comix.domain.MyTiger" />
+        
+       <!-- mapping class="com.gogo.app.domain.JbpmEvent" />
+        <mapping class="com.gogo.app.domain.Files" />
+        <mapping class="com.gogo.app.domain.WOrigCert" />
+        <mapping class="com.gogo.app.domain.JbpmByteblock" />
+        <mapping class="com.gogo.app.domain.JbpmPooledactor" />
+        <mapping class="com.gogo.app.domain.Roles" />
+        <mapping class="com.gogo.app.domain.Authors" />
+        <mapping class="com.gogo.app.domain.JbpmNode" />
+        <mapping class="com.gogo.app.domain.Companys" />
+        <mapping class="com.gogo.app.domain.Address" />
+        <mapping class="com.gogo.app.domain.JbpmDelegation" />
+        <mapping class="com.gogo.app.domain.JbpmBytearray" />
+        <mapping class="com.gogo.app.domain.JbpmTransition" />
+        <mapping class="com.gogo.app.domain.DepartTypes" />
+        <mapping class="com.gogo.app.domain.JbpmComment" />
+        <mapping class="com.gogo.app.domain.Departments" />
+        <mapping class="com.gogo.app.domain.JbpmToken" />
+        <mapping class="com.gogo.app.domain.JbpmProcessdefinition" />
+        <mapping class="com.gogo.app.domain.JbpmRuntimeaction" />
+        <mapping class="com.gogo.app.domain.JbpmVariableaccess" />
+        <mapping class="com.gogo.app.domain.JbpmLog" />
+        <mapping class="com.gogo.app.domain.JbpmSwimlaneinstance" />
+        <mapping class="com.gogo.app.domain.WTaskItem" />
+        <mapping class="com.gogo.app.domain.JbpmTaskinstance" />
+        <mapping class="com.gogo.app.domain.JbpmModuleinstance" />
+        <mapping class="com.gogo.app.domain.Users" />
+        <mapping class="com.gogo.app.domain.JbpmExceptionhandler" />
+        <mapping class="com.gogo.app.domain.JbpmTask" />
+        <mapping class="com.gogo.app.domain.WOrigItem" />
+        <mapping class="com.gogo.app.domain.RoleAuths" />
+        <mapping class="com.gogo.app.domain.JbpmAction" />
+        <mapping class="com.gogo.app.domain.CompanyTypes" />
+        <mapping class="com.gogo.app.domain.JbpmVariableinstance" />
+        <mapping class="com.gogo.app.domain.JbpmSwimlane" />
+        <mapping class="com.gogo.app.domain.UserRoles" />
+        <mapping class="com.gogo.app.domain.JbpmDecisionconditions" />
+        <mapping class="com.gogo.app.domain.JbpmModuledefinition" />
+        <mapping class="com.gogo.app.domain.JbpmTaskactorpool" />
+        <mapping class="com.gogo.app.domain.JbpmTaskcontroller" />
+        <mapping class="com.gogo.app.domain.WOrigAppr" />
+        <mapping class="com.gogo.app.domain.JbpmJob" />
+        <mapping class="com.gogo.app.domain.JbpmProcessinstance" />
+        <mapping class="com.gogo.app.domain.JbpmTokenvariablemap" /-->
+                
+    </session-factory>
+</hibernate-configuration>

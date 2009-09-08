@@ -13,7 +13,7 @@ import org.supermy.core.domain.Resource;
  */
 @Transactional
 @Service
-public class ResourceService extends BaseService {
+public class ResourceService extends BaseService implements IResourceService {
 
 	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
@@ -29,8 +29,8 @@ public class ResourceService extends BaseService {
 				null, Resource.class);
 	}
 
-	/**
-	 * @return the resourceUtil
+	/* (non-Javadoc)
+	 * @see org.supermy.core.service.IResourceService#getResourceUtil()
 	 */
 	public FastwebTemplate<Resource, Long> getResourceUtil() {
 		return resourceUtil;

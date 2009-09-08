@@ -47,4 +47,12 @@ public class UserServiceTest extends TestBaseService {
 //		 userService.getUserUtil().delete(users.getResult());
 	}
 
+	@Test
+	public void CRUD() {
+		User u=new User();
+		userService.getUserUtil().save(u);
+		u=userService.getUserUtil().get(u.getId());
+		Assert.assertNotNull(u.getId());
+		userService.getUserUtil().delete(u.getId());
+	}
 }

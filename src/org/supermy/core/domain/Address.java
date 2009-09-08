@@ -16,7 +16,7 @@ import org.hibernate.validator.Length;
  * 
  */
 @Entity
-@Table(name = "c_address")
+@Table(name = "_address")
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Address extends BaseDomain {

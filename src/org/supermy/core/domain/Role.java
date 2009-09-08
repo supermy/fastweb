@@ -27,7 +27,7 @@ import org.supermy.core.util.ListUtils;
  *
  */
 @Entity
-@Table(name = "c_roles")
+@Table(name = "_roles")
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy=false)
@@ -39,7 +39,7 @@ public class Role extends BaseDomain {
 	private String name;
 
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE },fetch=FetchType.EAGER)
-	@JoinTable(name = "c_role_auths", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
+	@JoinTable(name = "_role_auths", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
 	@OrderBy("id")
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Authority> auths = new LinkedHashSet<Authority>();

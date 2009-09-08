@@ -3,8 +3,15 @@
         "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.reload" value="true" />	
+	
+	<!--  dev before set -->
 	<constant name="struts.action.extension" value="action,do"/>
-
+	
+	<constant name="struts.custom.i18n.resources" value="messages,auto-messages" />
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	
+	
 	<constant name="struts.convention.default.parent.package"
 		value="crud-default" />
 	<constant name="struts.convention.package.locators" value="web" />
