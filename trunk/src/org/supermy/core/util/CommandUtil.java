@@ -40,7 +40,10 @@ public class CommandUtil {
 	}
 
 	public static void loadFastweb(){
-		load("fastweb","/home/my/source/fastweb/src/load-data.sql");
+		//load("fastweb","/home/my/source/fastweb/src/load-data.sql");
+		
+		load("fastweb",CommandUtil.class.getResource("load-data.sql").getPath());
+		
 	}
 	
 	public static void load(String db,String fPath) {
@@ -49,7 +52,7 @@ public class CommandUtil {
 			Runtime rt = Runtime.getRuntime();
 
 			Process child = rt
-					.exec("mysql -u root "+db+" --default-character-set=utf8 ");
+					.exec("mysql -uroot -pboecd "+db+" --default-character-set=utf8 ");
 			OutputStream out = child.getOutputStream();// 控制台的输入信息作为输出流
 			String inStr;
 			StringBuffer sb = new StringBuffer("");
@@ -79,7 +82,8 @@ public class CommandUtil {
 	}
 	
 	public static void backupFastweb(){
-		backup("fastweb","/home/my/source/fastweb/src/load-data_backup.sql");
+		//backup("fastweb","/home/my/source/fastweb/src/load-data_backup.sql");
+		backup("fastweb",CommandUtil.class.getResource("load-data_backup.sql").getPath());
 	}
 
 	public static void backup(String db,String sqlfile) {
@@ -87,7 +91,7 @@ public class CommandUtil {
 			Runtime rt = Runtime.getRuntime();
 
 			Process child = rt
-					.exec("mysqldump -uroot "+db+" --default-character-set=utf8 ");// 设置导出编码为utf8。这里必须是utf8
+					.exec("mysqldump -uroot -pboecd "+db+" --default-character-set=utf8 ");// 设置导出编码为utf8。这里必须是utf8
 
 			// 把进程执行中的控制台输出信息写入.sql文件，即生成了备份文件。注：如果不对控制台信息进行读出，则会导致进程堵塞无法运行
 			InputStream in = child.getInputStream();// 控制台的输出信息作为输入流
