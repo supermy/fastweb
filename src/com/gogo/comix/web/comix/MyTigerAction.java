@@ -77,7 +77,7 @@ public class MyTigerAction extends BaseActionSupport<MyTiger> {
 	@Override
 	public String save() throws Exception {
 		myTigerService.getMyTigerUtil().save(myTiger);
-		addActionMessage("保存成功");
+		addActionMessage(getText("myTiger.updated"));
 		return RELOAD;
 	}
 
@@ -85,7 +85,7 @@ public class MyTigerAction extends BaseActionSupport<MyTiger> {
 	public String delete() throws Exception {
 		try {
 			myTigerService.getMyTigerUtil().delete(id);
-			addActionMessage("删除成功");
+			addActionMessage(getText("myTiger.deleted"));
 		} catch (RuntimeException e) {
 			log.error(e.getMessage(), e);
 			addActionMessage(e.getMessage());
@@ -106,7 +106,7 @@ public class MyTigerAction extends BaseActionSupport<MyTiger> {
 
 		Map<String, Object> filters = Struts2Utils.buildPropertyFilters("filter_");
 		if (filters.size() <= 0) {
-			addActionMessage("没有搜索条件");
+			addActionMessage(getText("myTiger.searchtxt"));
 		}
 		pagemytiger = myTigerService.getMyTigerUtil().search(pagemytiger, filters);
 		return SUCCESS;

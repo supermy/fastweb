@@ -81,7 +81,7 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 	@Override
 	public String save() throws Exception {
 		${pojoNameLower}Service.get${pojo.shortName}Util().save(${pojoNameLower});
-		addActionMessage("保存成功");
+		addActionMessage(getText("${pojoNameLower}.updated"));
 		return RELOAD;
 	}
 
@@ -89,7 +89,7 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 	public String delete() throws Exception {
 		try {
 			${pojoNameLower}Service.get${pojo.shortName}Util().delete(id);
-			addActionMessage("删除成功");
+			addActionMessage(getText("${pojoNameLower}.deleted"));
 		} catch (RuntimeException e) {
 			log.error(e.getMessage(), e);
 			addActionMessage(e.getMessage());
@@ -110,7 +110,7 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 
 		Map<String, Object> filters = Struts2Utils.buildPropertyFilters("filter_");
 		if (filters.size() <= 0) {
-			addActionMessage("没有搜索条件");
+			addActionMessage(getText("${pojoNameLower}.searchtxt"));
 		}
 		page${pojo.shortName.toLowerCase()} = ${pojoNameLower}Service.get${pojo.shortName}Util().search(page${pojo.shortName.toLowerCase()}, filters);
 		return SUCCESS;

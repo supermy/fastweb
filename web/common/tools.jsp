@@ -14,10 +14,9 @@
 <div class="span-8 last" >
 	<br/>
 	<div class="cmdtd" >		
-			你好,<%=SecurityUtils.getCurrentUserName()%>.&nbsp;&nbsp;
--			<a href="${ctx}/j_spring_security_logout">退出</a> -
-		 	<a href="${ctx}/login.action" target="_self">登录</a> 
+			<s:text name="common.hello"/>,<%=SecurityUtils.getCurrentUserName()%>.&nbsp;&nbsp;
+-			<a href="${ctx}/j_spring_security_logout"><s:text name="common.exit"/></a> -
+		 	<a href="${ctx}/login.action" target="_self"><s:text name="common.login"/></a> 
 	</div>		
 
-</div>    
-
+</div>

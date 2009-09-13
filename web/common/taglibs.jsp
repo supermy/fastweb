@@ -5,6 +5,8 @@
 <%@ taglib uri="http://www.opensymphony.com/oscache" prefix="cache" %>
 <%@ taglib uri="http://displaytag.sf.net/el" prefix="display" %>
 
+
+
 <!-- 生产机时候使用不同的域名 -->
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <c:set var="resource" value="${pageContext.request.contextPath}/upload"/>
