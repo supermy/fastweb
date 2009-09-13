@@ -9,6 +9,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
+import org.hibernate.validator.NotEmpty;
 import org.supermy.core.domain.BaseDomain;
 
 @Entity
@@ -26,6 +27,7 @@ public class MyTiger extends BaseDomain
     @Length(max = 100)
     @Column(name="my_email",nullable=false)
     @Email
+    @NotEmpty
 	private String myEmail;
 
 

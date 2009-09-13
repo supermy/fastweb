@@ -18,6 +18,7 @@ public class BasePackageExporter extends GenericExporter {
 	@Override
 	public void start() {
 		getProperties().put("util", new SEOActionNameBuilder("true","-"));
+		getProperties().put("webdata", new WebDataConvert());
 		super.start();
 	}
 

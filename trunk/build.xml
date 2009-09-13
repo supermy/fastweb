@@ -18,9 +18,10 @@
 	</path>
 
 	<target name="native" description="Convent messages.properties to utf-8 ">
-		<delete file="${build.dir}/messages.properties" />
-		<delete file="${build.dir}/messages_zh_CN.properties" />
-		<native2ascii encoding="UTF-8" src="${src.java.dir}" dest="${build.dir}" includes="messages*.properties" />
+	  <delete>
+	    <fileset dir="${build.dir}" includes="*.properties"/>
+	  </delete>
+	  <native2ascii encoding="UTF-8" src="${src.java.dir}" dest="${build.dir}" includes="*.properties" />		
 	</target>
 
 	<target name="build" description="Compile main Java sources">
@@ -38,11 +39,12 @@
 		<copy todir="${build.dir}" preservelastmodified="true">
 			<fileset dir="${src.java.dir}">
 				<exclude name="**/*.java" />
+				<exclude name="**/*.svn/*" />				
+				<exclude name="**/*.svn*" />
+				<exclude name="**/messages*.properties" />
 			</fileset>
 		</copy>
 	</target>
-
-
 
 	<target name="junit" depends="build,native" description="Run unit test:ant junit -Dt=UserControllerTest">
 		<mkdir dir="${test.dir}" />
@@ -76,12 +78,36 @@
 			<arg value="${file}" />
 		</exec>
 	</target>
-
-
+	
+	<target name="tomcat.start"  depends="build,native" >
+		<java jar="${tomcat_home}/bin/bootstrap.jar" fork="true">
+			<jvmarg value="-Dcatalina.home=${tomcat_home}"/>
+			<jvmarg value="-server -Xms224m -Xmx224m -Xmn184m -XX:MaxPermSize=96m -XX:+UseConcMarkSweepGC" />
+		</java>
+	</target> 
+	
+	<target name="tomcat.stop">   
+	    <java jar="${tomcat_home}/bin/bootstrap.jar" fork="true">   
+	        <jvmarg value="-Dcatalina.home=${tomcat_home}" />   
+	        <arg line="stop" />   
+	    </java>   
+	</target> 
+		
+	<target name="tomcat.debug"  depends="build,native" >
+		<java jar="${tomcat_home}/bin/bootstrap.jar" fork="true">
+		<jvmarg value="-Dcatalina.home=${tomcat_home}"/>
+		<jvmarg value="-server -Xms224m -Xmx224m -Xmn184m -XX:MaxPermSize=96m -XX:+UseConcMarkSweepGC" />
+		<jvmarg value="-Xdebug"/>
+		<jvmarg
+		value="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"/>
+		</java>
+	</target>
+	
 	<target name="run" depends="build,native" description="starts tomcat in the current console window">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="yes">
 			<jvmarg value="-Dcatalina.home=${tomcat_home}" />
-			<!--jvmarg line="-Xms384m -Xmx384m  -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m" /-->
+			<!--jvmarg line="-Xms384m -Xmx384m  -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m" /
+			-->
 			<jvmarg line="-server -Xms224m -Xmx224m -Xmn184m -XX:MaxPermSize=96m -XX:+UseConcMarkSweepGC" />
 			<arg value="start" />
 			<classpath>
@@ -107,28 +133,87 @@
 		<delete dir="${javadocs.dir}" />
 		<mkdir dir="${javadocs.dir}" />
 		<javadoc sourcepath="${src.java.dir}" encoding="UTF-8" charset="UTF-8" destdir="${javadocs.dir}" windowtitle="FastWeb" additionalparam="-breakiterator" source="1.5" access="package" author="true" version="true" use="true" defaultexcludes="true">
-			<doctitle><![CDATA[<h1>FastWeb Api</h1>]]></doctitle>
-			<bottom><![CDATA[<i>Copyright (C) 2008 The FastWeb Project.</i>]]></bottom>
+			<doctitle>
+				<![CDATA[<h1>FastWeb Api</h1>]]></doctitle>
+		<bottom>
+			<![CDATA[<i>Copyright (C) 2008 The FastWeb Project.</i>]]></bottom>
 			<classpath refid="all-libs" />
 			<packageset dir="${src.java.dir}">
-			<include name="org/supermy/**" />
+				<include name="org/supermy/**" />
 			</packageset>
 		</javadoc>
 	</target>
 
 	<!-- 远程操作还是不方便 -->
 	<target name="deploy.proc" depends="" description="deploys the jbpm processes">
-	    <taskdef name="deployprocess" classname="org.jbpm.ant.DeployProcessTask">
-	        <classpath refid="classpath.ant" />
-	    </taskdef>
-	    <deployprocess process="build/process1.process"
-	            cfg="config.files/hibernate.cfg.xml"
-	            properties="config.files/create.db.hibernate.properties">
-	        <!--多个流程档案时使用fileset元素
-	        <fileset dir="build" includes="*.process" />
-	        -->
-	    </deployprocess>
-	 </target>
-	
+		<taskdef name="deployprocess" classname="org.jbpm.ant.DeployProcessTask">
+			<classpath refid="classpath.ant" />
+		</taskdef>
+		<deployprocess process="build/process1.process" cfg="config.files/hibernate.cfg.xml" properties="config.files/create.db.hibernate.properties">
+			<!--多个流程档案时使用fileset元素
+			        <fileset dir="build" includes="*.process" />
+			        -->
+		</deployprocess>
+	</target>
+
+	<!-- hibernate ant task -->
+	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask">
+		<classpath refid="all-libs" />
+		<classpath refid="all-compile" />
+	</taskdef>
+
+	<target name="gendomain" if="p" description="ant gendomain -Dt=com.gogo.comix">
+		<delete dir="${target.dir}/generated" />
+		<mkdir dir="${target.dir}/generated" />
+		<hibernatetool destdir="${target.dir}/generated">
+			<!-- gen domain -->
+			<jdbcconfiguration propertyfile="${src.java.dir}/jdbc.properties" packagename="${p}.domain" detectManyToMany="true" detectoptimisticlock="true" />
+			<hbmtemplate templatepath="${resources}/domain/" template="Pojo.ftl" filepattern="src/{package-name}/{class-name}.java">
+				<property key="ejb3" value="true" />
+				<property key="jdk5" value="true" />
+			</hbmtemplate>
+			<hbm2cfgxml ejb3="true" />
+		</hibernatetool>
+	</target>
+
+	<target name="gen" description="ant gen">
+		<delete dir="${target.dir}/generated" />
+		<mkdir dir="${target.dir}/generated" />
+		
+		<hibernatetool destdir="${target.dir}/generated">
+			<annotationconfiguration configurationfile="src/org/supermy/autogen/hibernate.cfg.xml" />
+			<!-- gen service -->
+			<hbmtemplate templatepath="${resources}/service/" template="manager.ftl" exporterclass="org.supermy.autogen.BasePackageExporter" filepattern="src/{package-name}/service/{class-name}Service.java">
+			</hbmtemplate>
+		
+			<hbmtemplate templatepath="${resources}/service/" template="i-manager.ftl" exporterclass="org.supermy.autogen.BasePackageExporter" filepattern="src/{package-name}/service/I{class-name}Service.java">
+			</hbmtemplate>
+		
+			<hbmtemplate templatepath="${resources}/service/" template="manager-test.ftl" exporterclass="org.supermy.autogen.BasePackageExporter" filepattern="src/{package-name}/service/{class-name}ServiceTest.java">
+			</hbmtemplate>
+		
+			<!-- gen web -->		
+			<hbmtemplate templatepath="${resources}/web/struts/" template="action.ftl" exporterclass="org.supermy.autogen.ActionExporter" filepattern="src/{package-name}/web/{class-name}Action.java">
+			</hbmtemplate>
+		
+			<hbmtemplate templatepath="${resources}/web/struts/" template="list-view.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="web/WEB-INF/content/{package-name}/{class-name}.jsp">
+			</hbmtemplate>
+		
+			<hbmtemplate templatepath="${resources}/web/struts/" template="form-view.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="web/WEB-INF/content/{package-name}/{class-name}-input.jsp">
+			</hbmtemplate>
+			
+			<hbmtemplate templatepath="${resources}/web/" template="messages.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="{class-name}-messages.properties">
+			</hbmtemplate>			
+		
+		</hibernatetool>
+		
+		<concat destfile="${src.java.dir}/auto-messages.properties">
+			<fileset dir="${target.dir}/generated/">
+				<include name="*messages.properties" />
+			</fileset>
+		</concat>
+		
+	</target>
+
 </project>
 

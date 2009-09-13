@@ -103,14 +103,12 @@
 
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}
 				</prop>
-				<!-- 开发是数据量不大，暂时关闭。
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
 				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
 				</prop>
 				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
 				</prop>
-				-->
 				<prop key="hibernate.max_fetch_depth">1</prop>
 				<!-- prop key="default-lazy">true</prop -->
 			</props>
@@ -119,11 +117,11 @@
 			<property name="namingStrategy"> <bean
 			class="org.hibernate.cfg.ImprovedNamingStrategy" /> </property>
 		-->
+		<!--<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>  
+		-->
 		<property name="mappingJarLocations">
 			<list>
-				<!-- <value>WEB-INF/lib/jbpm-jpdl.jar</value> -->
-				<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar
-				</value>
+				<value>file:D:/env_java/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>
 			</list>
 		</property>
 
