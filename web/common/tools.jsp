@@ -7,7 +7,7 @@
 
 <div class="span-10">
 	<br/>
-	<h4><B>FastWeb</B></h4>
+	<h3><B>FastWeb</B></h3>
 	Beta1
 </div>
 
@@ -17,6 +17,5 @@
 			<s:text name="common.hello"/>,<%=SecurityUtils.getCurrentUserName()%>.&nbsp;&nbsp;
 -			<a href="${ctx}/j_spring_security_logout"><s:text name="common.exit"/></a> -
 		 	<a href="${ctx}/login.action" target="_self"><s:text name="common.login"/></a> 
-	</div>		
-
+	</div>
 </div>
