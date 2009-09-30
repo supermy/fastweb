@@ -10,20 +10,31 @@
     <meta name="heading" content="<s:text name='myTigerList.heading'/>"/>
 	<%@ include file="/common/meta.jsp"%>
 	<%@ include file="/common/css.jsp"%>
+
+	<link rel="stylesheet" href="${css}/css/table/bluedream.css" type="text/css" media="screen, projection"/>
+
+
 </head>
 <body>
 <!-- 布局 容器  -->
 <div class="container">
-	<!-- 布局  顶部工具条-->
+	<!-- 布局  顶部工具杄1�7-->
 	<%@ include file="/common/tools.jsp"%>
 	<!-- 布局  顶部导航栏目-->
 	<%@ include file="/common/nav.jsp"%>
-	<!-- 布局  左边列-->
+	<!-- 布局  左边刄1�7-->
 	<div class="span-17 prepend-1 colborder">
 		<c:set var="buttons">
-			<jsp:include flush="false" page="/common/pagenav.jsp"> 
-				<jsp:param   name="pagenav" value="pagemytiger"/>  
-			</jsp:include> 			
+			<div>
+				<s:text name="common.page.by"/>${pagemytiger.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${pagemytiger.totalPages}<s:text name="common.page.page"/> 
+				<s:if test="pagemytiger.hasPre">
+					<a href="my-tiger.action?pagemytiger.pageNo=${pagemytiger.prePage}&pagemytiger.orderBy=${pagemytiger.orderBy}&pagemytiger.order=${pagemytiger.order}"><s:text name="common.page.pre"/></a>
+				</s:if>
+				<s:if test="pagemytiger.hasNext">
+					<a href="my-tiger.action?pagemytiger.pageNo=${pagemytiger.nextPage}&pagemytiger.orderBy=${pagemytiger.orderBy}&pagemytiger.order=${pagemytiger.order}"><s:text name="common.page.next"/></a>
+				</s:if>
+				<br />
+			</div>
 		</c:set>
 		<c:out value="${buttons}" escapeXml="false" />
 		<display:table 
@@ -42,11 +53,7 @@
 				    	titleKey="myTiger.id"/>
 				    	
 				
-			            <display:column property="create"  format="{0,date,yyyy-MM-dd}" sortProperty="create" sortable="false" sortName="create" titleKey="myTiger.create"/>
-				
-			             <display:column sortProperty="enabled" sortable="false" sortName="enabled" titleKey="myTiger.enabled">
-			                 <input type="checkbox" disabled="disabled" <c:if test="${myTigerList.enabled}">checked="checked"</c:if>/>
-			             </display:column>
+			            <display:column property="audit"  format="{0,date,yyyy-MM-dd}" sortProperty="audit" sortable="false" sortName="audit" titleKey="myTiger.audit"/>
 				
 		        	    <display:column property="myEmail" sortable="false" sortName="myEmail" titleKey="myTiger.myEmail"/>
 				    
@@ -65,26 +72,26 @@
 		
 	</div>
 	
-	<!-- 布局  右边列-->
+	<!-- 布局  右边刄1�7-->
 	<div class="column span-5 last">
 		<s:actionmessage theme="mytheme"/>
 		<hr class="space"/>
 		<security:authorize ifAnyGranted="AUTH_MODIFY_USER">
-			<a href="my-tiger!input.action?pagemytiger.pageRequest=${pagemytiger.pageRequest}"><s:text name="common.domain.create"/></a>
+			<a  class="button" href="my-tiger!input.action?pagemytiger.pageRequest=${pagemytiger.pageRequest}"><s:text name="common.domain.create"/></a>
 		</security:authorize>
 		<hr class="space"/>
 		<div id="filter">
-			<form action="MyTiger!search.action" method="post">
+			<form action="my-tiger.action" method="post">
 				<input type="text" 
-						name="filter_LIKE_name|email" 
-						value="${param['filter_LIKE_name|email']}" 
+						name="filter_LIKE_myTiger|myEmail" 
+						value="${param['filter_LIKE_myTiger|myEmail']}" 
 						size="10"/>
-				<input type="submit" value="<s:text name='common.domain.search'/>" />
+				<s:submit cssClass="button" method="search"  key="common.domain.search" theme="simple"/>
 			</form>
 		</div> 
 	</div>
 		
-	<!-- 布局  底-->
+	<!-- 布局  庄1�7 -->
 	<%@ include file="/common/footer.jsp"%>
 </div>
 </body>

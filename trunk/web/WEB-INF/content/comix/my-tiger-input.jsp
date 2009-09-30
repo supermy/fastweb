@@ -9,12 +9,12 @@
 
 	<%@ include file="/common/meta.jsp"%>
 	<%@ include file="/common/css.jsp"%>
-
-	<link href="${css}/js/validate/jquery.validate.css" type="text/css" rel="stylesheet" />
-	<script src="${js}/js/jquery.js" type="text/javascript"></script>
-	<script src="${js}/js/validate/jquery.validate.js" type="text/javascript"></script>
-	<script src="${js}/js/validate/jquery.metadata.js" type="text/javascript"></script>
-	<script src="${js}/js/validate/localization/messages_cn.js" type="text/javascript"></script>
+	<%@ include file="/common/js.jsp"%>
+	<%@ include file="/common/js-validate.jsp"%>
+	<script src="${js}/js/jquery-ui-1.7.2/ui/minified/ui.core.min.js"  type="text/javascript"></script>
+	<script src="${js}/js/jquery-ui-1.7.2/ui/minified/ui.datepicker.min.js"  type="text/javascript"></script>
+	<link rel="stylesheet" href="${css}/css/jquery-ui-1.7.2/jquery-ui.css" type="text/css" media="screen, projection"/>
+	<link rel="stylesheet" href="${css}/css/jquery-ui-1.7.2/ui.datepicker.css" type="text/css" media="screen, projection"/>
 	<script>
 		$().ready(function(){
 			//聚焦第一个输入框
@@ -23,11 +23,6 @@
 			$("#mytigerInputForm").validate();
 		});
 	</script>
-	
-	<script type="text/javascript" src="${js}/js/jquery-ui-1.7.2/ui/minified/ui.core.min.js"></script>
-	<script type="text/javascript" src="${js}/js/jquery-ui-1.7.2/ui/minified/ui.datepicker.min.js"></script>
-	
-	
 
 </head>
 
@@ -38,72 +33,57 @@
 	
 	<%@ include file="/common/nav.jsp"%>
 	
-	<div class="css-panes span-15 prepend-1 colborder">
-	
-	<script type="text/javascript" src="${js}/js/jquery.tools.min.js"></script>
-	<link href="${css}/js/tools/tabs.css" type="text/css" rel="stylesheet" />
-
-	
-	<!-- tabs --> 
-	<ul class="css-tabs"> 
-	    <li><a href="ajax1.htm">Tab 1</a></li> 
-	    <li><a href="ajax2.htm">Second tab</a></li> 
-	    <li><a href="ajax3.htm">An ultra long third tab</a></li> 
-	</ul> 
-	 
-	<!-- single pane --> 
-	<div class="css-panes"> 
-	    <div style="display:block"></div> 
-	</div>
-
-	<script>
-		$(function() { 
-		    // 将ul.tabs区域设定为选项卡，用来控制div.panes区域中最近一层的各div区域
-		   // 注意tabs和panes与html中class的对应关系
-    		$("ul.css-tabs").tabs("div.css-panes > div", {effect: 'ajax'}); 
-		});	
-	</script>
-	
-		<h3><s:if test="id == null"><s:text name="common.label.create"/></s:if><s:else><s:text name="common.label.modify"/></s:else><s:text name="myTigerDetail.title"/></h3>
+	<div class="span-15 prepend-1 colborder">
 		<form id="mytigerInputForm" action="my-tiger.action" method="post">
+      	<fieldset>
+      		<legend><s:if test="id == null"><s:text name="common.label.create"/></s:if><s:else><s:text name="common.label.modify"/></s:else><s:text name="myTigerDetail.title"/></legend>
 		<input type="hidden" name="id" value="${id}" />
 		<input type="hidden" name="pagemytiger.pageRequest" value="${pagemytiger.pageRequest}" />
 		<table class="inputView">
 				<tr>
-					<td><s:text name="myTiger.create"/></td>
+				<tbody>					
+					<th><s:text name="myTiger.audit"/></th>
 					<td>
-				            ${create}					
-					</td>
-				</tr>
-				<tr>
-					<td><s:text name="myTiger.enabled"/></td>
-					<td>
-		             		<s:checkbox key="enabled" cssClass="checkbox" theme="simple" class="{debug:false}"/> <em> </em>
-					</td>
-				</tr>
-				<tr>
-					<td><s:text name="myTiger.myEmail"/></td>
-					<td>
-				            <input type="text" name="myEmail" size="30" value="${myEmail}" class="{debug:false,email:true,maxlength:100,minlength:0,required: true}"/> <em>*</em>
-					</td>
-				</tr>
-				<tr>
-					<td><s:text name="myTiger.myTiger"/></td>
-					<td>
-				            <input type="text" name="myTiger" id="myTiger"  size="30" value="${myTiger}" class="{debug:false,maxlength:200,minlength:0}"/> <em> </em>
-				            <script type="text/javascript">
+				            <input type="text" name="audit"  id="audit"  size="30" value="${audit}" class="text {debug:false,date:true}"/> <em> </em>
+							<script type="text/javascript">
 							$(function() {
-								$('#myTiger').datepicker({
-									changeMonth: true,
-									changeYear: true
-								});
+								$("#audit").datepicker(
+									{
+												dateFormat: "yy-mm-dd",
+												changeMonth: true,
+												changeYear: true,
+												//numberOfMonths: 3,
+												//minDate: -20, maxDate: '+1M +10D',//朄1�7大日朄1�7 朄1�7小日朄1�7
+												showButtonPanel: true									
+									}
+								);
 							});
 							</script>
+				            
 					</td>
+				</tbody>					
+				</tr>
+				<tr>
+				<tbody>					
+					<th><s:text name="myTiger.myEmail"/></th>
+					<td>
+				            <input type="text" name="myEmail" size="30" value="${myEmail}" class="text {debug:false,email:true,maxlength:100,minlength:0,required: true}"/> <em>*</em>
+					</td>
+				</tbody>					
+				</tr>
+				<tr>
+				<tbody>					
+					<th><s:text name="myTiger.myTiger"/></th>
+					<td>
+				            <input type="text" name="myTiger" size="30" value="${myTiger}" class="text {debug:false,maxlength:200,minlength:0}"/> <em> </em>
+					</td>
+				</tbody>					
 				</tr>
 		
 			<tr>
-				<td colspan="2">
+			<tbody>
+				<td></td>					
+				<td>
 		            <s:submit cssClass="button" method="save"  key="common.domain.save" theme="simple"/>
 			        <c:if test="${not empty id}">			        
 			            <s:submit cssClass="button" method="delete" key="common.domain.delete"
@@ -112,13 +92,52 @@
 		            <s:submit cssClass="button" key="common.domain.cancel" 
 		            	onclick="history.back()" theme="simple"/>
 				</td>
+			</tbody>					
 			</tr>
 		</table>
+
+      	</fieldset>		
 		</form>
 		
 	</div>
 	<div class="column span-7 last">
-		to do list ... ...
+		<s:actionmessage/>
+		
+		<table>
+		<tbody>
+				<tr class="even">
+					<th><s:text name="myTiger.create"/></th>
+					<td>
+				            ${create}					
+					</td>
+				</tr>
+				<tr>
+					<th><s:text name="myTiger.createBy"/></th>
+					<td>
+				            ${createBy}					
+					</td>
+				</tr>
+				<tr  class="even">
+					<th><s:text name="myTiger.update"/></th>
+					<td>
+				            ${update}					
+					</td>
+				</tr>
+				<tr>
+					<th><s:text name="myTiger.updateBy"/></th>
+					<td>
+				            ${updateBy}					
+					</td>
+				</tr>
+				<tr  class="even">
+					<th><s:text name="myTiger.enabled"/></th>
+					<td>
+				            ${enabled}					
+					</td>
+				</tr>
+		</tbody>		
+		</table>
+
 	</div>
 
 	<%@ include file="/common/footer.jsp"%>
