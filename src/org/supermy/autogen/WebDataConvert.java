@@ -380,6 +380,22 @@ public class WebDataConvert {
 		return false;
 	}
 
+	public String concatFieldByString(Class<?> classname) {
+		StringBuffer sb=new StringBuffer("");
+		Field[] declaredFields = classname.getDeclaredFields();
+		for (Field field : declaredFields) {
+//			System.out.println("======================:"+field.getName());
+			if (field.getType().equals(String.class)) {
+				sb.append(field.getName()).append("|");
+			}
+		}
+		if (sb.length()>0) {
+//			System.out.println("------------------------------"+sb);
+			sb=sb.delete(sb.length()-1, sb.length());
+		}
+		return sb.toString();
+	}
+	
 	/**
 	 * @param field
 	 * @return
