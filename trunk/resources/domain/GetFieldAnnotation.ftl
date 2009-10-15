@@ -1,1 +1,1 @@
-<#include "Ejb3FieldGetAnnotation.ftl"/>
+<#include "Ejb3FieldGetAnnotation.ftl" />

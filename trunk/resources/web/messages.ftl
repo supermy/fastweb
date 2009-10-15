@@ -2,9 +2,17 @@
 <#assign pojoNameLower = pojo.shortName.substring(0,1).toLowerCase()+pojo.shortName.substring(1)>
 <#assign pojoNameDesc = webdata.getFieldDescription(pojo.shortName)>
 
+${pojoNameLower}.name=${pojo.shortName}
+${pojoNameLower}.desc=${pojoNameDesc}
+
 <#foreach field in pojo.getAllPropertiesIterator()>
-<#if !c2h.isCollection(field) && !c2h.isManyToOne(field) && !c2j.isComponent(field)>
-  <#lt/>${pojoNameLower}.${field.name}=${webdata.getFieldDescription(field.name)}    
+<#if c2h.isCollection(field)>
+		<#lt/>${pojoNameLower}.${field.name}=${webdata.getFieldDescription(field.name)}
+	<#elseif c2h.isManyToOne(field)>
+		<#lt/>${pojoNameLower}.${field.name}=${webdata.getFieldDescription(field.name)}
+	<#elseif c2j.isComponent(field)>
+	<#else>
+		<#lt/>${pojoNameLower}.${field.name}=${webdata.getFieldDescription(field.name)}
 </#if>
 </#foreach>
 
