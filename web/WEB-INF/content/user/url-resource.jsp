@@ -17,12 +17,13 @@
 <body>
 <!-- 布局 容器  -->
 <div class="container">
-	<!-- 布局  顶部工具条-->
+	<!-- 布局  顶部工具杄1�7-->
 	<%@ include file="/common/tools.jsp"%>
 	<!-- 布局  顶部导航栏目-->
 	<%@ include file="/common/nav.jsp"%>
-	<!-- 布局  左边列-->
+	<!-- 布局  左边刄1�7-->
 	<div class="span-17 prepend-1 colborder">
+
 		<c:set var="buttons">
 			<div>
 				<s:text name="common.page.by"/>${pageurlresource.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${pageurlresource.totalPages}<s:text name="common.page.page"/> 
@@ -36,59 +37,131 @@
 			</div>
 		</c:set>
 		<c:out value="${buttons}" escapeXml="false" />
-		<display:table 
-			id="urlResourceList" name="pageurlresource.result" 
-			sort="external" class="table" requestURI="" export="false">
-				    <display:column property="id" 
-				    	sortable="false"
-				    	sortName="id" 
-				    	href="url-resource!input.action?pageurlresource.pageRequest=${pageurlresource.pageRequest}" media="html"
-				        paramId="id" 
-				        paramProperty="id" 
-				        titleKey="urlResource.id"/>
-				    <display:column 
-				    	property="id" 
-				    	media="csv excel xml pdf"
-				    	titleKey="urlResource.id"/>
-				    	
-		        		<display:column property="authorityListName" sortable="false" sortName="authorityList" titleKey="urlResource.authorityList"/>
-		        	    <display:column property="desc" sortable="false" sortName="desc" titleKey="urlResource.desc"/>
-		        		<display:column property="manager.name" sortable="false" sortName="manager" titleKey="urlResource.manager"/>
-		        	    <display:column property="position" sortable="false" sortName="position" titleKey="urlResource.position"/>
-		        	    <display:column property="resourceType" sortable="false" sortName="resourceType" titleKey="urlResource.resourceType"/>
-		        	    <display:column property="value" sortable="false" sortName="value" titleKey="urlResource.value"/>
-			
-		    <display:setProperty name="paging.banner.item_name"><s:text name="urlResourceList.urlResource"/></display:setProperty>
-		    <display:setProperty name="paging.banner.items_name"><s:text name="urlResourceList.urlResources"/></display:setProperty>
-		
-		    <display:setProperty name="export.excel.filename"><s:text name="urlResourceList.title"/>.xls</display:setProperty>
-		    <display:setProperty name="export.csv.filename"><s:text name="urlResourceList.title"/>.csv</display:setProperty>
-		    <display:setProperty name="export.pdf.filename"><s:text name="urlResourceList.title"/>.pdf</display:setProperty>
-		</display:table>
+		<table>
+			<thead>
+			<tr>
+				        	<th>
+							<a href="url-resource.action?pageurlresource.orderBy=id&pageurlresource.order=
+							<s:if test="pageurlresource.orderBy=='id'">${pageurlresource.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="urlResource.id"/></a>
+				</th>
+	        	<th>
+							<s:text name="urlResource.authorityList"/>
+				</th>
+	        	<th>
+							<a href="url-resource.action?pageurlresource.orderBy=desc&pageurlresource.order=
+							<s:if test="pageurlresource.orderBy=='desc'">${pageurlresource.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="urlResource.desc"/></a>
+				</th>
+	        	<th>
+							<s:text name="urlResource.manager"/>
+				</th>
+	        	<th>
+							<a href="url-resource.action?pageurlresource.orderBy=position&pageurlresource.order=
+							<s:if test="pageurlresource.orderBy=='position'">${pageurlresource.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="urlResource.position"/></a>
+				</th>
+	        	<th>
+							<a href="url-resource.action?pageurlresource.orderBy=resourceType&pageurlresource.order=
+							<s:if test="pageurlresource.orderBy=='resourceType'">${pageurlresource.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="urlResource.resourceType"/></a>
+				</th>
+	        	<th>
+							<a href="url-resource.action?pageurlresource.orderBy=value&pageurlresource.order=
+							<s:if test="pageurlresource.orderBy=='value'">${pageurlresource.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="urlResource.value"/></a>
+				</th>
+			<th>manager</th>
+			</tr>
+			</thead>
+
+
+			<s:iterator value="pageurlresource.result" status='st'>
+			<tbody>		
+			    <s:if test="#st.Odd">
+				<tr  class="odd">
+			    </s:if>
+
+			    <s:if test="#st.Even">
+				<tr  class="even">
+			    </s:if>
+				
+						<td>
+								<a href="url-resource!input.action?id=${id}&pageurlresource.pageRequest=${pageurlresource.pageRequest}">
+									${id}
+								</a>
+					</td>
+						<td>
+								<a href="authority!mtolist.action?id=${id}&class=org.supermy.core.domain.UrlResource&property=authorityList">
+									${authorityListName}
+								</a>
+					</td>
+						<td>
+									${desc}
+					</td>
+						<td>
+									${managerName}
+					</td>
+						<td>
+									${position}
+					</td>
+						<td>
+									${resourceType}
+					</td>
+						<td>
+									${value}
+					</td>
+					<security:authorize ifAnyGranted="AUTH_EDIT_URLRESOURCE">
+						<td>
+							<a href="url-resource!input.action?id=${id}&pageurlresource.pageRequest=${pageurlresource.pageRequest}">
+								manager
+							</a>
+						</td>
+					</security:authorize>
+					
+				</tr>
+			</tbody>		
+			</s:iterator>
+		</table>			<!--#include "list-view-displaytag.ftl"/-->
 		<c:out value="${buttons}" escapeXml="false" />		
 		
 	</div>
 	
-	<!-- 布局  右边列-->
+	<!-- 布局  右边刄1�7-->
 	<div class="column span-5 last">
 		<s:actionmessage theme="mytheme"/>
 		<hr class="space"/>
-		<security:authorize ifAnyGranted="AUTH_EDIT_URLRESOURCE">
-			<a  class="button" href="url-resource!input.action?pageurlresource.pageRequest=${pageurlresource.pageRequest}"><s:text name="common.domain.create"/></a>
+		<security:authorize 
+			ifAnyGranted="AUTH_EDIT_URLRESOURCE">
+			<a  class="button" 
+				href="url-resource!input.action?pageurlresource.pageRequest=${pageurlresource.pageRequest}">
+				<s:text name="common.domain.create"/>
+			</a>
 		</security:authorize>
 		<hr class="space"/>
 		<div id="filter">
-			<form action="url-resource.action" method="post">
+			<form 
+				action="url-resource.action" 
+				method="post">
 				<input type="text" 
-						name="filter_LIKE_myTiger|myEmail" 
-						value="${param['filter_LIKE_myTiger|myEmail']}" 
+						name="filter_LIKE_resourceType|desc|value" 
+						value="${param['filter_LIKE_resourceType|desc|value']}" 
 						size="10"/>
-				<s:submit cssClass="button" method="search"  key="common.domain.search" theme="simple"/>
+				<s:submit 
+					cssClass="button" 
+					method="search"  
+					key="common.domain.search" 
+					/>
 			</form>
 		</div> 
 	</div>
 		
-	<!-- 布局  底 -->
+	<!-- 布局  庄1�7 -->
 	<%@ include file="/common/footer.jsp"%>
 </div>
 </body>

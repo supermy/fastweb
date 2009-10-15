@@ -50,59 +50,56 @@
 				action="role.action" 
 				method="post">
 			
-			<input 
-				type="hidden" 
-				name="id" 
-				value="${id}" />
+		    <s:token />
 
-			<input 
-				type="hidden" 
-				name="pagerole.pageRequest" 
-				value="${pagerole.pageRequest}"/>
+			<s:hidden	name="id" />
+
+			<s:hidden 	name="pageuser.pageRequest"/>
 				
-							<s:checkboxlist 
-								label="%{getText('role.auths')}"  
-								name="authsId"
-								list="authsAll"
-								listKey="id" listValue="name"
-								cssClass="{debug:false}"
-								/>
+			<s:checkboxlist 
+				label="%{getText('role.auths')}"  
+				name="authsId"
+				list="authsAll"
+				listKey="id" listValue="name"
+				cssClass="{debug:false}"
+				/>
 									
-		            		        <s:textfield
-										label="%{getText('role.name')}"  
-						            	name="name"  
-						            	id="name"  
-						            	size="30" 
-						            	cssClass="{debug:false,maxlength:20,minlength:0,required: true}"/>
+			<s:textfield
+				label="%{getText('role.name')}"  
+				name="name"  
+				id="name"  
+				size="30" 
+				cssClass="{debug:false,maxlength:20,minlength:0,required: true}"/>
+
 			
-					<security:authorize 
-							ifAnyGranted="AUTH_SAVE_ROLE">
-							
-			            	<s:submit 
-			            		cssClass="button" 
-			            		method="save"  
-			            		key="common.domain.save"/>
-			            		
-					</security:authorize>
+			<security:authorize 
+					ifAnyGranted="AUTH_SAVE_ROLE">
+						
+			    	<s:submit 
+			    		cssClass="button" 
+			    		method="save"  
+			    		key="common.domain.save"/>
+		            		
+				</security:authorize>
 	
-			        <c:if test="${not empty id}">			        
-						<security:authorize 
-							ifAnyGranted="AUTH_DELETE_ROLE">
-							
-				            <s:submit 
-				            	cssClass="button" 
-				            	method="delete" 
-				            	key="common.domain.delete"
-				                onclick="return confirmDelete('Role')" 
-				                />
-				                
-						</security:authorize>
-			        </c:if>
+			<c:if test="${not empty id}">			        
+			<security:authorize 
+				ifAnyGranted="AUTH_DELETE_ROLE">
+						
+			    <s:submit 
+			    	cssClass="button" 
+			    	method="delete" 
+			    	key="common.domain.delete"
+			        onclick="return confirmDelete('Role')" 
+			        />
+			                
+			</security:authorize>
+			</c:if>
 				        
-		            <s:submit 
-		            	cssClass="button" 
-		            	key="common.domain.cancel" 
-		            	onclick="history.back()"/>
+			<s:submit 
+				cssClass="button" 
+				key="common.domain.cancel" 
+				onclick="history.back()"/>
 		            	
 			</s:form>
       	</fieldset>		

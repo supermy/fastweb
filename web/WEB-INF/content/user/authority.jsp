@@ -17,12 +17,13 @@
 <body>
 <!-- 布局 容器  -->
 <div class="container">
-	<!-- 布局  顶部工具条-->
+	<!-- 布局  顶部工具杄1�7-->
 	<%@ include file="/common/tools.jsp"%>
 	<!-- 布局  顶部导航栏目-->
 	<%@ include file="/common/nav.jsp"%>
-	<!-- 布局  左边列-->
+	<!-- 布局  左边刄1�7-->
 	<div class="span-17 prepend-1 colborder">
+
 		<c:set var="buttons">
 			<div>
 				<s:text name="common.page.by"/>${pageauthority.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${pageauthority.totalPages}<s:text name="common.page.page"/> 
@@ -36,71 +37,70 @@
 			</div>
 		</c:set>
 		<c:out value="${buttons}" escapeXml="false" />
-		<display:table 
-			id="authorityList" 
-			name="pageauthority.result" 
-			sort="external" 
-			class="table" 
-			requestURI="" 
-			export="false">
-				    <display:column property="id" 
-				    	sortable="false"
-				    	sortName="id" 
-				    	href="authority!input.action?pageauthority.pageRequest=${pageauthority.pageRequest}" media="html"
-				        paramId="id" 
-				        paramProperty="id" 
-				        titleKey="authority.id"/>
-				    <display:column 
-				    	property="id" 
-				    	media="csv excel xml pdf"
-				    	titleKey="authority.id"/>
-				    	
-		        	    <display:column 
-		        	    	property="name" 
-		        	    	sortable="false" 
-		        	    	sortName="name" 
-		        	    	titleKey="authority.name"/>
-		        	    <display:column 
-		        	    	property="nickName" 
-		        	    	sortable="false" 
-		        	    	sortName="nickName" 
-		        	    	titleKey="authority.nickName"/>
-			<security:authorize ifAnyGranted="AUTH_EDIT_AUTHORITY">
-				<display:column 
-					value="manager"
-					titleKey="common.domain.manager" 	
-					href="authority!input.action?pageauthority.pageRequest=${pageauthority.pageRequest}" media="html"
-					paramId="id" 
-					paramProperty="id"/>
-			</security:authorize>
-			
-		    <display:setProperty 
-		    	name="paging.banner.item_name">
-		    	<s:text name="authorityList.authority"/>
-		    </display:setProperty>
-		    <display:setProperty 
-		    	name="paging.banner.items_name">
-		    	<s:text name="authorityList.authoritys"/>
-		    </display:setProperty>
-		
-		    <display:setProperty 
-		    	name="export.excel.filename">
-		    	<s:text name="authorityList.title"/>.xls
-		    </display:setProperty>
-		    <display:setProperty 
-		    	name="export.csv.filename">
-		    	<s:text name="authorityList.title"/>.csv
-		    </display:setProperty>
-		    <display:setProperty 
-		    	name="export.pdf.filename">
-		    	<s:text name="authorityList.title"/>.pdf
-		    </display:setProperty>
-		</display:table>
+		<table>
+			<thead>
+			<tr>
+				        	<th>
+							<a href="authority.action?pageauthority.orderBy=id&pageauthority.order=
+							<s:if test="pageauthority.orderBy=='id'">${pageauthority.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="authority.id"/></a>
+				</th>
+	        	<th>
+							<a href="authority.action?pageauthority.orderBy=name&pageauthority.order=
+							<s:if test="pageauthority.orderBy=='name'">${pageauthority.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="authority.name"/></a>
+				</th>
+	        	<th>
+							<a href="authority.action?pageauthority.orderBy=nickName&pageauthority.order=
+							<s:if test="pageauthority.orderBy=='nickName'">${pageauthority.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="authority.nickName"/></a>
+				</th>
+			<th>manager</th>
+			</tr>
+			</thead>
+
+
+			<s:iterator value="pageauthority.result" status='st'>
+			<tbody>		
+			    <s:if test="#st.Odd">
+				<tr  class="odd">
+			    </s:if>
+
+			    <s:if test="#st.Even">
+				<tr  class="even">
+			    </s:if>
+				
+						<td>
+								<a href="authority!input.action?id=${id}&pageauthority.pageRequest=${pageauthority.pageRequest}">
+									${id}
+								</a>
+					</td>
+						<td>
+									${name}
+					</td>
+						<td>
+									${nickName}
+					</td>
+					<security:authorize ifAnyGranted="AUTH_EDIT_AUTHORITY">
+						<td>
+							<a href="authority!input.action?id=${id}&pageauthority.pageRequest=${pageauthority.pageRequest}">
+								manager
+							</a>
+						</td>
+					</security:authorize>
+					
+				</tr>
+			</tbody>		
+			</s:iterator>
+		</table>			<!--#include "list-view-displaytag.ftl"/-->
 		<c:out value="${buttons}" escapeXml="false" />		
 		
 	</div>
 	
-	<!-- 布局  右边列-->
+	<!-- 布局  右边刄1�7-->
 	<div class="column span-5 last">
 		<s:actionmessage theme="mytheme"/>
 		<hr class="space"/>
@@ -117,8 +117,8 @@
 				action="authority.action" 
 				method="post">
 				<input type="text" 
-						name="filter_LIKE_myTiger|myEmail" 
-						value="${param['filter_LIKE_myTiger|myEmail']}" 
+						name="filter_LIKE_name|nickName" 
+						value="${param['filter_LIKE_name|nickName']}" 
 						size="10"/>
 				<s:submit 
 					cssClass="button" 
@@ -129,7 +129,7 @@
 		</div> 
 	</div>
 		
-	<!-- 布局  底 -->
+	<!-- 布局  庄1�7 -->
 	<%@ include file="/common/footer.jsp"%>
 </div>
 </body>
