@@ -13,6 +13,9 @@
     <meta name="heading" content="<s:text name='${pojoNameLower}List.heading'/>"/>
 	<%@ include file="/common/meta.jsp"%>
 	<%@ include file="/common/css.jsp"%>
+
+	<link rel="stylesheet" href="${'$'}{css}/css/table/iqcontent.css" type="text/css" media="screen, projection"/>
+
 </head>
 <body>
 <!-- 布局 容器  -->
@@ -24,15 +27,28 @@
 	<!-- 布局  左边列-->
 	<div class="span-17 prepend-1 colborder">
 		<c:set var="buttons">
-			<jsp:include flush="false" page="/common/pagenav.jsp"> 
-				<jsp:param   name="pagenav" value="page${pojo.shortName.toLowerCase()}"/>  
-			</jsp:include> 			
+			<div>
+				<s:text name="common.page.by"/>${'$'}{page${pojo.shortName.toLowerCase()}.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${'$'}{page${pojo.shortName.toLowerCase()}.totalPages}<s:text name="common.page.page"/> 
+				<s:if test="page${pojo.shortName.toLowerCase()}.hasPre">
+					<a href="${util.build(pojo.shortName)}.action?page${pojo.shortName.toLowerCase()}.pageNo=${'$'}{page${pojo.shortName.toLowerCase()}.prePage}&page${pojo.shortName.toLowerCase()}.orderBy=${'$'}{page${pojo.shortName.toLowerCase()}.orderBy}&page${pojo.shortName.toLowerCase()}.order=${'$'}{page${pojo.shortName.toLowerCase()}.order}"><s:text name="common.page.pre"/></a>
+				</s:if>
+				<s:if test="page${pojo.shortName.toLowerCase()}.hasNext">
+					<a href="${util.build(pojo.shortName)}.action?page${pojo.shortName.toLowerCase()}.pageNo=${'$'}{page${pojo.shortName.toLowerCase()}.nextPage}&page${pojo.shortName.toLowerCase()}.orderBy=${'$'}{page${pojo.shortName.toLowerCase()}.orderBy}&page${pojo.shortName.toLowerCase()}.order=${'$'}{page${pojo.shortName.toLowerCase()}.order}"><s:text name="common.page.next"/></a>
+				</s:if>
+				<br />
+			</div>
 		</c:set>
 		<c:out value="${'$'}{buttons}" escapeXml="false" />
 		<display:table 
-			id="${pojoNameLower}List" name="page${pojo.shortName.toLowerCase()}.result" 
-			sort="external" class="table" requestURI="" export="false">
+			id="${pojoNameLower}List" 
+			name="page${pojo.shortName.toLowerCase()}.result" 
+			sort="external" 
+			class="table" 
+			requestURI="" 
+			export="false">
 			<#foreach field in pojo.getAllPropertiesIterator()>
+	        <#if field.name == "create" || field.name == "update" || field.name == "createBy" || field.name == "updateBy"  || field.name == "enabled">
+	        <#else>	
 				<#if field.equals(pojo.identifierProperty)>
 				    <display:column property="${field.name}" 
 				    	sortable="false"
@@ -46,29 +62,91 @@
 				    	media="csv excel xml pdf"
 				    	titleKey="${pojoNameLower}.${field.name}"/>
 				    	
-				<#elseif !c2h.isCollection(field) && !c2h.isManyToOne(field) && !c2j.isComponent(field)>
-				
+				<#elseif c2h.isCollection(field)>
+						<#assign field_relation_type = field.value.element.type.returnedClass.simpleName.toLowerCase()>
+		        		<display:column 
+		        			property="${field.name}Name" 
+		        			sortable="false" 
+		        			sortName="${field.name}" 
+		        			titleKey="${pojoNameLower}.${field.name}"
+		        			href="${field_relation_type}!mtolist.action?class=${clazz.mappedClass.name}&property=${field.name}" media="html"
+					        paramId="id"
+					        paramProperty="id" 
+		        			/>
+				<#elseif c2h.isManyToOne(field)>
+		        		<display:column 
+		        			property="${field.name}.name" 
+		        			sortable="false" 
+		        			sortName="${field.name}" 
+		        			titleKey="${pojoNameLower}.${field.name}"/>
+				<#elseif c2j.isComponent(field)>
+			    <#else>
 				    <#if field.value.typeName == "java.util.Date">
-			            <display:column property="${field.name}"  format="{0,date,yyyy-MM-dd}" sortProperty="${field.name}" sortable="false" sortName="${field.name}" titleKey="${pojoNameLower}.${field.name}"/>
+			            <display:column 
+			            	property="${field.name}"  
+			            	format="{0,date,yyyy-MM-dd}" 
+			            	sortProperty="${field.name}" 
+			            	sortable="false" 
+			            	sortName="${field.name}" 
+			            	titleKey="${pojoNameLower}.${field.name}"/>
 				    <#elseif field.value.typeName == "java.lang.Double" || field.value.typeName == "java.lang.Number" || field.value.typeName == "java.math.BigDecimal">
-			             <display:column sortProperty="${field.name}" format="{0,number, 0,000,000.00}" sortable="false" sortName="${field.name}" titleKey="${pojoNameLower}.${field.name}"/>
+			             <display:column 
+			             	sortProperty="${field.name}" 
+			             	format="{0,number, 0,000,000.00}" 
+			             	sortable="false" 
+			             	sortName="${field.name}" 
+			             	titleKey="${pojoNameLower}.${field.name}"/>
 				    <#elseif field.value.typeName == "boolean" || field.value.typeName == "java.lang.Boolean">
-			             <display:column sortProperty="${field.name}" sortable="false" sortName="${field.name}" titleKey="${pojoNameLower}.${field.name}">
-			                 <input type="checkbox" disabled="disabled" <c:if test="${'$'}{${pojoNameLower}List.${field.name}}">checked="checked"</c:if>/>
+			             <display:column 
+			             	sortProperty="${field.name}" 
+			             	sortable="false" 
+			             	sortName="${field.name}" 
+			             	titleKey="${pojoNameLower}.${field.name}">
+			                 <input 
+			                 	type="checkbox" 
+			                 	disabled="disabled" 
+			                 	<c:if test="${'$'}{${pojoNameLower}List.${field.name}}">checked="checked"</c:if>/>
 			             </display:column>
 				    <#else>
-		        	    <display:column property="${field.name}" sortable="false" sortName="${field.name}" titleKey="${pojoNameLower}.${field.name}"/>
-				    
+		        	    <display:column 
+		        	    	property="${field.name}" 
+		        	    	sortable="false" 
+		        	    	sortName="${field.name}" 
+		        	    	titleKey="${pojoNameLower}.${field.name}"/>
 				    </#if>
 				</#if>
+			</#if>
 			</#foreach>
+			<security:authorize ifAnyGranted="AUTH_EDIT_${pojo.shortName.toUpperCase()}">
+				<display:column 
+					value="manager"
+					titleKey="common.domain.manager" 	
+					href="${util.build(pojo.shortName)}!input.action?page${pojo.shortName.toLowerCase()}.pageRequest=${'$'}{page${pojo.shortName.toLowerCase()}.pageRequest}" media="html"
+					paramId="id" 
+					paramProperty="id"/>
+			</security:authorize>
 			
-		    <display:setProperty name="paging.banner.item_name"><s:text name="${pojoNameLower}List.${pojoNameLower}"/></display:setProperty>
-		    <display:setProperty name="paging.banner.items_name"><s:text name="${pojoNameLower}List.${pojoNameLower}s"/></display:setProperty>
+		    <display:setProperty 
+		    	name="paging.banner.item_name">
+		    	<s:text name="${pojoNameLower}List.${pojoNameLower}"/>
+		    </display:setProperty>
+		    <display:setProperty 
+		    	name="paging.banner.items_name">
+		    	<s:text name="${pojoNameLower}List.${pojoNameLower}s"/>
+		    </display:setProperty>
 		
-		    <display:setProperty name="export.excel.filename"><s:text name="${pojoNameLower}List.title"/>.xls</display:setProperty>
-		    <display:setProperty name="export.csv.filename"><s:text name="${pojoNameLower}List.title"/>.csv</display:setProperty>
-		    <display:setProperty name="export.pdf.filename"><s:text name="${pojoNameLower}List.title"/>.pdf</display:setProperty>
+		    <display:setProperty 
+		    	name="export.excel.filename">
+		    	<s:text name="${pojoNameLower}List.title"/>.xls
+		    </display:setProperty>
+		    <display:setProperty 
+		    	name="export.csv.filename">
+		    	<s:text name="${pojoNameLower}List.title"/>.csv
+		    </display:setProperty>
+		    <display:setProperty 
+		    	name="export.pdf.filename">
+		    	<s:text name="${pojoNameLower}List.title"/>.pdf
+		    </display:setProperty>
 		</display:table>
 		<c:out value="${'$'}{buttons}" escapeXml="false" />		
 		
@@ -78,22 +156,32 @@
 	<div class="column span-5 last">
 		<s:actionmessage theme="mytheme"/>
 		<hr class="space"/>
-		<security:authorize ifAnyGranted="AUTH_MODIFY_USER">
-			<a href="${util.build(pojo.shortName)}!input.action?page${pojo.shortName.toLowerCase()}.pageRequest=${'$'}{page${pojo.shortName.toLowerCase()}.pageRequest}"><s:text name="common.domain.create"/></a>
+		<security:authorize 
+			ifAnyGranted="AUTH_EDIT_${pojo.shortName.toUpperCase()}">
+			<a  class="button" 
+				href="${util.build(pojo.shortName)}!input.action?page${pojo.shortName.toLowerCase()}.pageRequest=${'$'}{page${pojo.shortName.toLowerCase()}.pageRequest}">
+				<s:text name="common.domain.create"/>
+			</a>
 		</security:authorize>
 		<hr class="space"/>
 		<div id="filter">
-			<form action="${pojo.shortName}!search.action" method="post">
+			<form 
+				action="${util.build(pojo.shortName)}.action" 
+				method="post">
 				<input type="text" 
-						name="filter_LIKE_name|email" 
-						value="${'$'}{param['filter_LIKE_name|email']}" 
+						name="filter_LIKE_myTiger|myEmail" 
+						value="${'$'}{param['filter_LIKE_myTiger|myEmail']}" 
 						size="10"/>
-				<input type="submit" value="<s:text name='common.domain.search'/>" />
+				<s:submit 
+					cssClass="button" 
+					method="search"  
+					key="common.domain.search" 
+					/>
 			</form>
 		</div> 
 	</div>
 		
-	<!-- 布局  底-->
+	<!-- 布局  底 -->
 	<%@ include file="/common/footer.jsp"%>
 </div>
 </body>
