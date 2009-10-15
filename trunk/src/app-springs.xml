@@ -32,6 +32,9 @@
 		<context:component-scan base-package="org.supermy.workflow.service" />
 	-->
 
+	<context:component-scan base-package="org.supermy.core.web" />
+
+
 	<context:component-scan base-package="org.supermy">
 		<context:include-filter type="regex"
 			expression=".service.*" />
@@ -50,6 +53,28 @@
 	<context:annotation-config />
 	-->
 
+
+	<!-- 事务管理器配置,单数据源事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
+
+	<!-- 事务管理器配置,多数据源JTA事务-->
+	<!--
+		<bean id="transactionManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager or
+		WebLogicJtaTransactionManager" />
+	-->
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
 		<property name="driverClass" value="${hibernate.connection.driver_class}" />
@@ -57,12 +82,18 @@
 		<property name="user" value="${hibernate.connection.username}" />
 		<property name="password" value="${hibernate.connection.password}" />
 		<property name="autoCommitOnClose" value="true" />
+		<!-- 
 		<property name="minPoolSize" value="50" />
 		<property name="maxPoolSize" value="200" />
+		<property name="initialPoolSize" value="60" />
+		-->
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="initialPoolSize" value="6" />
+		
 		<property name="maxIdleTime" value="600" />
 		<property name="acquireIncrement" value="5" />
 		<property name="maxStatements" value="0" />
-		<property name="initialPoolSize" value="60" />
 		<property name="idleConnectionTestPeriod" value="600" />
 		<property name="acquireRetryAttempts" value="3" />
 		<property name="breakAfterAcquireFailure" value="true" />
@@ -98,7 +129,6 @@
 				</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-				<prop key="hibernate.use_sql_comments">true</prop>
 				<prop key="hibernate.generate_statistics">true</prop>
 
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}
@@ -109,15 +139,18 @@
 				</prop>
 				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
 				</prop>
-				<prop key="hibernate.max_fetch_depth">1</prop>
+				<prop key="hibernate.max_fetch_depth">2</prop>
 				<!-- prop key="default-lazy">true</prop -->
 			</props>
 		</property>
+
 		<!--
-			<property name="namingStrategy"> <bean
-			class="org.hibernate.cfg.ImprovedNamingStrategy" /> </property>
+			<property name="namingStrategy"> 
+				<bean	class="org.hibernate.cfg.ImprovedNamingStrategy" /> 
+			</property>
 		-->
-		<!--<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>  
+		<!--
+			<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>  
 		-->
 		<property name="mappingJarLocations">
 			<list>
@@ -129,6 +162,17 @@
 			<list>
 				<value>domain</value>
 			</list>
+		</property>
+
+		<property name="eventListeners">
+			<map>
+				<entry key="save-update">
+					<list>
+						<bean class="org.supermy.core.listener.AuditListener" />
+						<bean class="org.hibernate.event.def.DefaultSaveOrUpdateEventListener" />
+					</list>
+				</entry>
+			</map>
 		</property>
 
 		<property name="entityCacheStrategies">
@@ -176,29 +220,6 @@
 				<prop key="org.jbpm.taskmgmt.def.TaskMgmtDefinition.tasks">nonstrict-read-write</prop>
 			</props>
 		</property>
-	</bean>
-
-	<!-- 事务管理器配置,单数据源事务 -->
-	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-		<property name="sessionFactory" ref="sessionFactory" />
-	</bean>
-
-	<!-- 使用annotation定义事务 -->
-	<tx:annotation-driven transaction-manager="transactionManager" />
-
-
-
-	<!-- 事务管理器配置,多数据源JTA事务-->
-	<!--
-		<bean id="transactionManager"
-		class="org.springframework.transaction.jta.JtaTransactionManager or
-		WebLogicJtaTransactionManager" />
-	-->
-
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="messages" />
 	</bean>
 
 	<!-- jbpm configuration -->

@@ -1,8 +1,12 @@
 package org.supermy.core.test;
 
+import org.hibernate.validator.AssertTrue;
 import org.junit.Assert;
 import org.junit.Test;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.supermy.core.domain.UrlResource;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 import org.supermy.core.service.Page;
@@ -13,6 +17,8 @@ import org.supermy.core.service.Page;
  * 
  */
 public class UserServiceTest extends TestBaseService {
+	
+	private final org.slf4j.Logger log = LoggerFactory.getLogger(UserServiceTest.class);
 
 	@Autowired
 	private IUserService userService;
@@ -44,15 +50,36 @@ public class UserServiceTest extends TestBaseService {
 				" from " + User.class.getName());
 		log.debug("find:{}", users1.getResult());
 
-//		 userService.getUserUtil().delete(users.getResult());
+		// userService.getUserUtil().delete(users.getResult());
 	}
 
 	@Test
 	public void CRUD() {
-		User u=new User();
+		User u = new User();
 		userService.getUserUtil().save(u);
-		u=userService.getUserUtil().get(u.getId());
+		u = userService.getUserUtil().get(u.getId());
 		Assert.assertNotNull(u.getId());
 		userService.getUserUtil().delete(u.getId());
 	}
+
+	@Test
+	@Rollback(false)
+	public void manytooneUpdate() {
+		
+//		User u = userService.getUserUtil().findUniqueByProperty("name",
+//				"springclick@gmail.com");
+//		u.setIntro("intro");
+		
+		UrlResource url = userService.getUrlResourceUtil()
+				.findUniqueByProperty("value", "/user/user!save.action*");
+		long id=14;
+		//url.getManager().setId(id);
+		User newu=new User();
+		newu.setId(id);
+		url.setManager(newu);
+		
+		userService.getUrlResourceUtil().save(url);
+		log.debug("save after user id:{}",url.getManager().getId());
+	}
+
 }

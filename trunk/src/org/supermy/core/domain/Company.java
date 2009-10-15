@@ -20,7 +20,7 @@ import org.hibernate.validator.NotEmpty;
  */
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "_companys")
+@Table(name = "c_companys")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class Company extends BaseDomain {
@@ -31,15 +31,15 @@ public class Company extends BaseDomain {
 	
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_name", unique = true, length = 220)
+	@Column(name = "name_", unique = true, length = 220)
 	private String name;
 
 	@Email
 	@NotEmpty
-	@Column(name = "_email", unique = true, length = 80)
+	@Column(name = "email_", unique = true, length = 80)
 	private String email;
 
-	@Column(name = "_intro",length=250)
+	@Column(name = "intro_",length=250)
 	private String intro;
 
 

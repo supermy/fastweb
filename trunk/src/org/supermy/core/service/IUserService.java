@@ -1,9 +1,14 @@
 package org.supermy.core.service;
 
+
+import java.util.HashSet;
+import java.util.List;
+
 import javax.jws.WebService;
 
 import org.supermy.core.domain.Authority;
 import org.supermy.core.domain.Role;
+import org.supermy.core.domain.UrlResource;
 import org.supermy.core.domain.User;
 
 /**
@@ -16,9 +21,9 @@ public interface IUserService {
 	public FastwebTemplate<User, Long> getUserUtil();
 
 	public FastwebTemplate<Role, Long> getRoleUtil();
-
-	public FastwebTemplate<Authority, Long> getAuthUtil();
-
+	
+	public FastwebTemplate<Authority, Long> getAuthorityUtil();
+	public FastwebTemplate<UrlResource, Long> getUrlResourceUtil() ;
 	/**
 	 * 检测email是否已经注册,或者说是否唯一
 	 * 
@@ -26,5 +31,7 @@ public interface IUserService {
 	 * @return
 	 */
 	public boolean isUniqueByEMail(String email);
+	public HashSet<UrlResource> getUrlResourceWithAuthorities();
+	public void saveUrlResource(UrlResource urlResource,List<Long> authorityListId) ;
 
 }

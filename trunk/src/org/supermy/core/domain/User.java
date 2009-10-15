@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
@@ -19,7 +18,12 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.cfg.annotations.Comment;
 import org.hibernate.validator.Email;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
@@ -29,24 +33,32 @@ import org.supermy.core.util.MD5;
 /**
  * @author supermy E-mail:springclick@gmail.com
  * @version create time：2008-7-30 下午04:30:58
- * 
- */
+ * //角色 角色可以给个人(个人和岗位关联)、也可以给岗位(岗位直接和组织机构关联)
+//管理员-所有的权限
+//功能管理员-功能模块的所有权限 (某个功能模块的阅读、删除、编辑、审查等权限)
+//用户-自己相关的所有权限
+//游客-所有的阅读权限
 
+ */
+@Comment("用户")
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "_users")
+@Table(name = "c_users")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class User extends BaseDomain {
 
+	@Comment("用户名")
 	@NotEmpty
+	@Index(name="i_name_pwd",columnNames={"name_","passwd_"})
 	@Length(min = 2)
-	@Column(name = "_name", unique = true, length = 20)
+	@Column(name = "name_", nullable=false,unique = true, length = 80)
 	private String name;
 
+	@Comment("口令")
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_passwd", length = 40)
+	@Column(name = "passwd_",  nullable=false,length = 32)
 	private String passwd;
 
 	/**
@@ -55,32 +67,41 @@ public class User extends BaseDomain {
 	@Transient
 	private String passwd2;
 
+	@Comment("账户没有过期")
 	@Column(name = "accountNonExpired")
 	private boolean accountNonExpired = true;
+	@Comment("账户信任")
 	@Column(name = "credentialsNonExpired")
 	private boolean credentialsNonExpired = true;
+	@Comment("账户未被锁定")
 	@Column(name = "accountNonLocked")
 	private boolean accountNonLocked = true;
 
+	@Comment(value="Email",desc="使用Email作为用户的ID,方便用户，获取有效用户")
 	@Email
 	@NotEmpty
-	@Column(name = "email", unique = true, length = 80)
+	@Index(name="i_email_pwd",columnNames={"email","passwd_"})
+	@Column(name = "email", nullable=false,unique = true, length = 80)
 	private String email;
 
+	@Comment(value="简介",desc="个人简单介绍")
 	@Lob
-	@Column(name = "_intro")
+	@Column(name = "intro_")
 	private String intro;
 
-	@Column(name = "_salary", precision = 2)
+	@Comment("薪水")
+	@Column(name = "salary_", precision = 2)
 	private Double salary;// 薪水 两位小数
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
-	@JoinTable(name = "_user_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "c_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@Fetch(FetchMode.SUBSELECT)
+	@LazyCollection(LazyCollectionOption.FALSE)  	
 	@OrderBy("id")
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Role> roles = new LinkedHashSet<Role>();
 
-	public String getRoleNames() throws Exception {
+	public String getRolesName() throws Exception {
 		return ListUtils.propertyToString(new ArrayList<Object>(roles), "name",
 				", ");
 	}
@@ -89,7 +110,7 @@ public class User extends BaseDomain {
 		return ListUtils.propertyToListString(new ArrayList(roles), "name");
 	}
 
-	public List<Long> getRoleIds() throws Exception {
+	public List<Long> getRolesId()  {
 		return ListUtils.propertyToListLong(new ArrayList(roles), "id");
 	}
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
-	<substitutionProperty name="log.base" value="/home/my/source/fastweb/logs/fastweb" />
+	<!-- /home/my/source/fastweb/ -->
+	<substitutionProperty name="log.base" value="D:/env_java/source/fastweb/logs/fastweb" />
 
 	<jmxConfigurator />
 
@@ -29,22 +30,33 @@
 	</appender>
 	
 	<logger name="org.apache.struts2.convention">
-		<level value="DEBUG" />
+		<level value="ERROR" />
 	</logger>
 
 	<logger name="org.supermy">
 		<level value="DEBUG" />
 	</logger>
-
+	 
 	<logger name="org.hibernate.SQL">
 		<level value="ERROR" />
 	</logger>
+	 
+	<logger name=" org.jbpm">
+		<level value="ERROR" />
+	</logger>
+	
 	<logger name=" org.springframework">
 		<level value="ERROR" />
 	</logger>
-		<logger name="org.hibernate.cache">
+	
+	<logger name="org.hibernate.cache">
 		<level value="ERROR" />
 	</logger>
+	
+	<logger name="org.hibernate.cfg">
+		<level value="ERROR" />
+	</logger>
+	
 	<logger name="com.opensymphony.xwork2.ognl.OgnlValueStack">
 		<level value="ERROR" />
 	</logger>
@@ -54,9 +66,9 @@
 	</logger>
 
 	<root>
-		<level value="WARN" />
+		<level value="warn" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="logfile" />
 	</root>
+	
 </configuration>
-

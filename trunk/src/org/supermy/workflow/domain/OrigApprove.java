@@ -11,14 +11,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.NotEmpty;
 import org.supermy.core.domain.BaseDomain;
 import org.supermy.core.domain.User;
 
 @Entity
-@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "w_orig_appr")
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class OrigApprove extends BaseDomain {
@@ -37,18 +36,18 @@ public class OrigApprove extends BaseDomain {
 	 * 审核结果
 	 */
 	@NotEmpty
-	@Column(name = "name", length = 180)
+	@Column(name = "result_", length = 180)
 	private String result;
 	/**
 	 * 审核意见
 	 */
 	@Lob
-	@Column(name = "remark")
+	@Column(name = "remark_")
 	private String remark;
 	/**
 	 * 审核日期
 	 */
-	@Column
+	@Column(name="start_")
 	private Date start;
 
 	/**

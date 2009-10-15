@@ -1,28 +1,30 @@
+
 package org.supermy.core.web.user;
 
+
 import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.core.domain.Role;
+
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 import org.supermy.core.service.Page;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
 
-/**
- * 用户管理Action.
- * 
- * 使用Struts2 convention-plugin annotation定义Action参数.
- * 
- */
-@Results( { @Result(name = BaseActionSupport.RELOAD, location = "user.action?page.pageRequest=${page.pageRequest}", type = "redirect") })
+import org.supermy.core.domain.Role;
+import java.util.Set;
+
+
+@Results( { @Result(name = BaseActionSupport.RELOAD, 
+	location = "user.action?pageuser.pageRequest=${pageuser.pageRequest}", 
+	type = "redirect") })
+@Namespace("/user")
 public class UserAction extends BaseActionSupport<User> {
 
 	@Autowired
@@ -31,34 +33,28 @@ public class UserAction extends BaseActionSupport<User> {
 	// 基本属性
 	private User user;
 	private Long id;
-	private Page<User> pageUser = new Page<User>(5);
-	private Page<Role> pageRole = new Page<Role>(30);
-	// 角色相关属性
-	private List<Role> allRoles; // 全部可选角色列表
-	private List<Long> checkedRoleIds; // 页面中钩选的角色id列表
+	private Page<User> pageuser = new Page<User>(5);
+
+	private Set<Role> rolesAll;
+	private java.util.List<Long> rolesId;
 
 	// 基本属性访问函数 //
 	public User getModel() {
 		return user;
 	}
 
-	public User getUser() {
-		return user;
-	}
 
 	/**
 	 * @return the pageUser
 	 */
-	public Page<User> getPageUser() {
-		return pageUser;
+	public Page<User> getPageuser() {
+		return pageuser;
+	}
+	
+	public void setPageuser(Page<User> pageuser) {
+		this.pageuser=pageuser;
 	}
 
-	/**
-	 * @return the pageRole
-	 */
-	public Page<Role> getPageRole() {
-		return pageRole;
-	}
 
 	@Override
 	protected void prepareModel() throws Exception {
@@ -69,39 +65,53 @@ public class UserAction extends BaseActionSupport<User> {
 		}
 	}
 
+	@Override
+	protected void prepareModelSave() throws Exception {
+		prepareModel();
+		
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public Page<User> getPage() {
-		return pageUser;
+	// CRUD Action 函数 //
+	// 其他属性访问函数与Action函数 //
+
+	public Set<Role> getRolesAll() {
+		return rolesAll;
+	}
+	public List<Long> getRolesId() {
+		return rolesId;
+	}
+	public void setRolesId(List<Long> rolesId) {
+		this.rolesId = rolesId;
 	}
 
-	// CRUD Action 函数 //
 
 	@Override
 	public String list() throws Exception {
-		pageUser = userService.getUserUtil().get(pageUser);
-		log.debug("find :{}", pageUser.getResult());
-		log.debug("find user by page:" + pageUser.getResult().size());
-
+		pageuser = userService.getUserUtil().get(pageuser);
+		log.debug("find :{}", pageuser.getResult());
+		log.debug("find user by page:" + pageuser.getResult().size());
 		return SUCCESS;
 	}
 
 	@Override
 	public String input() throws Exception {
-		allRoles = userService.getRoleUtil().getAll();
-		checkedRoleIds = user.getRoleIds();
+		rolesAll= new HashSet<Role>(userService.getRoleUtil().getAll());
+		rolesId=user.getRolesId();
+	
 		return INPUT;
 	}
 
 	@Override
 	public String save() throws Exception {
-		// 根据页面上的checkbox 整合User的Roles Set
-		userService.getRoleUtil().mergeCollection(user.getRoles(),
-				checkedRoleIds);
+	
+		userService.getRoleUtil().mergeCollection(user.getRoles(),rolesId);
+
 		userService.getUserUtil().save(user);
-		addActionMessage("保存用户成功");
+		addActionMessage(getText("user.updated"));
 		return RELOAD;
 	}
 
@@ -109,7 +119,7 @@ public class UserAction extends BaseActionSupport<User> {
 	public String delete() throws Exception {
 		try {
 			userService.getUserUtil().delete(id);
-			addActionMessage("删除用户成功");
+			addActionMessage(getText("user.deleted"));
 		} catch (RuntimeException e) {
 			log.error(e.getMessage(), e);
 			addActionMessage(e.getMessage());
@@ -119,58 +129,21 @@ public class UserAction extends BaseActionSupport<User> {
 
 	// 其他属性访问函数与Action函数 //
 
-	public List<Role> getAllRoles() {
-		return allRoles;
-	}
-
-	public List<Long> getCheckedRoleIds() {
-		return checkedRoleIds;
-	}
-
-	public void setCheckedRoleIds(List<Long> checkedRoleIds) {
-		this.checkedRoleIds = checkedRoleIds;
-	}
 
 	/**
-	 * 根据属性过滤条件搜索用户.
+	 * 根据属性过滤条件搜索.
 	 */
 	public String search() throws Exception {
 
 		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
-		pageUser.setPageSize(Page.MAX_PAGESIZE);
+		pageuser.setPageSize(Page.MAX_PAGESIZE);
 
 		Map<String, Object> filters = Struts2Utils.buildPropertyFilters("filter_");
 		if (filters.size() <= 0) {
-			addActionMessage("没有搜索条件");
+			addActionMessage(getText("user.searchtxt"));
 		}
-		pageUser = userService.getUserUtil().search(pageUser, filters);
+		pageuser = userService.getUserUtil().search(pageuser, filters);
 		return SUCCESS;
-	}
-
-	/**
-	 * 支持使用Jquery.validate Ajax检验用户名是否重复. 登录名称不允许修改
-	 */
-	public void checkLoginEMail() {
-		HttpServletRequest request = ServletActionContext.getRequest();
-		String email = request.getParameter("email");
-
-		if (userService.isUniqueByEMail(email)) {
-			Struts2Utils.renderText("true");
-		} else {
-			Struts2Utils.renderText("false");
-		}
-	}
-
-	/**
-	 * 配合extjs控件进行数据处理
-	 * 
-	 * @return
-	 */
-	public void jsonList() {
-		pageUser = Struts2Utils.getPage(pageUser);
-		pageUser = userService.getUserUtil().get(pageUser);
-		Struts2Utils.renderJson(pageUser, new String[] { "roles", "passwd",
-				"passwd2" });
 	}
 
 }

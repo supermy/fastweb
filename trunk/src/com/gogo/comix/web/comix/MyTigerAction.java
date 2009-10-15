@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.gogo.comix.domain.MyTiger;
 import com.gogo.comix.service.IMyTigerService;
+
 import org.supermy.core.service.Page;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
@@ -52,6 +53,13 @@ public class MyTigerAction extends BaseActionSupport<MyTiger> {
 			myTiger = new MyTiger();
 		}
 	}
+	
+	@Override
+	protected void prepareModelSave() throws Exception {
+		prepareModel();
+		
+	}
+	
 
 	public void setId(Long id) {
 		this.id = id;

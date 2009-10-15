@@ -20,6 +20,7 @@ public class CommandUtil {
 		loadFastweb();
 		backupFastweb();
 	}
+	
 
 	public static void exec(String command) {
 		log.debug("command exec:{}", command);

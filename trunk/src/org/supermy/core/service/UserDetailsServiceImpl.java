@@ -13,6 +13,7 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.supermy.core.domain.Authority;
 import org.supermy.core.domain.Role;
 import org.supermy.core.domain.User;
@@ -21,9 +22,10 @@ import org.supermy.core.domain.User;
  * 实现SpringSecurity的UserDetailsService接口,实现获取用户Detail信息的回调函数.
  * 
  */
+@Transactional(readOnly = true)
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
+	private final  org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 	private FastwebTemplate<User, Long> userDao;
 

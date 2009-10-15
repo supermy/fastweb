@@ -25,20 +25,28 @@ public class ListUtils {
 	 */
 	public static List<Object> propertyToList(
 			final Collection<Object> collection, final String propertyName)
-			throws Exception {
+			 {
 		List<Object> list = new ArrayList<Object>();
-		for (Object obj : collection) {
-			list.add(PropertyUtils.getProperty(obj, propertyName));
+		try {
+			for (Object obj : collection) {
+				list.add(PropertyUtils.getProperty(obj, propertyName));
+			}
+		} catch (Exception e) {
+			throw new  RuntimeException(e);
 		}
 		return list;
 	}
 
 	public static List<Long> propertyToListLong(
 			final Collection<Object> collection, final String propertyName)
-			throws Exception {
+		{
 		List<Long> list = new ArrayList<Long>();
-		for (Object obj : collection) {
-			list.add((Long) PropertyUtils.getProperty(obj, propertyName));
+		try {
+			for (Object obj : collection) {
+				list.add((Long) PropertyUtils.getProperty(obj, propertyName));
+			}
+		} catch (Exception e) {
+			throw new  RuntimeException(e);
 		}
 		return list;
 	}
@@ -69,7 +77,7 @@ public class ListUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static String propertyToString(final Collection<Object> collection,
-			final String propertyName, final String separator) throws Exception {
+			final String propertyName, final String separator) {
 		List list = propertyToList(collection, propertyName);
 		return StringUtils.join(list, separator);
 	}

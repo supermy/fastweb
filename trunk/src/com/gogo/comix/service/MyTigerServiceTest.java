@@ -5,8 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.gogo.comix.service.IMyTigerService;
 import com.gogo.comix.domain.MyTiger;
+import com.gogo.comix.service.IMyTigerService;
 import org.supermy.core.test.TestBaseService;
 import org.supermy.core.service.Page;
 
