@@ -2,12 +2,12 @@ package org.supermy.core.domain;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -16,9 +16,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.cfg.annotations.Comment;
 import org.hibernate.validator.Length;
-import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.supermy.core.util.ListUtils;
 
@@ -26,26 +30,35 @@ import org.supermy.core.util.ListUtils;
  * @author my
  *
  */
+@Comment("角色")
 @Entity
-@Table(name = "_roles")
+@Table(name = "c_roles")
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-//@Proxy(lazy=false)
 public class Role extends BaseDomain {
 
+	@Comment("角色名称")
 	@NotNull
-	@Column(name = "name",unique = true, length = 20)
 	@Length(max = 20)
+	@Index(name="i_name")
+	@Column(name = "name_",nullable=false,unique = true, length = 20)
 	private String name;
-
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE },fetch=FetchType.EAGER)
-	@JoinTable(name = "_role_auths", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
+	
+	
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinTable(name = "c_role_authority", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
+	@Fetch(FetchMode.SUBSELECT)
+	@LazyCollection(LazyCollectionOption.FALSE)  	
 	@OrderBy("id")
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Authority> auths = new LinkedHashSet<Authority>();
 
-	public String getAuthNames() throws Exception {
+	public String getAuthsName() throws Exception {
 		return ListUtils.propertyToString(new ArrayList<Object>(auths), "nickName", ", ");
+	}
+
+	public List<Long> getAuthsId() {
+		return ListUtils.propertyToListLong(new ArrayList(auths), "id");
 	}
 
 	/**

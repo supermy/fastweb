@@ -10,7 +10,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.CacheMode;
 import org.hibernate.Criteria;
 import org.hibernate.FlushMode;
 import org.hibernate.Query;
@@ -28,7 +27,7 @@ import org.springframework.util.Assert;
 import org.supermy.core.domain.BaseDomain;
 
 /**
- * @author my
+ * @author tiger
  * 
  * @param <T>
  * @param <IdT>
@@ -76,13 +75,15 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 * 保存新增或修改的对象.
 	 */
 	public void save(final T obj) {
+		log.debug("before save:{}" + obj);
 		getSession().saveOrUpdate(obj);
-		log.debug("save:{}" + obj);
+		getSession().flush();// oracle must required
+		log.debug("after save:{}" + obj);
 	}
 
 	public void save(final List<T> objs) {
 		for (T t : objs) {
-			getSession().saveOrUpdate(t);
+			save(t);
 		}
 		log.debug("save:{}", objs);
 	}
@@ -148,6 +149,19 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		return (T) getSession().load(domainClass, id);
 	}
 
+	/**
+	 * 
+	 * 按类名和ID获取对象
+	 * 
+	 * @param className
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly = true)
+	public Object get(final String className,final IdT id) {
+		return  getSession().load(className, id);
+	}
+	
 	/**
 	 * 创建查询 类型固定
 	 * 
@@ -407,7 +421,7 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	}
 
 	public void mergeCollection(final Collection<T> srcObjects,
-			final Collection<IdT> checkedIds) throws Exception {
+			final Collection<IdT> checkedIds) {
 
 		// 参数校验
 		Assert.notNull(srcObjects);
@@ -424,21 +438,30 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		// 同时,在目标ID集合中删除已在源集合中的id,使得目标ID集合中剩下的id均为源集合中没有的ID.
 		Iterator<T> srcIterator = srcObjects.iterator();
 
-		while (srcIterator.hasNext()) {
-			T element = srcIterator.next();
-			Object id = PropertyUtils.getProperty(element, idName);
-			if (!checkedIds.contains(id)) {
-				srcIterator.remove();
-			} else {
-				checkedIds.remove(id);
+		try {
+			while (srcIterator.hasNext()) {
+				T element = srcIterator.next();
+				Object id = PropertyUtils.getProperty(element, idName);
+				if (!checkedIds.contains(id)) {
+					srcIterator.remove();
+				} else {
+					checkedIds.remove(id);
+				}
 			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 
 		// ID集合目前剩余的id均不在源集合中,创建对象,为id属性赋值并添加到源集合中.
-		for (IdT id : checkedIds) {
-			T obj = domainClass.newInstance();
-			PropertyUtils.setProperty(obj, idName, id);
-			srcObjects.add(obj);
+		try {
+			for (IdT id : checkedIds) {
+				T obj = domainClass.newInstance();
+				PropertyUtils.setProperty(obj, idName, id);
+				srcObjects.add(obj);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
+
 	}
 }

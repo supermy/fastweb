@@ -53,6 +53,11 @@ public class MytaskAction extends BaseActionSupport<TaskInstance> {
 			task = new TaskInstance();
 		}
 	}
+	@Override
+	protected void prepareModelSave() throws Exception {
+		prepareModel();
+		
+	}
 
 	public void setId(Long id) {
 		this.id = id;

@@ -54,6 +54,11 @@ public class WorkflowAction extends BaseActionSupport<ProcessDefinition> {
 			processDefinition = new ProcessDefinition();
 		}
 	}
+	@Override
+	protected void prepareModelSave() throws Exception {
+		prepareModel();
+		
+	}
 
 	public void setId(Long id) {
 		this.id = id;

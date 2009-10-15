@@ -19,18 +19,18 @@ import org.hibernate.validator.NotEmpty;
  */
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "_company_types")
+@Table(name = "c_company_types")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class CompanyType extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_name", unique = true, length = 20)
+	@Column(name = "name_", unique = true, length = 20)
 	private String name;
 
 
-	@Column(name = "_intro",length=250)
+	@Column(name = "intro_",length=250)
 	private String intro;
 
 

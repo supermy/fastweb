@@ -1,43 +1,61 @@
+
 package org.supermy.core.web.user;
 
-import java.util.List;
 
+import java.util.List;
+import java.util.HashSet;
+import java.util.Map;
+
+import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.core.domain.Authority;
-import org.supermy.core.domain.Role;
-import org.supermy.core.service.IUserService;
-import org.supermy.core.web.BaseActionSupport;
 
-/**
- * 角色管理Action.
- * 
- * 使用Struts2 convention-plugin annotation定义Action参数.
- * 
- */
-@SuppressWarnings("serial")
-@Results( { @Result(name = BaseActionSupport.RELOAD, location = "role.action", type = "redirect") })
+import org.supermy.core.domain.Role;
+
+import org.supermy.core.service.IUserService;
+import org.supermy.core.service.Page;
+import org.supermy.core.web.BaseActionSupport;
+import org.supermy.core.web.Struts2Utils;
+
+import org.supermy.core.domain.Authority;
+import java.util.Set;
+
+
+@Results( { @Result(name = BaseActionSupport.RELOAD, 
+	location = "role.action?pagerole.pageRequest=${pagerole.pageRequest}", 
+	type = "redirect") })
+@Namespace("/user")
 public class RoleAction extends BaseActionSupport<Role> {
 
-	
 	@Autowired
 	private IUserService roleService;
 
 	// 基本属性
 	private Role role;
 	private Long id;
-	private List<Role> allRoles;
+	private Page<Role> pagerole = new Page<Role>(5);
 
-	// 权限相关属性
-	private List<Authority> allAuths; // 全部可选权限列表
-	private List<Long> checkedAuthIds;// 页面中钩选的权限id列表
+	private Set<Authority> authsAll;
+	private java.util.List<Long> authsId;
 
 	// 基本属性访问函数 //
-
 	public Role getModel() {
 		return role;
 	}
+
+
+	/**
+	 * @return the pageRole
+	 */
+	public Page<Role> getPagerole() {
+		return pagerole;
+	}
+	
+	public void setPagerole(Page<Role> pagerole) {
+		this.pagerole=pagerole;
+	}
+
 
 	@Override
 	protected void prepareModel() throws Exception {
@@ -48,39 +66,53 @@ public class RoleAction extends BaseActionSupport<Role> {
 		}
 	}
 
+	@Override
+	protected void prepareModelSave() throws Exception {
+		prepareModel();
+		
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public List<Role> getAllRoles() {
-		return allRoles;
+	// CRUD Action 函数 //
+	// 其他属性访问函数与Action函数 //
+
+	public Set<Authority> getAuthsAll() {
+		return authsAll;
+	}
+	public List<Long> getAuthsId() {
+		return authsId;
+	}
+	public void setAuthsId(List<Long> authsId) {
+		this.authsId = authsId;
 	}
 
-	// CRUD Action 函数 //
 
 	@Override
 	public String list() throws Exception {
-		allRoles = roleService.getRoleUtil().getAll();
+		pagerole = roleService.getRoleUtil().get(pagerole);
+		log.debug("find :{}", pagerole.getResult());
+		log.debug("find role by page:" + pagerole.getResult().size());
 		return SUCCESS;
 	}
 
 	@Override
 	public String input() throws Exception {
-		allAuths = roleService.getAuthUtil().getAll();
-		checkedAuthIds = roleService.getAuthUtil().propertyToListLong(
-				role.getAuths(), "id");
+		authsAll= new HashSet<Authority>(roleService.getAuthorityUtil().getAll());
+		authsId=role.getAuthsId();
+	
 		return INPUT;
 	}
-	
 
 	@Override
 	public String save() throws Exception {
-		// 根据页面上的checkbox 整合Role的Authorities Set.
-		roleService.getAuthUtil().mergeCollection(role.getAuths(),
-				checkedAuthIds);
+	
+		roleService.getAuthorityUtil().mergeCollection(role.getAuths(),authsId);
 
 		roleService.getRoleUtil().save(role);
-		addActionMessage("保存角色成功");
+		addActionMessage(getText("role.updated"));
 		return RELOAD;
 	}
 
@@ -88,25 +120,31 @@ public class RoleAction extends BaseActionSupport<Role> {
 	public String delete() throws Exception {
 		try {
 			roleService.getRoleUtil().delete(id);
-			addActionMessage("删除角色成功");
-		} catch (Exception e) {
+			addActionMessage(getText("role.deleted"));
+		} catch (RuntimeException e) {
 			log.error(e.getMessage(), e);
 			addActionMessage(e.getMessage());
 		}
 		return RELOAD;
 	}
 
-	// 其他属性访问函数及Action函数 //
+	// 其他属性访问函数与Action函数 //
 
-	public List<Authority> getAllAuths() {
-		return allAuths;
+
+	/**
+	 * 根据属性过滤条件搜索.
+	 */
+	public String search() throws Exception {
+
+		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
+		pagerole.setPageSize(Page.MAX_PAGESIZE);
+
+		Map<String, Object> filters = Struts2Utils.buildPropertyFilters("filter_");
+		if (filters.size() <= 0) {
+			addActionMessage(getText("role.searchtxt"));
+		}
+		pagerole = roleService.getRoleUtil().search(pagerole, filters);
+		return SUCCESS;
 	}
 
-	public List<Long> getCheckedAuthIds() {
-		return checkedAuthIds;
-	}
-
-	public void setCheckedAuthIds(List<Long> checkedAuthIds) {
-		this.checkedAuthIds = checkedAuthIds;
-	}
 }

@@ -12,7 +12,6 @@
 	<http auto-config="true" access-decision-manager-ref="accessDecisionManager">
 		<!-- 必须是已登录用户 -->
 		<intercept-url pattern="/workflow/mytask*" access="AUTH_MODIFY_USER" />
-
 		<intercept-url pattern="/user/user!save*" access="AUTH_MODIFY_USER" />
 		<intercept-url pattern="/user/user!delete*" access="AUTH_MODIFY_USER" />
 		<!-- intercept-url pattern="/user/user*" access="roleAnonymous" /> -->

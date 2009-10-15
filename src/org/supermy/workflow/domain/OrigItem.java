@@ -8,7 +8,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.NotEmpty;
 import org.supermy.core.domain.BaseDomain;
 
@@ -27,10 +26,12 @@ public class OrigItem extends BaseDomain {
 	@ManyToOne
 	@JoinColumn(name = "orig_id")
 	private OriginalCertificate origCert;
+	
 	@NotEmpty
-	@Column(name = "name", length = 180)
+	@Column(name = "name_", length = 180)
 	private String name;
-	@Column
+	
+	@Column(name="money_")
 	private Double money = 0.00;
 
 	/**

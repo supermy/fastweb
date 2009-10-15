@@ -9,7 +9,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.NotEmpty;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.supermy.core.domain.BaseDomain;
@@ -19,8 +18,8 @@ import org.supermy.core.domain.BaseDomain;
  * 
  */
 @Entity
-@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Table(name = "w_task_item")
+@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class TaskItem extends BaseDomain {

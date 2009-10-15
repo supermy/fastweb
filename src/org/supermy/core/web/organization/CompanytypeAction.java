@@ -52,6 +52,12 @@ public class CompanytypeAction extends BaseActionSupport<CompanyType> {
 		}
 	}
 
+	@Override
+	protected void prepareModelSave() throws Exception {
+		prepareModel();
+		
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}

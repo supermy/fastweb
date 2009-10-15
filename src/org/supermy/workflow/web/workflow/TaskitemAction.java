@@ -45,6 +45,11 @@ public class TaskitemAction extends BaseActionSupport<TaskItem> {
 			taskItem = new TaskItem();
 		}
 	}
+	@Override
+	protected void prepareModelSave() throws Exception {
+		prepareModel();
+		
+	}
 
 	public void setId(Long id) {
 		this.id = id;

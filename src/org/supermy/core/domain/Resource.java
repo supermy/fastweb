@@ -6,38 +6,40 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
+import org.hibernate.annotations.Index;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotEmpty;
 
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "_files")
+@Table(name = "c_resources")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class Resource extends BaseDomain {
 
 	@NotEmpty
+	@Index(name="i_name")
 	@Length(min = 2)
-	@Column(name = "_name", unique = true, length = 120)
+	@Column(name = "name_", unique = true, length = 120)
 	private String name;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_path", length = 240)
+	@Column(name = "path_", length = 240)
 	private String path;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_filetype", length = 80)
+	@Column(name = "filetype_", length = 80)
 	private String fileType;
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_type", length = 30)
+	@Column(name = "type_", length = 30)
 	private String type;
 
-	@Column(name = "_done")
+	@Index(name="i_done")
+	@Column(name = "done_")
 	private boolean done;
 
 	/**

@@ -16,7 +16,7 @@ import org.hibernate.validator.Length;
  * 
  */
 @Entity
-@Table(name = "_address")
+@Table(name = "c_address")
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Address extends BaseDomain {
@@ -25,13 +25,13 @@ public class Address extends BaseDomain {
 	@JoinColumn(name = "user_id")
 	private User user;
 
-	@Column(name = "qq", length = 20)
+	@Column(name = "qq_", length = 20)
 	@Length(max = 20)
 	private String qq;
-	@Column(name = "phone", length = 20)
+	@Column(name = "phone_", length = 20)
 	@Length(max = 20)
 	private String phone;
-	@Column(name = "msn", length = 20)
+	@Column(name = "msn_", length = 20)
 	@Length(max = 20)
 	private String msn;
 

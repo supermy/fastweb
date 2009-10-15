@@ -28,14 +28,14 @@ import org.hibernate.validator.NotEmpty;
  */
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "_departments")
+@Table(name = "c_departments")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
 public class Department extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_name", unique = true, length = 220)
+	@Column(name = "name_", unique = true, length = 220)
 	private String name;
 	
 	/**
@@ -43,16 +43,16 @@ public class Department extends BaseDomain {
 	 */
 	@NotEmpty
 	@Length(min = 2)
-	@Column(name = "_code", unique = true, length = 20)
+	@Column(name = "code_", unique = true, length = 20)
 	private String code;
 
 	@Email
 	@NotEmpty
-	@Column(name = "email", unique = true, length = 80)
+	@Column(name = "email_", unique = true, length = 80)
 	private String email;
 
 	@Lob
-	@Column(name = "_intro")
+	@Column(name = "intro_")
 	private String intro;
 
 	@ManyToOne(fetch=FetchType.LAZY)

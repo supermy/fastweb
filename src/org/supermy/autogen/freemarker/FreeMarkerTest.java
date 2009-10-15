@@ -16,21 +16,21 @@ public class FreeMarkerTest {
 	public static void main(String[] args) {
 		FreeMarkerTest test = new FreeMarkerTest();
 		test.genFile();
-		test.getFile(Locale.JAPAN);
+		//test.getFile(Locale.JAPAN);
 	}
 
 	public void genFile() {
 		Configuration freemarkerCfg = new Configuration();
 		freemarkerCfg.setClassForTemplateLoading(this.getClass(), "/");
-		freemarkerCfg.setEncoding(Locale.getDefault(), "UTF-8");
+		//freemarkerCfg.setEncoding(Locale.getDefault(), "UTF-8");
 		Template template;
 		try {
 
 			template = freemarkerCfg.getTemplate("test.ftl");
-			template.setEncoding("UTF-8");
+			//template.setEncoding("UTF-8");
 			File htmlFile = new File("test.html");
 			Writer out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(htmlFile), "UTF-8"));
+					new FileOutputStream(htmlFile)));
 			HashMap propMap = new HashMap();
 			propMap.put("we", "我们");
 			propMap.put("user", "hermit");

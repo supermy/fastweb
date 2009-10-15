@@ -16,7 +16,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.annotations.Proxy;
 import org.hibernate.validator.NotEmpty;
 import org.supermy.core.domain.BaseDomain;
 import org.supermy.core.domain.User;
@@ -39,14 +38,16 @@ public class OriginalCertificate extends BaseDomain {
 	@JoinColumn(name = "user_id")
 	private User user;
 	@NotEmpty
-	@Column(name = "title", length = 180)
+	@Column(name = "title_", length = 180)
 	private String title;
 	@Lob
-	@Column(name = "remark")
+	@Column(name = "remark_")
 	private String remark;
-	@Column
+	
+	@Column(name="start_")
 	private Date start;
-	@Column
+	
+	@Column(name="done_")
 	private Boolean done=false;
 
 	/**
