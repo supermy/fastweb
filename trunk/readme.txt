@@ -1,11 +1,113 @@
-﻿20090911
+﻿20090915
+	mtolist 的Action完成；
+	todo:table filter 排序、过滤；
+20091010
+	manytoone mnaytomany onetomany 自动代码生成  ok;
+	所有页面自动生成：用户管理页面需要修正  密码；数据校验
+
+	原有的校验	
+	rules: { 
+		email: {
+			required: true,
+			minlength:8,
+			email:true
+			<s:if test="id == null">
+			,remote: "user!checkLoginEMail.action?orgEMail="+encodeURIComponent('${email}')
+			</s:if>
+		},
+	
+	/**
+	 * 支持使用Jquery.validate Ajax检验用户名是否重复. 登录名称不允许修改
+	 */
+	public void checkLoginEMail() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String email = request.getParameter("email");
+
+		if (userService.isUniqueByEMail(email)) {
+			Struts2Utils.renderText("true");
+		} else {
+			Struts2Utils.renderText("false");
+		}
+	}
+
+	/**
+	 * 配合extjs控件进行数据处理
+	 * 
+	 * @return
+	 */
+	public void jsonList() {
+		pageUser = Struts2Utils.getPage(pageUser);
+		pageUser = userService.getUserUtil().get(pageUser);
+		Struts2Utils.renderJson(pageUser, new String[] { "roles", "passwd",
+				"passwd2" });
+	}
+	
+	
+20091008
+	todo:
+	theme: web wap(wap不一定是wml，可以是web的取舍) jquery(ajax)  ... ...
+	struts 优化的步骤,官方文档,生产机，两套方案；
+
+20091003
+	组织机构、岗位、
+	人员、角色、权限、资源； ok
+	
+20091004
+	init data to hibernate ok.	
+	
+20091002
+	数据库权限管理 ok
+	todo:
+		nav auto gen ok;
+		comment to language resource; ok
+		table css to blue dream ok; 
+		comment  value and desc  ok
+
+20090929
+	数据库管理权限资源；
+	CSS简化、升级  ok
+	form-view ok
+	账户权限管理 todo ... ...  使用模版生成器 ok
+	
+20090923
+	 windows 环境下手工执行sql语句 to domain 测试执行生成数据
+	
+	 mysql 乱码问题  在 linux ;
+	 mysql> set names utf-8;
+	 mysql 乱码问题 在 windows;
+	 mysql> set names gbk;
+
+	清空數據庫
+	declare  
+	  cursor drop_cur is  
+	  select table_name from user_tables;  
+	  v_tname user_tables.table_name%type;  
+	  begin  
+	  open drop_cur;  
+	  fetch drop_cur into v_tname;  
+	  while drop_cur%found loop  
+	  execute immediate 'drop table ' || v_tname || ' cascade constraint';  
+	  fetch drop_cur into v_tname;  
+	  end loop;  
+	  close drop_cur;  
+	  end;  	 
+20090921
+	hibernate;面向对象建模；生成数据库，powerdisign 分析和优化数据库
+	todo: theme switch
+	todo: gendomain comment乱码	
+	
+	ajax grid :Rico support theme
+	
+20090918
+	增加@Comment 支持 Type Field Metmod，直接将注释信息注解到数据库里面；
+	
+20090911
 	如果你的数据表没有主键，那么count(1)比count(*)快
 	如果有主键的话，那主键（联合主键）作为count的条件也比count(*)要快
 	如果你的表只有一个字段的话那count(*)就是最快的啦
 	count(*) count(1) 两者比较。主要还是要count(1)所相对应的数据字段。
 	如果count(1)是聚索引,id,那肯定是count(1)快。但是差的很小的。
 	因为count(*),自动会优化指定到那一个字段。所以没必要去count(?)，用count(*),sql会帮你完成优化的
-
 
 20090903
 	displaytag i18n 应用sturts 资源文件
