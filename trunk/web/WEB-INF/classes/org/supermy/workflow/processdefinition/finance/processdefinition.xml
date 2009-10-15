@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process-definition xmlns="" name="finance">
+	<start-state name="start">
+		<transition name="" to="自动财务处理"></transition>
+	</start-state>
+	<end-state name="end1"></end-state>
+	
+	<node name="自动财务处理">
+		<event type="node-enter">
+			<!--
+				<action name="cai"
+				class="org.springmodules.workflow.jbpm31.JbpmHandlerProxy">
+				<targetBean>financeProcessAction</targetBean>
+				<factoryKey>jbpmConfiguration</factoryKey> </action>
+			-->
+			<action name="action1"
+				class="org.supermy.workflow.action.FinanceProcessAction"></action>
+
+		</event>
+		<transition name="" to="end1"></transition>
+	</node>
+</process-definition>

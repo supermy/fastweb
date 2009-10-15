@@ -2,139 +2,189 @@
 <%@ page import="org.supermy.core.security.SecurityUtils" %>
 <%@ include file="/common/taglibs.jsp"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>用户管理</title>
-
+    <title><s:text name="userList.title"/></title>
+    <meta name="heading" content="<s:text name='userList.heading'/>"/>
 	<%@ include file="/common/meta.jsp"%>
-	
 	<%@ include file="/common/css.jsp"%>
-	
-	<!--ext需要的部件，如果不用ext效果，不要加入，很费资源
-	<%@ include file="/common/extjshead.jsp"%>
-	<script type="text/javascript" src="${extjs}/ext/paging.js"></script>
-	<script type="text/javascript" src="${extjs}/ext/edit-grid.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="${extjs}/ext/grid-examples.css" />
-	-->
+	<link rel="stylesheet" href="${css}/css/table/iqcontent.css" type="text/css" media="screen, projection"/>
 
 </head>
-
 <body>
+<!-- 布局 容器  -->
 <div class="container">
-
+	<!-- 布局  顶部工具条-->
 	<%@ include file="/common/tools.jsp"%>
-	
+	<!-- 布局  顶部导航栏目-->
 	<%@ include file="/common/nav.jsp"%>
-	
+	<!-- 布局  左边列-->
 	<div class="span-17 prepend-1 colborder">
-
-	<h2>用户列表</h2>
-
-	<c:set var="buttons">
-		<div>
-			第${page.pageNo}页, 共${page.totalPages}页 
-			<s:if test="page.hasPre">
-				<a href="user.action?page.pageNo=${page.prePage}&page.orderBy=${page.orderBy}&page.order=${page.order}">上一页</a>
-			</s:if>
-			<s:if test="page.hasNext">
-				<a href="user.action?page.pageNo=${page.nextPage}&page.orderBy=${page.orderBy}&page.order=${page.order}">下一页</a>
-			</s:if>
-			<br />
-		</div>
-	</c:set>
-	
-	
-	
-	<c:out value="${buttons}" escapeXml="false" />
-	<display:table 
-		name="page.result" 		
-		requestURI =""
-		export="flase" >
-		
-		<display:column property="id"    	title="ID" 	    />
-		<display:column property="email" 	title="登录名称"   autolink="true"/>
-		<display:column property="name"  	title="姓名"     />
-		<display:column property="roleNames"title="角色"     />
-		<display:column property="intro"  	title="个人介绍"  />
-		<display:column value="修改"   	title="修改" 	url="/user/user!input.action?page.pageRequest=${page.pageRequest}" paramId="id" paramProperty="id"/>
-		<display:column value="删除"   	title="删除" 	url="/user/user!delete.action?page.pageRequest=${page.pageRequest}" paramId="id" paramProperty="id"/>
-		
-	</display:table>
-	<c:out value="${buttons}" escapeXml="false" />
-	
-	<br/>
-	
-	
-		
-		<h2>手工展示数据</h2>
+		<c:set var="buttons">
+			<div>
+				<s:text name="common.page.by"/>${pageuser.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${pageuser.totalPages}<s:text name="common.page.page"/> 
+				<s:if test="pageuser.hasPre">
+					<a href="user.action?pageuser.pageNo=${pageuser.prePage}&pageuser.orderBy=${pageuser.orderBy}&pageuser.order=${pageuser.order}"><s:text name="common.page.pre"/></a>
+				</s:if>
+				<s:if test="pageuser.hasNext">
+					<a href="user.action?pageuser.pageNo=${pageuser.nextPage}&pageuser.orderBy=${pageuser.orderBy}&pageuser.order=${pageuser.order}"><s:text name="common.page.next"/></a>
+				</s:if>
+				<br />
+			</div>
+		</c:set>
 		<c:out value="${buttons}" escapeXml="false" />
-		<table >
-			<tr>
-				<th ><a href="user.action?page.orderBy=email&page.order=
-				<s:if test="page.orderBy=='email'">${page.inverseOrder}</s:if><s:else>desc</s:else>">
-				<b>登录名</b></a></th>
-				<th ><a href="user.action?page.orderBy=name&page.order=
-				<s:if test="page.orderBy=='name'">${page.inverseOrder}</s:if><s:else>desc</s:else>">
-				<b>姓名</b></a></th>
-				<th ><b>角色</b></th>
-				<th ><b>操作</b></th>
-			</tr>
+		<display:table 
+			id="userList" 
+			name="pageuser.result" 
+			sort="external" 
+			class="table" 
+			requestURI="" 
+			export="false">
+				    <display:column property="id" 
+				    	sortable="false"
+				    	sortName="id" 
+				    	href="user!input.action?pageuser.pageRequest=${pageuser.pageRequest}" media="html"
+				        paramId="id" 
+				        paramProperty="id" 
+				        titleKey="user.id"/>
+				    <display:column 
+				    	property="id" 
+				    	media="csv excel xml pdf"
+				    	titleKey="user.id"/>
+				    	
+			             <display:column 
+			             	sortProperty="accountNonExpired" 
+			             	sortable="false" 
+			             	sortName="accountNonExpired" 
+			             	titleKey="user.accountNonExpired">
+			                 <input 
+			                 	type="checkbox" 
+			                 	disabled="disabled" 
+			                 	<c:if test="${userList.accountNonExpired}">checked="checked"</c:if>/>
+			             </display:column>
+			             <display:column 
+			             	sortProperty="accountNonLocked" 
+			             	sortable="false" 
+			             	sortName="accountNonLocked" 
+			             	titleKey="user.accountNonLocked">
+			                 <input 
+			                 	type="checkbox" 
+			                 	disabled="disabled" 
+			                 	<c:if test="${userList.accountNonLocked}">checked="checked"</c:if>/>
+			             </display:column>
+			             <display:column 
+			             	sortProperty="credentialsNonExpired" 
+			             	sortable="false" 
+			             	sortName="credentialsNonExpired" 
+			             	titleKey="user.credentialsNonExpired">
+			                 <input 
+			                 	type="checkbox" 
+			                 	disabled="disabled" 
+			                 	<c:if test="${userList.credentialsNonExpired}">checked="checked"</c:if>/>
+			             </display:column>
+		        	    <display:column 
+		        	    	property="email" 
+		        	    	sortable="false" 
+		        	    	sortName="email" 
+		        	    	titleKey="user.email"/>
+		        	    <display:column 
+		        	    	property="intro" 
+		        	    	sortable="false" 
+		        	    	sortName="intro" 
+		        	    	titleKey="user.intro"/>
+		        	    <display:column 
+		        	    	property="name" 
+		        	    	sortable="false" 
+		        	    	sortName="name" 
+		        	    	titleKey="user.name"/>
+		        	    <display:column 
+		        	    	property="passwd" 
+		        	    	sortable="false" 
+		        	    	sortName="passwd" 
+		        	    	titleKey="user.passwd"/>
+		        		<display:column 
+		        			property="rolesName" 
+		        			sortable="false" 
+		        			sortName="roles" 
+		        			titleKey="user.roles"
+		        			href="role!mtolist.action?class=org.supermy.core.domain.User&property=roles" media="html"
+					        paramId="id"
+					        paramProperty="id" 
+		        			/>
+			             <display:column 
+			             	sortProperty="salary" 
+			             	format="{0,number, 0,000,000.00}" 
+			             	sortable="false" 
+			             	sortName="salary" 
+			             	titleKey="user.salary"/>
+			<security:authorize ifAnyGranted="AUTH_EDIT_USER">
+				<display:column 
+					value="manager"
+					titleKey="common.domain.manager" 	
+					href="user!input.action?pageuser.pageRequest=${pageuser.pageRequest}" media="html"
+					paramId="id" 
+					paramProperty="id"/>
+			</security:authorize>
+			
+		    <display:setProperty 
+		    	name="paging.banner.item_name">
+		    	<s:text name="userList.user"/>
+		    </display:setProperty>
+		    <display:setProperty 
+		    	name="paging.banner.items_name">
+		    	<s:text name="userList.users"/>
+		    </display:setProperty>
 		
-			<s:iterator value="page.result">
-				<tr >
-					<td >${email}&nbsp;</td>
-					<td >${name}&nbsp;</td>
-					<td >${roleNames}&nbsp;</td>
-					<td >&nbsp; 
-						<security:authorize ifAnyGranted="AUTH_MODIFY_USER">
-							<a href="user!input.action?id=${id}&page.pageRequest=${page.pageRequest}">修改</a>、
-							<a href="user!delete.action?id=${id}&page.pageRequest=${page.pageRequest}">删除</a>
-						</security:authorize>
-					</td>
-				</tr>
-			</s:iterator>
-		</table>
-		<c:out value="${buttons}" escapeXml="false" />
-
-		
-		<hr/>
-		
-		<!--
-		<hr/>
-		<h2>EXT JS展示数据<h2>
-		
-		<div id="editor-grid"></div>
-		<div id="user-page-grid"></div>
-		-->
-		
-		<hr/>
-		
-		
-
-		
+		    <display:setProperty 
+		    	name="export.excel.filename">
+		    	<s:text name="userList.title"/>.xls
+		    </display:setProperty>
+		    <display:setProperty 
+		    	name="export.csv.filename">
+		    	<s:text name="userList.title"/>.csv
+		    </display:setProperty>
+		    <display:setProperty 
+		    	name="export.pdf.filename">
+		    	<s:text name="userList.title"/>.pdf
+		    </display:setProperty>
+		</display:table>
+		<c:out value="${buttons}" escapeXml="false" />		
 		
 	</div>
 	
+	<!-- 布局  右边列-->
 	<div class="column span-5 last">
 		<s:actionmessage theme="mytheme"/>
+		<hr class="space"/>
+		<security:authorize 
+			ifAnyGranted="AUTH_EDIT_USER">
+			<a  class="button" 
+				href="user!input.action?pageuser.pageRequest=${pageuser.pageRequest}">
+				<s:text name="common.domain.create"/>
+			</a>
+		</security:authorize>
+		<hr class="space"/>
 		<div id="filter">
-			<form action="user!search.action" method="post">
-				EMail或姓名: <input type="text" 
-						name="filter_LIKE_name|email" 
-						value="${param['filter_LIKE_name|email']}" 
+			<form 
+				action="user.action" 
+				method="post">
+				<input type="text" 
+						name="filter_LIKE_myTiger|myEmail" 
+						value="${param['filter_LIKE_myTiger|myEmail']}" 
 						size="10"/>
-				<input type="submit" value="搜索" />
+				<s:submit 
+					cssClass="button" 
+					method="search"  
+					key="common.domain.search" 
+					/>
 			</form>
 		</div> 
-		<hr class="space"/>
-		<security:authorize ifAnyGranted="AUTH_MODIFY_USER">
-		<a href="user!input.action">增加新用户</a>
-		</security:authorize>
 	</div>
 		
-
+	<!-- 布局  底 -->
 	<%@ include file="/common/footer.jsp"%>
 </div>
 </body>

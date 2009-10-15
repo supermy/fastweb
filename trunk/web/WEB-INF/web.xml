@@ -14,7 +14,7 @@
 		<param-value>
             classpath:/app-springs.xml
             classpath:/app-cxf.xml
-            classpath:/app-security.xml
+            classpath:/app-securitydb.xml
         </param-value>
 	</context-param>
 

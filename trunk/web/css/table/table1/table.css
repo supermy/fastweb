@@ -1,0 +1,111 @@
+/* "Spread Firefox!" By Thierry Koblentz | www.TJKDesign.com */
+/* IF YOU WANT TO STYLE THE WHOLE DOCUMENT "A LA CSSZENGARDEN", UNCOMMENT THE COMMENTED LINES. */
+/***************************************************************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/*
+#boundary,#content {margin:0;padding:0}
+body {background-color:#c41d16;padding:20px}
+h1 {text-indent:-9999px;font-size:0}
+h3 {font-size:.85em;color:#e58529;font-variant:small-caps}
+h3 strong {color:#039 !important;font-style:italic}
+h3 a {color:#c41d16 !important}
+#boundary {width:730px;margin:0 auto;background:#ffff90 url(banner.gif) no-repeat !important}
+#header {margin:0 auto;background:none !important}
+#content {width:95%;margin:0 auto;background:none !important}
+#footer {background-color:#c41d16;font-size:.7em}
+#ad {display:none !important}
+#meta {font-size:.7em;position:absolute;top:53px;left:42px}
+#content {border-top:2px solid #9b8fc5}
+/* NAVIGATION */
+/* HOME est inutile on supprime donc ce LI */
+/*
+#nav > li:first-child {display:none}
+/* Navigation: les liens */
+/* Tous les onglets */
+/*
+#nav a {display:block;color:#ffff90 !important;font-weight:bold !important;padding:.6em 1.1em;font-size:.75em;background:url(li_tab.gif) 50% 0 no-repeat;border-left:1px solid #ffff90}
+#nav a:hover {text-decoration:underline;color:#c41d16 !important;background:url(li_tab_hover.gif) 50% 0}
+/* Onglet de gauche */
+/*
+#nav a[href="about.php"] {background:url(li_tab.gif) 0 0 no-repeat;border:0}
+#nav a[href="about.php"]:hover {background:url(li_tab_hover.gif)}
+/* Onglet de droite */
+/*#nav a[href="http://www.wait-till-i.com/index.php?p=146"] {background:url(li_tab.gif) 100% 0 no-repeat;border-left:1px solid #ffff90}
+#nav a[href="http://www.wait-till-i.com/index.php?p=146"]:hover {background:url(li_tab_hover.gif) 100% 0}
+/* List, List Items */
+/*
+#nav {margin:50px auto 0 auto !important;background-color:transparent !important;float:none !important;height:1.4em;width:38.9em;border:0}
+#nav li {float:left;border:0 !important;padding:0}
+*/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+#itsthetable {margin-top:2em}
+table {width:650px;color:#188bc2;font-size:.75em;background:#fff url(ff.jpg) -203px 0 no-repeat;border:2px solid #9b8fc5;padding-top:121px}
+th {text-align:center}
+th,td {padding:9px 5px}
+.odd  {background-color:#cdeff3}
+/* LINKS */
+table a,table a:link,table a:visited {font-size:.85em;color:#039}
+/* L'anchor (premire colonne) qui rfrence cette Styles Sheet */
+table a[href="index.php?css=24"] {background:url(button.gif) 50% 50% no-repeat;font-size:0 !important;display:block;height:54px;cursor:default}
+table a[href="http://www.TJKDesign.com"] {background:url(tjk.gif) 50% 50% no-repeat !important;font-size:0 !important;display:block;height:54px}
+tr:hover a {color:#fff}
+th:hover a,td:hover a {color:#039}
+/* CAPTION */
+caption {font-size:1.4em;margin:25px 0 -3em 160px;color:#e58529}
+/*caption:after {content:"> Spread Firefox!";color:#c41d16}*/
+/* ROW: toute premire range */
+thead {color:#039}
+thead th {background:#92c9e3 url(tabs.gif) 100% 0 no-repeat;font-size:.9em}
+/* ROWS: de la seconde  l'avant dernire range */
+tbody {background-color:#b0e4ec}
+/* TFOOT */
+/* On prend control de cette cellule pour s'en servir comme "trigger" pour le rollover sur le bandeau */
+tfoot th {position:absolute;top:10px;left:0;width:100%;height:35px;font-size:0;background-color:transparent}
+tfoot tr:hover,tfoot tr th:hover {background-color:transparent !important}
+tfoot td {font-size:1.5em;color:#fff;height:72px;background:url(tfoot_td.gif) no-repeat 100% 100%}
+tfoot td:after {content:" > Spread Firefox!";color:#c41d16}
+/* ROLOVERS ****************************************************************/
+table:hover {background-position:0 -122px;border-color:#1c0082}
+/* Toutes sans exceptions */
+tr:hover {background-color:#c41d16;color:#fff}
+/* Toute premire range */
+thead tr:hover th,thead th:hover {background:#92c9e3 url(tabs.gif) 100% 0 no-repeat;cursor:default !important}
+/* Cellules */
+tr th:hover,tr td:hover {background-color:#ffff90;color:#039;cursor:crosshair}
+/* Dernire range */
+tfoot tr:hover td {background-color:#fff;cursor:default}
+/***************************************************************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/* MSIE */
+/*
+* html body {font-size:100.01%}
+* html #boundary {font-size:.9em}
+* html #content {border:0}
+*/
+/* HOME est inutile on supprime donc ce LI, mais pour IE on triche avec la couleur */
+/*
+* html #nav li {color:#ffff90}
+*/
+/* Navigation: les liens */
+/* Tous les onglets */
+/*
+* html #nav a:hover {background:none}
+*/
+/* List, List Items */
+/*
+* html #nav {position:relative;top:70px;left:-20px;margin:0;width:auto}
+* html #nav li a {padding:5px;font-size:.7em}
+*/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/***************************************************************************************************/
+/* MSIE */
+* html #itsthetable {background:#fff url(msie_users.jpg) no-repeat 50% 0;padding-top:101px}
+* html table {background:none}
+* html caption {text-indent:-999px;font-size:0}
+* html tfoot th {position:relative;top:auto;width:auto;height:72px;font-size:1.2em}
+* html tfoot td {color:#039;font-size:1.2em}

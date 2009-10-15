@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<root-container name="finance" width="801" height="363">
+  <node name="start" x="205" y="30" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+  <node name="end1" x="206" y="248" width="132" height="36"/>
+  <node name="自动财务处理" x="201" y="152" width="132" height="36">
+    <edge>
+      <label x="5" y="-10"/>
+    </edge>
+  </node>
+</root-container>

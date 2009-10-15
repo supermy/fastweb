@@ -1,0 +1,53 @@
+  <head>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+    google.load("language", "1");
+
+    function initialize() {
+      var text = document.getElementById("text").innerHTML;
+      google.language.detect(text, function(result) {
+        if (!result.error && result.language) {
+          google.language.translate(text, result.language, "en",
+                                    function(result) {
+            var translated = document.getElementById("translation_en");
+            if (result.translation) {
+              translated.innerHTML = result.translation;
+            }
+          });
+        }
+      });
+      google.language.detect(text, function(result) {
+        if (!result.error && result.language) {
+          google.language.translate(text, result.language, "ko",
+                                    function(result) {
+            var translated = document.getElementById("translation_ko");
+            if (result.translation) {
+              translated.innerHTML = result.translation;
+            }
+          });
+        }
+      });
+      google.language.detect(text, function(result) {
+        if (!result.error && result.language) {
+          google.language.translate(text, result.language, "ja",
+                                    function(result) {
+            var translated = document.getElementById("translation_ja");
+            if (result.translation) {
+              translated.innerHTML = result.translation;
+            }
+          });
+        }
+      });
+    }
+    google.setOnLoadCallback(initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="text">你好，很高兴见到你。</div>
+    <div id="translation_en"></div>
+    <div id="translation_ko"></div>
+    <div id="translation_ja"></div>
+  </body>
+
