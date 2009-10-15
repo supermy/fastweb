@@ -17,12 +17,13 @@
 <body>
 <!-- 布局 容器  -->
 <div class="container">
-	<!-- 布局  顶部工具条-->
+	<!-- 布局  顶部工具杄1�7-->
 	<%@ include file="/common/tools.jsp"%>
 	<!-- 布局  顶部导航栏目-->
 	<%@ include file="/common/nav.jsp"%>
-	<!-- 布局  左边列-->
+	<!-- 布局  左边刄1�7-->
 	<div class="span-17 prepend-1 colborder">
+
 		<c:set var="buttons">
 			<div>
 				<s:text name="common.page.by"/>${pageuser.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${pageuser.totalPages}<s:text name="common.page.page"/> 
@@ -36,126 +37,96 @@
 			</div>
 		</c:set>
 		<c:out value="${buttons}" escapeXml="false" />
-		<display:table 
-			id="userList" 
-			name="pageuser.result" 
-			sort="external" 
-			class="table" 
-			requestURI="" 
-			export="false">
-				    <display:column property="id" 
-				    	sortable="false"
-				    	sortName="id" 
-				    	href="user!input.action?pageuser.pageRequest=${pageuser.pageRequest}" media="html"
-				        paramId="id" 
-				        paramProperty="id" 
-				        titleKey="user.id"/>
-				    <display:column 
-				    	property="id" 
-				    	media="csv excel xml pdf"
-				    	titleKey="user.id"/>
-				    	
-			             <display:column 
-			             	sortProperty="accountNonExpired" 
-			             	sortable="false" 
-			             	sortName="accountNonExpired" 
-			             	titleKey="user.accountNonExpired">
-			                 <input 
-			                 	type="checkbox" 
-			                 	disabled="disabled" 
-			                 	<c:if test="${userList.accountNonExpired}">checked="checked"</c:if>/>
-			             </display:column>
-			             <display:column 
-			             	sortProperty="accountNonLocked" 
-			             	sortable="false" 
-			             	sortName="accountNonLocked" 
-			             	titleKey="user.accountNonLocked">
-			                 <input 
-			                 	type="checkbox" 
-			                 	disabled="disabled" 
-			                 	<c:if test="${userList.accountNonLocked}">checked="checked"</c:if>/>
-			             </display:column>
-			             <display:column 
-			             	sortProperty="credentialsNonExpired" 
-			             	sortable="false" 
-			             	sortName="credentialsNonExpired" 
-			             	titleKey="user.credentialsNonExpired">
-			                 <input 
-			                 	type="checkbox" 
-			                 	disabled="disabled" 
-			                 	<c:if test="${userList.credentialsNonExpired}">checked="checked"</c:if>/>
-			             </display:column>
-		        	    <display:column 
-		        	    	property="email" 
-		        	    	sortable="false" 
-		        	    	sortName="email" 
-		        	    	titleKey="user.email"/>
-		        	    <display:column 
-		        	    	property="intro" 
-		        	    	sortable="false" 
-		        	    	sortName="intro" 
-		        	    	titleKey="user.intro"/>
-		        	    <display:column 
-		        	    	property="name" 
-		        	    	sortable="false" 
-		        	    	sortName="name" 
-		        	    	titleKey="user.name"/>
-		        	    <display:column 
-		        	    	property="passwd" 
-		        	    	sortable="false" 
-		        	    	sortName="passwd" 
-		        	    	titleKey="user.passwd"/>
-		        		<display:column 
-		        			property="rolesName" 
-		        			sortable="false" 
-		        			sortName="roles" 
-		        			titleKey="user.roles"
-		        			href="role!mtolist.action?class=org.supermy.core.domain.User&property=roles" media="html"
-					        paramId="id"
-					        paramProperty="id" 
-		        			/>
-			             <display:column 
-			             	sortProperty="salary" 
-			             	format="{0,number, 0,000,000.00}" 
-			             	sortable="false" 
-			             	sortName="salary" 
-			             	titleKey="user.salary"/>
-			<security:authorize ifAnyGranted="AUTH_EDIT_USER">
-				<display:column 
-					value="manager"
-					titleKey="common.domain.manager" 	
-					href="user!input.action?pageuser.pageRequest=${pageuser.pageRequest}" media="html"
-					paramId="id" 
-					paramProperty="id"/>
-			</security:authorize>
-			
-		    <display:setProperty 
-		    	name="paging.banner.item_name">
-		    	<s:text name="userList.user"/>
-		    </display:setProperty>
-		    <display:setProperty 
-		    	name="paging.banner.items_name">
-		    	<s:text name="userList.users"/>
-		    </display:setProperty>
-		
-		    <display:setProperty 
-		    	name="export.excel.filename">
-		    	<s:text name="userList.title"/>.xls
-		    </display:setProperty>
-		    <display:setProperty 
-		    	name="export.csv.filename">
-		    	<s:text name="userList.title"/>.csv
-		    </display:setProperty>
-		    <display:setProperty 
-		    	name="export.pdf.filename">
-		    	<s:text name="userList.title"/>.pdf
-		    </display:setProperty>
-		</display:table>
+		<table>
+			<thead>
+			<tr>
+				        	<th>
+							<a href="user.action?pageuser.orderBy=id&pageuser.order=
+							<s:if test="pageuser.orderBy=='id'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.id"/></a>
+				</th>
+	        	<th>
+							<a href="user.action?pageuser.orderBy=email&pageuser.order=
+							<s:if test="pageuser.orderBy=='email'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.email"/></a>
+				</th>
+	        	<th>
+							<a href="user.action?pageuser.orderBy=intro&pageuser.order=
+							<s:if test="pageuser.orderBy=='intro'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.intro"/></a>
+				</th>
+	        	<th>
+							<a href="user.action?pageuser.orderBy=name&pageuser.order=
+							<s:if test="pageuser.orderBy=='name'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.name"/></a>
+				</th>
+	        	<th>
+							<s:text name="user.roles"/>
+				</th>
+	        	<th>
+							<a href="user.action?pageuser.orderBy=salary&pageuser.order=
+							<s:if test="pageuser.orderBy=='salary'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.salary"/></a>
+				</th>
+			<th>manager</th>
+			</tr>
+			</thead>
+
+
+			<s:iterator value="pageuser.result" status='st'>
+			<tbody>		
+			    <s:if test="#st.Odd">
+				<tr  class="odd">
+			    </s:if>
+
+			    <s:if test="#st.Even">
+				<tr  class="even">
+			    </s:if>
+				
+						<td>
+								<a href="user!input.action?id=${id}&pageuser.pageRequest=${pageuser.pageRequest}">
+									${id}
+								</a>
+					</td>
+						<td>
+									${email}
+					</td>
+						<td>
+									${intro}
+					</td>
+						<td>
+									${name}
+					</td>
+						<td>
+								<a href="role!mtolist.action?id=${id}&class=org.supermy.core.domain.User&property=roles">
+									${rolesName}
+								</a>
+					</td>
+						<td>
+									${salary}
+					</td>
+					<security:authorize ifAnyGranted="AUTH_EDIT_USER">
+						<td>
+							<a href="user!input.action?id=${id}&pageuser.pageRequest=${pageuser.pageRequest}">
+								manager
+							</a>
+						</td>
+					</security:authorize>
+					
+				</tr>
+			</tbody>		
+			</s:iterator>
+		</table>			<!--#include "list-view-displaytag.ftl"/-->
 		<c:out value="${buttons}" escapeXml="false" />		
 		
 	</div>
 	
-	<!-- 布局  右边列-->
+	<!-- 布局  右边刄1�7-->
 	<div class="column span-5 last">
 		<s:actionmessage theme="mytheme"/>
 		<hr class="space"/>
@@ -172,8 +143,8 @@
 				action="user.action" 
 				method="post">
 				<input type="text" 
-						name="filter_LIKE_myTiger|myEmail" 
-						value="${param['filter_LIKE_myTiger|myEmail']}" 
+						name="filter_LIKE_email|name" 
+						value="${param['filter_LIKE_email|name']}" 
 						size="10"/>
 				<s:submit 
 					cssClass="button" 
@@ -184,7 +155,7 @@
 		</div> 
 	</div>
 		
-	<!-- 布局  底 -->
+	<!-- 布局  庄1�7 -->
 	<%@ include file="/common/footer.jsp"%>
 </div>
 </body>

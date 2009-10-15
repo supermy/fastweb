@@ -50,57 +50,55 @@
 				action="authority.action" 
 				method="post">
 			
-			<input 
-				type="hidden" 
-				name="id" 
-				value="${id}" />
+		    <s:token />
 
-			<input 
-				type="hidden" 
-				name="pageauthority.pageRequest" 
-				value="${pageauthority.pageRequest}"/>
+			<s:hidden	name="id" />
+
+			<s:hidden 	name="pageuser.pageRequest"/>
 				
-		            		        <s:textfield
-										label="%{getText('authority.name')}"  
-						            	name="name"  
-						            	id="name"  
-						            	size="30" 
-						            	cssClass="{debug:false,maxlength:50,minlength:0,required: true}"/>
-		            		        <s:textfield
-										label="%{getText('authority.nickName')}"  
-						            	name="nickName"  
-						            	id="nickName"  
-						            	size="30" 
-						            	cssClass="{debug:false,maxlength:80,minlength:0,required: true}"/>
+			<s:textfield
+				label="%{getText('authority.name')}"  
+				name="name"  
+				id="name"  
+				size="30" 
+				cssClass="{debug:false,maxlength:50,minlength:0,required: true}"/>
+
+			<s:textfield
+				label="%{getText('authority.nickName')}"  
+				name="nickName"  
+				id="nickName"  
+				size="30" 
+				cssClass="{debug:false,maxlength:80,minlength:0,required: true}"/>
+
 			
-					<security:authorize 
-							ifAnyGranted="AUTH_SAVE_AUTHORITY">
-							
-			            	<s:submit 
-			            		cssClass="button" 
-			            		method="save"  
-			            		key="common.domain.save"/>
-			            		
-					</security:authorize>
+			<security:authorize 
+					ifAnyGranted="AUTH_SAVE_AUTHORITY">
+						
+			    	<s:submit 
+			    		cssClass="button" 
+			    		method="save"  
+			    		key="common.domain.save"/>
+		            		
+				</security:authorize>
 	
-			        <c:if test="${not empty id}">			        
-						<security:authorize 
-							ifAnyGranted="AUTH_DELETE_AUTHORITY">
-							
-				            <s:submit 
-				            	cssClass="button" 
-				            	method="delete" 
-				            	key="common.domain.delete"
-				                onclick="return confirmDelete('Authority')" 
-				                />
-				                
-						</security:authorize>
-			        </c:if>
+			<c:if test="${not empty id}">			        
+			<security:authorize 
+				ifAnyGranted="AUTH_DELETE_AUTHORITY">
+						
+			    <s:submit 
+			    	cssClass="button" 
+			    	method="delete" 
+			    	key="common.domain.delete"
+			        onclick="return confirmDelete('Authority')" 
+			        />
+			                
+			</security:authorize>
+			</c:if>
 				        
-		            <s:submit 
-		            	cssClass="button" 
-		            	key="common.domain.cancel" 
-		            	onclick="history.back()"/>
+			<s:submit 
+				cssClass="button" 
+				key="common.domain.cancel" 
+				onclick="history.back()"/>
 		            	
 			</s:form>
       	</fieldset>		

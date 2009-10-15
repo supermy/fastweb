@@ -42,98 +42,99 @@
       			</s:else>
       			<s:text name="urlResourceDetail.title"/>
       		</legend>
-      		${mytheme}
+      		
 			<s:form  
 				validate="false" 
-				theme="xhtml"
+				theme="xhtml"  
 				id="urlresourceInputForm" 
 				action="url-resource.action" 
 				method="post">
 			
-			<input 
-				type="hidden" 
-				name="id" 
-				value="${id}" />
+		    <s:token />
 
-			<input 
-				type="hidden" 
-				name="pageurlresource.pageRequest" 
-				value="${pageurlresource.pageRequest}"/>
+			<s:hidden	name="id" />
+
+			<s:hidden 	name="pageuser.pageRequest"/>
 				
-							<s:checkboxlist 
-								label="%{getText('urlResource.authorityList')}"  
-								name="authorityListId"
-								list="authorityListAll"
-								listKey="id" listValue="name"
-								cssClass="{debug:false}"
-								
-								/>
+			<s:checkboxlist 
+				label="%{getText('urlResource.authorityList')}"  
+				name="authorityListId"
+				list="authorityListAll"
+				listKey="id" listValue="name"
+				cssClass="{debug:false}"
+				/>
 									
-			            		        <s:textfield
-											label="%{getText('urlResource.desc')}"  
-							            	name="desc"  
-							            	id="desc"  
-							            	size="30" 
-							            	cssClass="{debug:false,maxlength:250,minlength:0,required: true}"/>
-							<s:select
-								label="%{getText('urlResource.manager')}"  
-						        list="managerList"
-						        name="manager.id"
-						        listKey="id"
-						        listValue="name"
-						        emptyOption="false"
-						        headerKey="None"
-						        headerValue="None"
-								cssClass=" {debug:false,digits:true}"
-						        />
+			<s:textarea
+				label="%{getText('urlResource.desc')}"  
+				name="desc"  
+				id="desc"  
+				cols="20"
+				rows="3" 
+				cssClass="{debug:false,maxlength:250,minlength:0,required: true}"/>
+
+			<s:select
+				label="%{getText('urlResource.manager')}"  
+			    list="managerList"
+			    name="manager.id"
+			    listKey="id"
+			    listValue="name"
+			    emptyOption="false"
+			    headerKey="None"
+			    headerValue="None"
+				cssClass=" {debug:false,digits:true}"
+			    />
 								
-			            		        <s:textfield
-											label="%{getText('urlResource.position')}"  
-							            	name="position"  
-							            	id="position"  
-							            	size="30" 
-							            	cssClass="{debug:false,number:true}"/>
-			            		        <s:textfield
-											label="%{getText('urlResource.resourceType')}"  
-							            	name="resourceType"  
-							            	id="resourceType"  
-							            	size="30" 
-							            	cssClass="{debug:false,maxlength:20,minlength:0,required: true}"/>
-			            		        <s:textfield
-											label="%{getText('urlResource.value')}"  
-							            	name="value"  
-							            	id="value"  
-							            	size="30" 
-							            	cssClass="{debug:false,maxlength:250,minlength:0,required: true}"/>
+			<s:textfield
+				label="%{getText('urlResource.position')}"  
+				name="position"  
+				id="position"  
+				size="30" 
+				cssClass="{debug:false,number:true}"/>
+
+			<s:textfield
+				label="%{getText('urlResource.resourceType')}"  
+				name="resourceType"  
+				id="resourceType"  
+				size="30" 
+				cssClass="{debug:false,maxlength:20,minlength:0,required: true}"/>
+
+			<s:textarea
+				label="%{getText('urlResource.value')}"  
+				name="value"  
+				id="value"  
+				cols="20"
+				rows="3" 
+				cssClass="{debug:false,maxlength:250,minlength:0,required: true}"/>
+
 			
-					<security:authorize 
-							ifAnyGranted="AUTH_SAVE_URLRESOURCE">
-							
-			            	<s:submit 
-			            		cssClass="button" 
-			            		method="save"  
-			            		key="common.domain.save"/>
-			            		
-					</security:authorize>
+			<security:authorize 
+					ifAnyGranted="AUTH_SAVE_URLRESOURCE">
+						
+			    	<s:submit 
+			    		cssClass="button" 
+			    		method="save"  
+			    		key="common.domain.save"/>
+		            		
+				</security:authorize>
 	
-			        <c:if test="${not empty id}">			        
-						<security:authorize 
-							ifAnyGranted="AUTH_DELETE_URLRESOURCE">
-							
-				            <s:submit 
-				            	cssClass="button" 
-				            	method="delete" 
-				            	key="common.domain.delete"
-				                onclick="return confirmDelete('UrlResource')" 
-				                />
-				                
-						</security:authorize>
-			        </c:if>
+			<c:if test="${not empty id}">			        
+			<security:authorize 
+				ifAnyGranted="AUTH_DELETE_URLRESOURCE">
+						
+			    <s:submit 
+			    	cssClass="button" 
+			    	method="delete" 
+			    	key="common.domain.delete"
+			        onclick="return confirmDelete('UrlResource')" 
+			        />
+			                
+			</security:authorize>
+			</c:if>
 				        
-		            <s:submit 
-		            	cssClass="button" 
-		            	key="common.domain.cancel" 
-		            	onclick="history.back()"/>
+			<s:submit 
+				cssClass="button" 
+				key="common.domain.cancel" 
+				onclick="history.back()"/>
 		            	
 			</s:form>
       	</fieldset>		

@@ -56,12 +56,32 @@
 
 			<s:hidden 	name="pageuser.pageRequest"/>
 				
+			<s:checkbox 
+				label="%{getText('user.accountNonExpired')}"  
+				key="accountNonExpired" 
+				cssClass="{debug:false}"/>
+			<s:checkbox 
+				label="%{getText('user.accountNonLocked')}"  
+				key="accountNonLocked" 
+				cssClass="{debug:false}"/>
+			<s:checkbox 
+				label="%{getText('user.credentialsNonExpired')}"  
+				key="credentialsNonExpired" 
+				cssClass="{debug:false}"/>
 			<s:textfield
 				label="%{getText('user.email')}"  
 				name="email"  
 				id="email"  
 				size="30" 
 				cssClass="{debug:false,email:true,required: true,maxlength:80}"/>
+
+			<s:textarea
+				label="%{getText('user.intro')}"  
+				name="intro"  
+				id="intro"  
+				cols="20"
+				rows="3" 
+				cssClass="{debug:false}"/>
 
 			<s:textfield
 				label="%{getText('user.name')}"  
@@ -85,32 +105,12 @@
 				cssClass="{debug:false}"
 				/>
 									
-			<s:textarea
-				label="%{getText('user.intro')}"  
-				name="intro"  
-				id="intro"  
-				cols="20"
-				rows="3" 
-				cssClass="{debug:false}"/>
-
 			<s:textfield
 				label="%{getText('user.salary')}"  
 				name="salary"  
 				id="salary"  
 				size="30" 
 				cssClass="{debug:false,number:true}"/>
-			<s:checkbox 
-				label="%{getText('user.accountNonExpired')}"  
-				key="accountNonExpired" 
-				cssClass="{debug:false}"/>
-			<s:checkbox 
-				label="%{getText('user.accountNonLocked')}"  
-				key="accountNonLocked" 
-				cssClass="{debug:false}"/>
-			<s:checkbox 
-				label="%{getText('user.credentialsNonExpired')}"  
-				key="credentialsNonExpired" 
-				cssClass="{debug:false}"/>
 
 			
 			<security:authorize 
