@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true">
+
+	<description>引入外部配置文件 </description>
+
+	<!-- 定义受环境影响易变的变量 -->
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<!-- 标准配置 -->
+				<value>classpath*:/jdbc.properties
+				</value>
+				<!-- 本地开发环境配置 
+				<value>classpath*:/jdbc.local.properties
+				</value>-->
+				<!-- 服务器生产环境配置 -->
+				<!-- <value>file:/var/myapp/jdbc.server.properties</value> -->
+			</list>
+		</property>
+	</bean>
+
+	<!--
+		使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入
+		<context:component-scan base-package="org.supermy.core.service" />
+		<context:component-scan base-package="org.supermy.workflow.service" />
+	-->
+
+	<context:component-scan base-package="org.supermy.core.web" />
+
+
+	<context:component-scan base-package="org.supermy">
+		<context:include-filter type="regex"
+			expression=".service.*" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	<context:component-scan base-package="com.gogo">
+		<context:include-filter type="regex"
+			expression=".service.*" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Repository" />
+	</context:component-scan>
+
+	<!-- bean驱动
+	<context:annotation-config />
+	-->
+
+
+	<!-- 事务管理器配置,单数据源事务 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager"  proxy-target-class="true"/>
+
+	<!-- 事务管理器配置,多数据源JTA事务-->
+	<!--
+		<bean id="transactionManager"
+		class="org.springframework.transaction.jta.JtaTransactionManager or
+		WebLogicJtaTransactionManager" />
+	-->
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages" />
+	</bean>
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${hibernate.connection.driver_class}" />
+		<property name="jdbcUrl" value="${hibernate.connection.url}" />
+		<property name="user" value="${hibernate.connection.username}" />
+		<property name="password" value="${hibernate.connection.password}" />
+		<property name="autoCommitOnClose" value="true" />
+		<!-- 
+		<property name="minPoolSize" value="50" />
+		<property name="maxPoolSize" value="200" />
+		<property name="initialPoolSize" value="60" />
+		-->
+		<property name="minPoolSize" value="5" />
+		<property name="maxPoolSize" value="20" />
+		<property name="initialPoolSize" value="6" />
+		
+		<property name="maxIdleTime" value="600" />
+		<property name="acquireIncrement" value="5" />
+		<property name="maxStatements" value="0" />
+		<property name="idleConnectionTestPeriod" value="600" />
+		<property name="acquireRetryAttempts" value="3" />
+		<property name="breakAfterAcquireFailure" value="true" />
+		<property name="testConnectionOnCheckout" value="false" />
+	</bean>
+
+
+	<!-- 数据源配置,使用应用服务器的数据库连接池 -->
+	<!--
+		<jee:jndi-lookup id="dataSource"
+		jndi-name="java:comp/env/jdbc/ExampleDB" />
+	-->
+	<!--
+		memcached 单机性能不如oscache and ehcache<br/>
+		<propkey="hibernate.cache.provider_class">com.googlecode.hibernate.memcached.MemcachedCacheProvider</prop>
+		<prop key="hibernate.memcached.servers">localhost:11211</prop> <prop
+		key="hibernate.cache.provider_class">com.opensymphony.oscache.hibernate.OSCacheProvider</prop>
+	-->
+
+	<bean id="sessionFactory"
+		class="org.supermy.core.spring.AutoScanAnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="typeDefinitions">
+			<ref bean="jbpmTypes" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.query.substitutions">true 1, false 0</prop>
+
+				<prop key="hibernate.dialect">${hibernate.dialect}
+				</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}
+				</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="hibernate.cache.use_query_cache">true</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
+				</prop>
+				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
+				</prop>
+				<prop key="hibernate.max_fetch_depth">2</prop>
+				<!-- prop key="default-lazy">true</prop -->
+			</props>
+		</property>
+
+		<!--
+			<property name="namingStrategy"> 
+				<bean	class="org.hibernate.cfg.ImprovedNamingStrategy" /> 
+			</property>
+		-->
+		<!--
+			<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>  
+		-->
+		<property name="mappingJarLocations">
+			<list>
+				<value>file:D:/env_java/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>
+			</list>
+		</property>
+
+		<property name="domainPackageNames">
+			<list>
+				<value>domain</value>
+			</list>
+		</property>
+
+		<property name="eventListeners">
+			<map>
+				<entry key="save-update">
+					<list>
+						<bean class="org.supermy.core.listener.AuditListener" />
+						<bean class="org.hibernate.event.def.DefaultSaveOrUpdateEventListener" />
+					</list>
+				</entry>
+			</map>
+		</property>
+
+		<property name="entityCacheStrategies">
+			<props>
+				<prop key="org.jbpm.context.def.VariableAccess">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Action">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Event">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ExceptionHandler">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Transition">nonstrict-read-write</prop>
+				<prop key="org.jbpm.instantiation.Delegation">nonstrict-read-write</prop>
+				<prop key="org.jbpm.module.def.ModuleDefinition">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskController">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Task">nonstrict-read-write</prop>
+			</props>
+		</property>
+
+		<property name="collectionCacheStrategies">
+			<props>
+				<prop key="org.jbpm.file.def.FileDefinition.processFiles">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.action.Script.variableAccesses">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Event.actions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ExceptionHandler.actions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.leavingTransitions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Node.arrivingTransitions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.nodes">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.actions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.ProcessDefinition.definitions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.SuperState.nodes">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Transition.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.def.Transition.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.node.Decision.decisionConditions">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.node.ProcessState.variableAccesses">nonstrict-read-write</prop>
+				<prop key="org.jbpm.graph.node.TaskNode.tasks">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Swimlane.tasks">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskController.variableAccesses">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Task.events">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.Task.exceptionHandlers">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskMgmtDefinition.swimlanes">nonstrict-read-write</prop>
+				<prop key="org.jbpm.taskmgmt.def.TaskMgmtDefinition.tasks">nonstrict-read-write</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- jbpm configuration -->
+	<!-- 大字段处理 -->
+	<bean id="jbpmTypes" class="org.springframework.orm.hibernate3.TypeDefinitionBean">
+		<property name="typeName" value="string_max" />
+		<property name="typeClass" value="org.jbpm.db.hibernate.StringMax" />
+	</bean>
+
+	<bean id="jbpmConfiguration"
+		class="org.springmodules.workflow.jbpm31.LocalJbpmConfigurationFactoryBean">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="configuration" value="classpath:jbpm.cfg.xml" />
+		<property name="createSchema" value="false" />
+	</bean>
+
+	<bean id="jbpmTemplate" class="org.springmodules.workflow.jbpm31.JbpmTemplate">
+		<constructor-arg index="0" ref="jbpmConfiguration" />
+	</bean>
+	
+
+
+	<!-- end jbpm configuration -->
+
+</beans>
+

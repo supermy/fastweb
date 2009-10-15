@@ -9,4 +9,19 @@
       p, table, hr, .box { margin-bottom:25px; }
       .box p { margin-bottom:10px; }
     </style>
+    <!--link rel="stylesheet" href="/fastweb/struts/css_xhtml/styles.css" type="text/css" /-->
+    <style type="text/css" media="screen">
+		.wwFormTable {}
+		.label {
+		    font-style:italic;
+		    float:left;
+		    width:30%
+		}
+		.errorLabel {font-style:italic; color:red; }
+		.errorMessage {font-weight:bold; color:red; }
+		.checkboxLabel {}
+		.checkboxErrorLabel {color:red; }
+		.required {color:red;}
+    </style>
+    
     

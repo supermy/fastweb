@@ -9,3 +9,8 @@
 
 	<script src="${js}/js/jquery.js"  type="text/javascript"></script>
 	<script src="${js}/js/jquery.tools.min.js"></script>
+
+    <!--script src="/fastweb/struts/utils.js" type="text/javascript"></script-->
+	<script src="${js}/js/struts2-utils.js"></script>
+    
+    	

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition xmlns="" name="expenditure">
+
+	<swimlane name="employee">
+		<assignment pooled-actors="员工"></assignment>
+	</swimlane>
+
+	<swimlane name="manager">
+		<assignment pooled-actors="主管,副主管"></assignment>
+	</swimlane>
+
+	<swimlane name="boss">
+		<assignment pooled-actors="经理,副经理"></assignment>
+	</swimlane>
+
+
+	<start-state name="开始">
+		<transition name="" to="申请填写报销单"></transition>
+	</start-state>
+
+	<task-node name="申请填写报销单">
+		<task name="填写报销单" swimlane="employee">
+			<!--assignment class="org.supermy.workflow.assignment.UserAssignment"></assignment-->
+		</task>
+		<transition name="提交" to="部门主管审核"></transition>
+		<transition name="放弃" to="end1"></transition>
+	</task-node>
+
+
+	<task-node name="部门主管审核">
+		<task name="主管审核" swimlane="manager">
+			<description>
+				是否符合报销的项目
+			</description>
+		</task>
+		<transition name="退回" to="申请填写报销单"></transition>
+		<transition name="不同意" to="自动处理申请结果"></transition>
+		<transition name="同意" to="判断走向"></transition>
+	</task-node>
+
+	<decision name="判断走向">
+		<handler class="org.supermy.workflow.decision.ProcessDecision" />
+		<transition name="大于10000" to="经理审核申请"></transition>
+		<transition name="小于10000" to="财务处理流程"></transition>
+	</decision>
+
+	<task-node name="经理审核申请">
+		<task name="经理审核" swimlane="boss">
+		</task>
+		<transition name="同意" to="财务处理流程"></transition>
+		<transition name="不同意" to="自动处理申请结果"></transition>
+	</task-node>
+
+	<process-state name="财务处理流程">
+		<sub-process name="finance"></sub-process>
+		<variable access="read,write" name="businessKey" mapped-name="businessKey"></variable>
+		<variable access="read,write" name="money" mapped-name="money"></variable>
+		<transition name="" to="自动处理申请结果"></transition>
+	</process-state>
+
+	<node name="自动处理申请结果">
+		<event type="node-enter">
+			<action name="action1" class="org.supermy.workflow.action.ProcessResult"></action>
+		</event>
+		<transition name="" to="end1"></transition>
+	</node>
+	<end-state name="end1"></end-state>
+</process-definition>

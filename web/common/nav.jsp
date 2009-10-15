@@ -3,8 +3,6 @@
 		<a href="${ctx}/" >Home</a>
 		<a href="${ctx}/user/user.action"  
 			><s:text name="user.manager" /></a>
-		<a href="${ctx}/user/role.action"  
-			><s:text name="role.manager" /></a>
 		<a href="${ctx}/organization/companytype.action"  
 			><s:text name="compnay.type.manager"/></a> 
 		<a href="${ctx}/resource/resource.action"  

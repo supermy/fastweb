@@ -1,0 +1,1 @@
+需要在User Libiary中添加CXF_LIB，添加CXF的lib下面所有jar。
