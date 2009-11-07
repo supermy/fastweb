@@ -25,9 +25,6 @@
 		</property>
 	</bean>
 	
-	<!-- 该 BeanPostProcessor 将自动起作用，对标注 @Autowired 的 Bean 进行自动注入  在2.56版本中是否需要 -->
-	<bean
-		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
 	
 	<!--
 		使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入
