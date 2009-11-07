@@ -24,8 +24,6 @@
 			</list>
 		</property>
 	</bean>
-	
-	
 	<!--
 		使用annotation 自动注册bean,并保证@Required,@Autowired的属性被注入
 		<context:component-scan base-package="org.supermy.core.service" />
@@ -45,8 +43,13 @@
 			expression="org.springframework.stereotype.Repository" />
 	</context:component-scan>
 
-	<!-- bean驱动
-	<context:annotation-config />
+	<!--
+		将隐式地向Spring容器注册
+		AutowiredAnnotationBeanPostProcessor、
+		CommonAnnotationBeanPostProcessor、
+		PersistenceAnnotationBeanPostProcessor以及
+		RequiredAnnotationBeanPostProcessor这4个BeanPostProcessor。
+		<context:annotation-config />
 	-->
 
 
