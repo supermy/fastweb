@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebService;
 
+import org.apache.solr.client.solrj.SolrServer;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ public class UserService extends BaseService implements IUserService {
 
 	private FastwebTemplate<UrlResource, Long> urlResourceUtil;
 
+	
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		// Session openSession = sessionFactory.openSession();//
@@ -113,5 +115,4 @@ public class UserService extends BaseService implements IUserService {
 		getAuthorityUtil().mergeCollection(urlResource.getAuthorityList(),authorityListId);
 		getUrlResourceUtil().save(urlResource);
 	}
-	
 }

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -30,6 +32,9 @@ public class RoleAction extends BaseActionSupport<Role> {
 
 	@Autowired
 	private IUserService roleService;
+
+	@Autowired
+	private SolrServer client;
 
 	// 基本属性
 	private Role role;
@@ -147,4 +152,28 @@ public class RoleAction extends BaseActionSupport<Role> {
 		return SUCCESS;
 	}
 
+	/**
+	 * solr方式全文检索对象的String属性
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String fulltext() throws Exception {
+
+		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
+		pagerole.setPageSize(Page.MAX_PAGESIZE);
+
+		String q = Struts2Utils.getRequest().getParameter("q");
+		if (StringUtils.isBlank(q)) {
+			addActionMessage(getText("fulltext.query.notblank"));
+			return RELOAD;
+		}
+		addActionMessage(getText("common.domain.fulltext")+" ["+q+"] ");
+
+		pagerole = roleService.getRoleUtil().fullltext(pagerole, q, client);
+
+		return SUCCESS;
+	}
+
+	
 }

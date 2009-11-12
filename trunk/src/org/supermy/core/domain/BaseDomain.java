@@ -6,9 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.solr.client.solrj.beans.Field;
 import org.hibernate.annotations.Index;
 import org.hibernate.cfg.annotations.Comment;
 
@@ -23,8 +25,8 @@ import org.hibernate.cfg.annotations.Comment;
 public class BaseDomain {
 
 	public String toString() {
-		// 开发模式
-		// return ToStringBuilder.reflectionToString(this);
+		 //开发模式
+//		 return ToStringBuilder.reflectionToString(this);
 		// 生产模式
 		return new ToStringBuilder(this, ToStringStyle.SIMPLE_STYLE).append(
 				this.id).toString();
@@ -65,13 +67,29 @@ public class BaseDomain {
 	//@SequenceGenerator(name="fastweb_seq",allocationSize=50, sequenceName="seq_fastweb")  	
 	//mysql user  @GeneratedValue  is ok
 	
+	@Field
 	@Id
 	@GeneratedValue
 	@Column(name = "id_")
 	@Comment("物理主键")
 	private Long id;// =new Long(0);
 
+	//FIXME 通过类型区分不同的domain;重复的ID索引会被覆盖，对于数字型ID不是通用的解决办法；
+	@Transient
+	@Field("indextype_t")
+	private String indexType;
 	
+	
+	public String getIndexType() {
+		this.indexType =getClass().getSimpleName();
+		return indexType;
+	}
+
+	@Field("indextype_t")
+	public void setIndexType(String indexType) {
+		this.indexType =getClass().getSimpleName();
+	}
+
 	/**
 	 * @return
 	 * 

@@ -30,12 +30,16 @@
 		<c:set var="buttons">
 			<div>
 				<s:text name="common.page.by"/>${'$'}{page${pojo.shortName.toLowerCase()}.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${'$'}{page${pojo.shortName.toLowerCase()}.totalPages}<s:text name="common.page.page"/> 
+				<!--
 				<s:if test="page${pojo.shortName.toLowerCase()}.hasPre">
 					<a href="${util.build(pojo.shortName)}.action?page${pojo.shortName.toLowerCase()}.pageNo=${'$'}{page${pojo.shortName.toLowerCase()}.prePage}&page${pojo.shortName.toLowerCase()}.orderBy=${'$'}{page${pojo.shortName.toLowerCase()}.orderBy}&page${pojo.shortName.toLowerCase()}.order=${'$'}{page${pojo.shortName.toLowerCase()}.order}"><s:text name="common.page.pre"/></a>
 				</s:if>
 				<s:if test="page${pojo.shortName.toLowerCase()}.hasNext">
 					<a href="${util.build(pojo.shortName)}.action?page${pojo.shortName.toLowerCase()}.pageNo=${'$'}{page${pojo.shortName.toLowerCase()}.nextPage}&page${pojo.shortName.toLowerCase()}.orderBy=${'$'}{page${pojo.shortName.toLowerCase()}.orderBy}&page${pojo.shortName.toLowerCase()}.order=${'$'}{page${pojo.shortName.toLowerCase()}.order}"><s:text name="common.page.next"/></a>
 				</s:if>
+				-->
+				
+				<s:property value="page${pojo.shortName.toLowerCase()}.genNav('${util.build(pojo.shortName)}.action?','page${pojo.shortName.toLowerCase()}',4)"  escape="false"/>
 				<br />
 			</div>
 		</c:set>
@@ -73,6 +77,23 @@
 					/>
 			</form>
 		</div> 
+
+		<div id="fulltext">
+			<form 
+				action="${util.build(pojo.shortName)}.action" 
+				method="post">
+				<input type="text" 
+						name="q" 
+						value="${'$'}{param['q']}" 
+						size="10"/>
+				<s:submit 
+					cssClass="button" 
+					method="fulltext"  
+					key="common.domain.fulltext" 
+					/>
+			</form>
+		</div> 
+
 	</div>
 		
 	<!-- 布局  底 -->

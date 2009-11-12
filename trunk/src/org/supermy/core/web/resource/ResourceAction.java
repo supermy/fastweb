@@ -19,14 +19,17 @@ import org.supermy.workflow.service.WorkflowService;
  * 使用Struts2 convention-plugin annotation定义Action参数.
  * 
  */
-@Results( { @Result(name = BaseActionSupport.RELOAD, location = "resource.action?page.pageRequest=${page.pageRequest}", type = "redirect") })
+@Results( { @Result(
+		name = BaseActionSupport.RELOAD, 
+		location = "resource.action?page.pageRequest=${page.pageRequest}", 
+		type = "redirect") })
 public class ResourceAction extends BaseActionSupport<Resource> {
 
 	@Autowired
 	private IResourceService resourceService;
 
 	@Autowired
-	private WorkflowService approveService;
+	private WorkflowService workflowService;
 
 	// 基本属性
 	private Resource resource;
@@ -106,7 +109,7 @@ public class ResourceAction extends BaseActionSupport<Resource> {
 	@Override
 	protected void prepareModelSave() throws Exception {
 		prepareModel();
-		
+
 	}
 
 	public void setId(Long id) {
@@ -206,7 +209,7 @@ public class ResourceAction extends BaseActionSupport<Resource> {
 
 			String processZipFileName = Struts2Utils.getFilePathName(resource
 					.getPath());
-			approveService.deployProcess(processZipFileName);
+			workflowService.deployProcess(processZipFileName);
 			resource.setDone(true);
 			resourceService.getResourceUtil().save(resource);
 

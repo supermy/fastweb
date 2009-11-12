@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="true">
+	<description>JBPM3.0 配置文件</description>
+
+
+	<!-- start jbpm configuration -->
+	<!-- 大字段处理 -->
+	<bean id="jbpmTypes" class="org.springframework.orm.hibernate3.TypeDefinitionBean">
+		<property name="typeName" value="string_max" />
+		<property name="typeClass" value="org.jbpm.db.hibernate.StringMax" />
+	</bean>
+	<bean id="jbpmConfiguration"
+		class="org.springmodules.workflow.jbpm31.LocalJbpmConfigurationFactoryBean">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<property name="configuration" value="classpath:jbpm.cfg.xml" />
+		<property name="createSchema" value="false" />
+	</bean>
+	<bean id="jbpmTemplate" class="org.springmodules.workflow.jbpm31.JbpmTemplate">
+		<constructor-arg index="0" ref="jbpmConfiguration" />
+	</bean>
+	<!-- end jbpm configuration -->
+</beans>

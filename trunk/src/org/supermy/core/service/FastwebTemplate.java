@@ -1,13 +1,22 @@
 package org.supermy.core.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.supermy.core.domain.BaseDomain;
@@ -89,6 +98,49 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 		return find(page, "", " from " + domainClass.getName() + " obj "
 				+ wherehql, filters.values().toArray());
 
+	}
+
+	@Transactional(readOnly = true)
+	public Page<T> fullltext(final Page<T> page, final String q,
+			final SolrServer client) {
+		Assert.notNull(page);
+		Assert.notNull(q);
+
+		// 查询
+		Integer start = page.getFirst();
+		Integer rows = page.getPageSize();
+		SolrQuery solrQuery = new SolrQuery().setQuery(
+				q + " AND indextype_t:" + domainClass.getSimpleName()).setFields("id")
+				.setStart(start).setRows(rows);
+		// .addFacetField("id").addFacetField("name");
+		QueryResponse rsp;
+		try {
+			// System.out.println("client:==================" + client);
+			rsp = client.query(solrQuery);
+		} catch (SolrServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+
+		// 结果处理
+		SolrDocumentList results = rsp.getResults();
+		List<Long> ids = new ArrayList<Long>();
+		for (SolrDocument solrDocument : results) {
+			log.debug("find solrDocument:{}", solrDocument);
+			String id = solrDocument.getFieldValue("id").toString();
+			ids.add(Long.parseLong(StringUtils.substringAfterLast(id, "-")));
+		}
+		log.debug("ids:{}", ids);
+		log.debug("total count:{}", results.getNumFound());
+		// long2int
+		page.setTotalCount(Integer.parseInt(results.getNumFound() + ""));
+
+		page.setResult(find(ids));
+
+		log.debug("find domain :{}", page.getResult());
+		
+		return page;
 	}
 
 	/**
