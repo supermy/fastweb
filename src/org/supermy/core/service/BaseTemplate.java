@@ -235,6 +235,15 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		return createQuery(hql, values).list();
 	}
 
+	@Transactional(readOnly = true)
+	public List<T> find(final List<Long> ids) {
+		log.debug("find domain for ids:{}",ids);
+		String hql=" from "+domainClass.getSimpleName() +" obj where obj.id in (:ids)";
+		Query query = getSession().createQuery(hql);
+		query.setParameterList("ids", ids);
+		return query.list();
+	}
+
 	/**
 	 * 按HQL查询唯一对象.
 	 */

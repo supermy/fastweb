@@ -23,7 +23,7 @@ import com.opensymphony.xwork2.Preparable;
  * 声明对Preparable,ModelDriven接口的使用,并规范了CRUD函数和返回值的命名.
  * 
  * @param <T>
- *            CRUD所管理的对象类型.
+ *<br/>CRUD所管理的对象类型.
  * 
  */
 
@@ -32,7 +32,7 @@ public abstract class BaseActionSupport<T> extends ActionSupport implements
 
 	@Autowired
 	public SessionFactory sessionFactory;
-	
+
 	/**
 	 * 
 	 */
@@ -97,41 +97,45 @@ public abstract class BaseActionSupport<T> extends ActionSupport implements
 	 * 等同于prepare()的内部函数,供prepardMethodName()函数调用.
 	 */
 	protected abstract void prepareModel() throws Exception;
+
 	protected abstract void prepareModelSave() throws Exception;
-	
+
+
 	/**
 	 * 一对多和多对多的关系的详细列表
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public  String mtolist() throws Exception{
-		 Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
-                 .getGenericSuperclass()).getActualTypeArguments()[0];
-		
+	public String mtolist() throws Exception {
+		Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
+
 		String className = Struts2Utils.getRequest().getParameter("class");
 		String objid = Struts2Utils.getRequest().getParameter("id");
 		String property = Struts2Utils.getRequest().getParameter("property");
-		//参数不能为空
+		// 参数不能为空
 		Assert.assertNotNull(className);
 		Assert.assertNotNull(objid);
 		Assert.assertNotNull(property);
-		
+
 		Class<?> forName = Class.forName(className);
-		//数据库查询
-		Object obj = sessionFactory.getCurrentSession().get(forName, new Long(objid));
-		//Object obj=null;
-		//取出关联属性
+		// 数据库查询
+		Object obj = sessionFactory.getCurrentSession().get(forName,
+				new Long(objid));
+		// Object obj=null;
+		// 取出关联属性
 		Object p = PropertyUtils.getProperty(obj, property);
-		log.debug("relation list :{}",p);
-		//将数据注入到Action
+		log.debug("relation list :{}", p);
+		// 将数据注入到Action
 		Page<T> page = new Page<T>(5);
-		page.setResult(new ArrayList(((Set<T>)p)));
-		PropertyUtils.setProperty(this,"page"+entityClass.getSimpleName().toLowerCase(),page);
-		//跳转到对应的列表页面
+		page.setResult(new ArrayList(((Set<T>) p)));
+		PropertyUtils.setProperty(this, "page"
+				+ entityClass.getSimpleName().toLowerCase(), page);
+		// 跳转到对应的列表页面
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * 
 	 * 直接跳转到View页面
@@ -139,19 +143,20 @@ public abstract class BaseActionSupport<T> extends ActionSupport implements
 	 * @return
 	 * @throws Exception
 	 */
-	public  String ntoinput() throws Exception{
-		 Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
-                .getGenericSuperclass()).getActualTypeArguments()[0];
+	public String ntoinput() throws Exception {
+		Class<T> entityClass = (Class<T>) ((ParameterizedType) getClass()
+				.getGenericSuperclass()).getActualTypeArguments()[0];
 		String objid = Struts2Utils.getRequest().getParameter("id");
 
-		//参数不能为空
+		// 参数不能为空
 		Assert.assertNotNull(objid);
-		
-		//数据库查询
-		Object obj = sessionFactory.getCurrentSession().get(entityClass, new Long(objid));
-		//(T)obj;
-		//跳转到对应的列表页面
+
+		// 数据库查询
+		Object obj = sessionFactory.getCurrentSession().get(entityClass,
+				new Long(objid));
+		// (T)obj;
+		// 跳转到对应的列表页面
 		return INPUT;// VIEW
 	}
-	
+
 }

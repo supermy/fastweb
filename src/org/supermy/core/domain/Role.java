@@ -14,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.apache.solr.client.solrj.beans.Field;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -37,6 +38,7 @@ import org.supermy.core.util.ListUtils;
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseDomain {
 
+	@Field
 	@Comment("角色名称")
 	@NotNull
 	@Length(max = 20)

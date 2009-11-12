@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.ServletActionContext;
+
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
@@ -41,6 +45,9 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 
 	@Autowired
 	private I${pojo.shortName}Service ${pojoNameLower}Service;
+
+	@Autowired
+	private SolrServer client;
 
 	// 基本属性
 	private ${pojo.shortName} ${pojoNameLower};
@@ -200,5 +207,30 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 		page${pojo.shortName.toLowerCase()} = ${pojoNameLower}Service.get${pojo.shortName}Util().search(page${pojo.shortName.toLowerCase()}, filters);
 		return SUCCESS;
 	}
+
+	/**
+	 * solr方式全文检索对象的String属性
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String fulltext() throws Exception {
+
+		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
+		page${pojo.shortName.toLowerCase()}.setPageSize(Page.MAX_PAGESIZE);
+
+		String q = Struts2Utils.getRequest().getParameter("q");
+		if (StringUtils.isBlank(q)) {
+			addActionMessage(getText("fulltext.query.notblank"));
+			return RELOAD;
+		}
+		addActionMessage(getText("common.domain.fulltext")+" ["+q+"] ");
+
+		page${pojo.shortName.toLowerCase()} = ${pojoNameLower}Service.get${pojo.shortName}Util().fullltext(page${pojo.shortName.toLowerCase()}, q, client);
+
+		return SUCCESS;
+	}
+
+
 
 }

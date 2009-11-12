@@ -16,6 +16,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.solr.client.solrj.beans.Field;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
@@ -48,6 +49,7 @@ import org.supermy.core.util.MD5;
 //@Proxy(lazy = false)
 public class User extends BaseDomain {
 
+	@Field
 	@Comment("用户名")
 	@NotEmpty
 	@Index(name="i_name_pwd",columnNames={"name_","passwd_"})
@@ -67,6 +69,7 @@ public class User extends BaseDomain {
 	@Transient
 	private String passwd2;
 
+	
 	@Comment("账户没有过期")
 	@Column(name = "accountNonExpired")
 	private boolean accountNonExpired = true;
@@ -77,6 +80,7 @@ public class User extends BaseDomain {
 	@Column(name = "accountNonLocked")
 	private boolean accountNonLocked = true;
 
+	@Field("email_t")
 	@Comment(value="Email",desc="使用Email作为用户的ID,方便用户，获取有效用户")
 	@Email
 	@NotEmpty
@@ -84,11 +88,13 @@ public class User extends BaseDomain {
 	@Column(name = "email", nullable=false,unique = true, length = 80)
 	private String email;
 
+	@Field("intro_t")//动态字段 *_t ,解决domain属性的全文检索在schema中需要定义的问题
 	@Comment(value="简介",desc="个人简单介绍")
 	@Lob
 	@Column(name = "intro_")
 	private String intro;
 
+	@Field("salary_d")
 	@Comment("薪水")
 	@Column(name = "salary_", precision = 2)
 	private Double salary;// 薪水 两位小数

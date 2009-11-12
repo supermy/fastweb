@@ -18,6 +18,7 @@ import org.supermy.core.security.SecurityUtils;
 public class AuditListener implements SaveOrUpdateEventListener {
 
 	public void onSaveOrUpdate(SaveOrUpdateEvent event) throws HibernateException {
+		Object entity1 = event.getEntity();
 		Object object = event.getObject();
 
 		//如果对象是AuditableEntity子类,添加审计信息.

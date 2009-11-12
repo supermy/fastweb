@@ -302,7 +302,7 @@ public class Struts2Utils {
 			// 如果value值为空,则忽略此filter.
 			boolean omit = StringUtils.isBlank((String) value);
 			if (!omit) {
-	
+				System.out.println("*****************"+filterName);
 				// 分析filterName,获取matchType与propertyName
 				String matchTypeCode = StringUtils.substringBefore(
 						(String) filterName, "_");
