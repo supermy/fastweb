@@ -1,6 +1,43 @@
-﻿20090915
+﻿20091111
+	部署单独的jar包,测试类就可以省略;
+	
+20091105
+	solr test: SolrListenerTest.java
+	solr about domain crud event listener ok
+	domain id create unique ok
+	查询翻页处理 todo 
+	 
+20091102
+	方案：贴吧机制的改进？
+	解决全文检索问题 solr：采用hibernate的事件机制更新solr;
+	采用3-4层的贴吧机构进行资源管理
+	资源的权限处理考虑中：
+	
+20091023
+	文档资源管理：
+		1.树状分类管理；父子关系编码 ，数据分层载入；通过父子关系维护编码；
+		2.上传资源管理采用日期上传，存入实际路径；注意实际使用过程中垃圾资源的处理；
+		3.文档的全文检索（word  ppt excel text）；//lucene for hibernate 全文检索 //效率问题的话，可能需要单独索引
+		4.分类资源的授权；//资源维护过程中，自动增加url到权限管理；
+		5.资源摘要 简单介绍；
+		6.资源后台管理维护和前台浏览；管理员，分类管理员，用户；
+
+	
+20091022
+	页面导航	ok
+	菜单手写
+	<s:debug/>  
+	
+	注册页面 ok
+	
+	1.增加url资源 DBServiceTest；
+	2.功能 action 方法；
+	3.增加界面
+	
+20091015
 	mtolist 的Action完成；
 	todo:table filter 排序、过滤；
+	
 20091010
 	manytoone mnaytomany onetomany 自动代码生成  ok;
 	所有页面自动生成：用户管理页面需要修正  密码；数据校验
