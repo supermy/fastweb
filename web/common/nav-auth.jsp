@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!-- 权限管理子菜单  -->
 <div class="span-5" style="text-align:left;">
+		<a href="${ctx}/user/user!register.action"  
+			><s:text name="common.domain.register" /></a>
 		<a href="${ctx}/user/user.action"  
 			><s:text name="user.manager" /></a>
 		<a href="${ctx}/user/role.action"  

@@ -13,5 +13,6 @@
 			><s:text name="workflow.taskitem.manager"/></a> 
 		<a href="${ctx}/workflow/mytask.action"  
 			><s:text name="workflow.mytask"/></a>
+
 		<hr />
 </div>
