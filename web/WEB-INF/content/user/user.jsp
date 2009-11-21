@@ -27,15 +27,21 @@
 		<c:set var="buttons">
 			<div>
 				<s:text name="common.page.by"/>${pageuser.pageNo}<s:text name="common.page.page"/>, <s:text name="common.page.total"/>${pageuser.totalPages}<s:text name="common.page.page"/> 
+				<!--
 				<s:if test="pageuser.hasPre">
 					<a href="user.action?pageuser.pageNo=${pageuser.prePage}&pageuser.orderBy=${pageuser.orderBy}&pageuser.order=${pageuser.order}"><s:text name="common.page.pre"/></a>
 				</s:if>
 				<s:if test="pageuser.hasNext">
 					<a href="user.action?pageuser.pageNo=${pageuser.nextPage}&pageuser.orderBy=${pageuser.orderBy}&pageuser.order=${pageuser.order}"><s:text name="common.page.next"/></a>
 				</s:if>
+				-->
+				
+				<s:property value="pageuser.genNav('user.action?','pageuser',4)"  escape="false"/>
 				<br />
 			</div>
 		</c:set>
+		
+		
 		<c:out value="${buttons}" escapeXml="false" />
 		<table>
 			<thead>
@@ -128,6 +134,7 @@
 	
 	<!-- 布局  右边刄1�7-->
 	<div class="column span-5 last">
+		<%@ include file="/common/nav-auth.jsp"%>
 		<s:actionmessage theme="mytheme"/>
 		<hr class="space"/>
 		<security:authorize 
@@ -150,6 +157,21 @@
 					cssClass="button" 
 					method="search"  
 					key="common.domain.search" 
+					/>
+			</form>
+		</div> 
+		<div id="fulltext">
+			<form 
+				action="user.action" 
+				method="post">
+				<input type="text" 
+						name="q" 
+						value="${param['q']}" 
+						size="10"/>
+				<s:submit 
+					cssClass="button" 
+					method="fulltext"  
+					key="common.domain.fulltext" 
 					/>
 			</form>
 		</div> 

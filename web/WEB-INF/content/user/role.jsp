@@ -126,6 +126,23 @@
 					/>
 			</form>
 		</div> 
+
+		<div id="fulltext">
+			<form 
+				action="role.action" 
+				method="post">
+				<input type="text" 
+						name="q" 
+						value="${param['q']}" 
+						size="10"/>
+				<s:submit 
+					cssClass="button" 
+					method="fulltext"  
+					key="common.domain.fulltext" 
+					/>
+			</form>
+		</div> 
+
 	</div>
 		
 	<!-- 布局  庄1�7 -->
