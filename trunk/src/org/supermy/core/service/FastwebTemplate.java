@@ -85,6 +85,9 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 		setPageParameter(q, page);
 		List result = q.list();
 		page.setResult(result);
+		if (log.isDebugEnabled()) {
+			queryByCacheStats();
+		}
 		return page;
 	}
 

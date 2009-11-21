@@ -18,6 +18,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.stat.Statistics;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.Type;
 import org.slf4j.LoggerFactory;
@@ -138,7 +139,7 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		// getSession().delete(obj);
 		delete(get(id));
 		// getSession().flush();
-		log.debug("delete:" + id);
+		log.debug("delete:{}", id);
 	}
 
 	/**
@@ -158,10 +159,10 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 * @return
 	 */
 	@Transactional(readOnly = true)
-	public Object get(final String className,final IdT id) {
-		return  getSession().load(className, id);
+	public Object get(final String className, final IdT id) {
+		return getSession().load(className, id);
 	}
-	
+
 	/**
 	 * 创建查询 类型固定
 	 * 
@@ -237,8 +238,9 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 
 	@Transactional(readOnly = true)
 	public List<T> find(final List<Long> ids) {
-		log.debug("find domain for ids:{}",ids);
-		String hql=" from "+domainClass.getSimpleName() +" obj where obj.id in (:ids)";
+		log.debug("find domain for ids:{}", ids);
+		String hql = " from " + domainClass.getSimpleName()
+				+ " obj where obj.id in (:ids)";
 		Query query = getSession().createQuery(hql);
 		query.setParameterList("ids", ids);
 		return query.list();
@@ -473,4 +475,25 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		}
 
 	}
+
+	/**
+	 * cache 查询命中率
+	 * @param event
+	 */
+	public void queryByCacheStats() {
+		Statistics stats = sessionFactory.getStatistics();
+		long l2HitCount = stats.getSecondLevelCacheHitCount();
+		long l2MissCount = stats.getSecondLevelCacheMissCount();
+		long queryHitCount = stats.getQueryCacheHitCount();
+		long queryMissCount = stats.getQueryCacheMissCount();
+		log.debug("L2_Cache_Hit :{}" , l2HitCount);
+		log.debug("L2_Cache_Miss :{}" , l2MissCount);
+		double l2CacheHitRatio = l2HitCount
+				/ (l2HitCount + l2MissCount + 0.000001);
+		log.debug("L2_Cache_Hit_Ratio :{}" , l2CacheHitRatio);
+		log.debug("");
+		log.debug("Query_Cache_Hit :{}" , queryHitCount);
+		log.debug("Query_Cache_Miss :{}" , queryMissCount);
+	}
+
 }

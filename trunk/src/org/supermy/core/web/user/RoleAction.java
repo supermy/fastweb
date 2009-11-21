@@ -33,8 +33,6 @@ public class RoleAction extends BaseActionSupport<Role> {
 	@Autowired
 	private IUserService roleService;
 
-	@Autowired
-	private SolrServer client;
 
 	// 基本属性
 	private Role role;
@@ -170,7 +168,7 @@ public class RoleAction extends BaseActionSupport<Role> {
 		}
 		addActionMessage(getText("common.domain.fulltext")+" ["+q+"] ");
 
-		pagerole = roleService.getRoleUtil().fullltext(pagerole, q, client);
+		pagerole = roleService.getRoleUtil().fullltext(pagerole, q, getClient());
 
 		return SUCCESS;
 	}

@@ -28,8 +28,6 @@ public class UserAction extends BaseActionSupport<User> {
 	@Autowired
 	private IUserService userService;
 
-	@Autowired
-	private SolrServer client;
 
 	// 基本属性
 	private User user;
@@ -163,7 +161,7 @@ public class UserAction extends BaseActionSupport<User> {
 		}
 		addActionMessage(getText("user.searchtxt"));
 
-		pageuser = userService.getUserUtil().fullltext(pageuser, q, client);
+		pageuser = userService.getUserUtil().fullltext(pageuser, q, getClient());
 		return SUCCESS;
 	}
 
