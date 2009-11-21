@@ -14,6 +14,7 @@
 	<script src="${js}/js/validate//localization/messages_cn.js" type="text/javascript"></script>
 	<script>
 		$(document).ready(function(){
+		
 			//聚焦第一个输入框
 			$("#email").focus();
 			//为inputForm注册validate函数
