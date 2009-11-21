@@ -7,6 +7,7 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.solr.client.solrj.SolrServer;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,14 @@ import com.opensymphony.xwork2.Preparable;
 
 public abstract class BaseActionSupport<T> extends ActionSupport implements
 		ModelDriven<T>, Preparable {
+
+	@Autowired
+	private SolrServer client;
+
+	
+	public SolrServer getClient() {
+		return client;
+	}
 
 	@Autowired
 	public SessionFactory sessionFactory;

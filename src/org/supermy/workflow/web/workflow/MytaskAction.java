@@ -9,7 +9,7 @@ import org.jbpm.taskmgmt.exe.TaskInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.supermy.core.domain.User;
 import org.supermy.core.web.BaseActionSupport;
-import org.supermy.workflow.domain.TaskItem;
+import org.supermy.workflow.domain111.TaskItem;
 import org.supermy.workflow.service.WorkflowService;
 
 /**

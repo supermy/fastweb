@@ -4,7 +4,6 @@
 	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd"
 	default-lazy-init="true">
-	
 	<description>数据源配置</description>
 
 	<!-- 定义受环境影响易变的变量 -->
@@ -66,9 +65,6 @@
 		<property name="dataSource">
 			<ref bean="dataSource" />
 		</property>
-		<property name="typeDefinitions">
-			<ref bean="jbpmTypes" />
-		</property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.query.substitutions">true 1, false 0</prop>
@@ -76,15 +72,16 @@
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
 				<prop key="hibernate.generate_statistics">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}
-				</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				
+				<prop key="hibernate.generate_statistics">true</prop>  
+				
 				<prop key="hibernate.cache.use_second_level_cache">true</prop>
 				<prop key="hibernate.cache.use_query_cache">true</prop>
-				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider
-				</prop>
+				<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>
 				<prop key="hibernate.cache.provider_configuration_file_resource_path">${hibernate.ehcache_config_file}
 				</prop>
-				<prop key="hibernate.max_fetch_depth">2</prop>
+				<prop key="hibernate.max_fetch_depth">3</prop>
 				<!-- prop key="default-lazy">true</prop -->
 			</props>
 		</property>
@@ -92,19 +89,19 @@
 			<property name="namingStrategy"> <bean
 			class="org.hibernate.cfg.ImprovedNamingStrategy" /> </property>
 		-->
-		<!--
-			<value>file:/home/my/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar</value>
-		-->
-		<property name="mappingJarLocations">
-			<list>
-				<value>
-					file:D:/env_java/source/fastweb/web/WEB-INF/lib/jbpm-jpdl.jar
-				</value>
-			</list>
-		</property>
 		<property name="domainPackageNames">
 			<list>
 				<value>domain</value>
+			</list>
+		</property>
+		<!-- jbpm -->
+		<property name="mappingLocations">
+			<list>
+				<value>classpath:jbpm.repository.hbm.xml</value>
+				<value>classpath:jbpm.execution.hbm.xml</value>
+				<value>classpath:jbpm.history.hbm.xml</value>
+				<value>classpath:jbpm.task.hbm.xml</value>
+				<value>classpath:jbpm.identity.hbm.xml</value>
 			</list>
 		</property>
 		<property name="eventListeners">
@@ -119,69 +116,25 @@
 				<entry key="post-insert">
 					<list>
 						<bean id="solrCreateListener" class="org.supermy.core.listener.SolrCreateListener">
-							<property name="running" value="true" />
+							<property name="running" value="false" />
 						</bean>
 					</list>
 				</entry>
 				<entry key="post-update">
 					<list>
 						<bean id="SolrUpdateListener" class="org.supermy.core.listener.SolrUpdateListener">
-							<property name="running" value="true" />
+							<property name="running" value="false" />
 						</bean>
 					</list>
 				</entry>
 				<entry key="post-delete">
 					<list>
 						<bean id="SolrDeleteListener" class="org.supermy.core.listener.SolrDeleteListener">
-							<property name="running" value="true" />
+							<property name="running" value="false" />
 						</bean>
 					</list>
 				</entry>
 			</map>
-		</property>
-		<property name="entityCacheStrategies">
-			<props>
-				<prop key="org.jbpm.context.def.VariableAccess">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Action">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Event">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ExceptionHandler">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Node">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ProcessDefinition">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Transition">nonstrict-read-write</prop>
-				<prop key="org.jbpm.instantiation.Delegation">nonstrict-read-write</prop>
-				<prop key="org.jbpm.module.def.ModuleDefinition">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.TaskController">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.Task">nonstrict-read-write</prop>
-			</props>
-		</property>
-		<property name="collectionCacheStrategies">
-			<props>
-				<prop key="org.jbpm.file.def.FileDefinition.processFiles">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.action.Script.variableAccesses">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Event.actions">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ExceptionHandler.actions">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Node.events">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Node.exceptionHandlers">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Node.leavingTransitions">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Node.arrivingTransitions">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ProcessDefinition.events">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ProcessDefinition.exceptionHandlers">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ProcessDefinition.nodes">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ProcessDefinition.actions">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.ProcessDefinition.definitions">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.SuperState.nodes">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Transition.events">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.def.Transition.exceptionHandlers">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.node.Decision.decisionConditions">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.node.ProcessState.variableAccesses">nonstrict-read-write</prop>
-				<prop key="org.jbpm.graph.node.TaskNode.tasks">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.Swimlane.tasks">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.TaskController.variableAccesses">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.Task.events">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.Task.exceptionHandlers">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.TaskMgmtDefinition.swimlanes">nonstrict-read-write</prop>
-				<prop key="org.jbpm.taskmgmt.def.TaskMgmtDefinition.tasks">nonstrict-read-write</prop>
-			</props>
 		</property>
 	</bean>
 </beans>

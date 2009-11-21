@@ -102,6 +102,7 @@ public class User extends BaseDomain {
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "c_user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	@Fetch(FetchMode.SUBSELECT)
+	//@Fetch(FetchMode.JOIN) 
 	@LazyCollection(LazyCollectionOption.FALSE)  	
 	@OrderBy("id")
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
