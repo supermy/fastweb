@@ -1,8 +1,8 @@
 package org.supermy.workflow.assignment;
 
-import org.jbpm.graph.exe.ExecutionContext;
-import org.jbpm.taskmgmt.def.AssignmentHandler;
-import org.jbpm.taskmgmt.exe.Assignable;
+import org.jbpm.api.model.OpenExecution;
+import org.jbpm.api.task.Assignable;
+import org.jbpm.api.task.AssignmentHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.supermy.workflow.service.WorkflowService;
 
@@ -16,9 +16,11 @@ public class AuthAssignment implements AssignmentHandler {
 	@Autowired
 	private WorkflowService daoService;
 
-	public void assign(Assignable arg0, ExecutionContext arg1) throws Exception {
-		// arg0.setPooledActors(boss);
-		// arg0.setActorId(arg0);
+	@Override
+	public void assign(Assignable arg0, OpenExecution arg1) throws Exception {
+		// TODO Auto-generated method stub
+		
 	}
+
 
 }
