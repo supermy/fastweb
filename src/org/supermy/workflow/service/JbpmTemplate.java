@@ -1,5 +1,7 @@
 package org.supermy.workflow.service;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -47,6 +49,7 @@ import org.jbpm.pvm.internal.model.ProcessDefinitionImpl;
 import org.jbpm.pvm.internal.model.Transition;
 import org.jbpm.pvm.internal.task.OpenTask;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,6 +64,7 @@ public class JbpmTemplate {
 	@Autowired
 	private DataSource dataSource;
 	@Autowired
+	@Qualifier("processEngine")
 	private ProcessEngine processEngine;
 	@Autowired
 	private TaskService taskService;
@@ -74,6 +78,29 @@ public class JbpmTemplate {
 	private ManagementService managementService;
 	@Autowired
 	private HistoryService historyService;
+
+	/**
+	 * 获取任务列表
+	 * 
+	 * @param username
+	 * @return
+	 */
+	protected List<Task> getTask(String username) {
+		List<Task> taskList = taskService.findPersonalTasks(username);
+		return taskList;
+	}
+
+	/**
+	 * 查看任务(单个任务)
+	 * 
+	 * @param taskId
+	 * @return
+	 */
+	protected Map<String, Object> view(String taskId) {
+		Set<String> set = taskService.getVariableNames(taskId);
+		Map<String, Object> map = taskService.getVariables(taskId, set);
+		return map;
+	}
 
 	/**
 	 * 获取所有最新版本的流程定义，结果按名称排序；
@@ -200,16 +227,16 @@ public class JbpmTemplate {
 	}
 
 	/**
-	 * 完成任务
+	 * 开始一个流程实例
 	 * 
-	 * @param taskId
-	 * @param transitionName
+	 * @param processDefinitionId
 	 * @param variables
+	 * @return
 	 */
-	public void completeTask(String taskId, String transitionName,
+	public ProcessInstance startProcessId(String processDefinitionId,
 			Map<String, Object> variables) {
-		taskService.setVariables(taskId, variables);
-		taskService.completeTask(taskId, transitionName);
+		return executionService.startProcessInstanceById(processDefinitionId,
+				variables);
 	}
 
 	/**
@@ -217,24 +244,11 @@ public class JbpmTemplate {
 	 * 
 	 * @param processDefinitionId
 	 * @param variables
+	 * @return
 	 */
-	public void startProcess(String processDefinitionId,
+	public ProcessInstance startProcessKey(String key,
 			Map<String, Object> variables) {
-		ProcessDefinition pd = repositoryService.createProcessDefinitionQuery()
-				.processDefinitionId(processDefinitionId).uniqueResult();
-		executionService.startProcessInstanceById(pd.getId(), variables);
-	}
-
-	/**
-	 * 开始一个流程实例
-	 * 
-	 * @param processDefinitionId
-	 * @param variables
-	 */
-	public void startProcessBy(String key, Map<String, Object> variables) {
-		ProcessDefinition pd = repositoryService.createProcessDefinitionQuery()
-				.processDefinitionKey(key).uniqueResult();
-		executionService.startProcessInstanceById(pd.getId(), variables);
+		return executionService.startProcessInstanceByKey(key, variables);
 	}
 
 	/**
@@ -688,5 +702,38 @@ public class JbpmTemplate {
 	 */
 	public List<Job> getJobs() {
 		return managementService.createJobQuery().list();
+	}
+
+	public void deployProcess(String processZipFileName) {
+		try {
+			ZipInputStream zin = new ZipInputStream(new FileInputStream(
+					processZipFileName));
+			repositoryService.createDeployment()
+					.addResourcesFromZipInputStream(zin).deploy();
+			zin.close();
+
+		} catch (IOException e) {
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	/**
+	 * 查询制定的流程
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public ProcessDefinition getProcessDefinition(String id) {
+		return repositoryService.createProcessDefinitionQuery()
+				.processDefinitionId(id).uniqueResult();
+	}
+
+	/**
+	 * 查询所有的流程实例
+	 * 
+	 * @return
+	 */
+	public List<ProcessInstance> getAllProcessInstance() {
+		return executionService.createProcessInstanceQuery().list();
 	}
 }

@@ -1,8 +1,6 @@
 package org.supermy.core.service;
 
 import org.hibernate.SessionFactory;
-import org.jbpm.JbpmConfiguration;
-import org.jbpm.JbpmContext;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +27,6 @@ public class OrganizationService extends BaseService {
 	private FastwebTemplate<Company, Long> companyUtil;
 
 	private SessionFactory sessionFactory;
-	@Autowired
-	private JbpmConfiguration jbpmConfiguration;
 
 	@Autowired
 	public void setSessionFactory(SessionFactory sessionFactory) {
@@ -43,26 +39,6 @@ public class OrganizationService extends BaseService {
 		this.sessionFactory = sessionFactory;
 	}
 
-	public JbpmContext getJbpmContext() {
-		log.debug("get jbpm context:");
-		JbpmContext jbpmContext = jbpmConfiguration.getCurrentJbpmContext();
-		if (jbpmContext == null) {
-			log.debug("create jbpm context ... ... ");
-			jbpmContext = jbpmConfiguration.createJbpmContext();
-		}
-		// 保持session 一致
-		jbpmContext.setSessionFactory(sessionFactory);
-		jbpmContext.setSession(sessionFactory.getCurrentSession());
-		return jbpmContext;
-	}
-
-	/**
-	 * 测试的时候使用 filter自动关闭
-	 */
-	public void closeJbpmContext() {
-		log.debug("close context:");
-		jbpmConfiguration.getCurrentJbpmContext().close();
-	}
 
 	/**
 	 * @return the userUtil

@@ -47,7 +47,7 @@ import org.supermy.core.util.MD5;
 @Table(name = "c_users")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 //@Proxy(lazy = false)
-public class User extends BaseDomain {
+public class User extends BaseDomain { //implements org.jbpm.api.identity.User {
 
 	@Field
 	@Comment("用户名")

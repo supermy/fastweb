@@ -11,12 +11,10 @@ import org.supermy.core.service.IResourceService;
 import org.supermy.core.service.Page;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
-import org.supermy.workflow.service.WorkflowService;
+import org.supermy.workflow.service.JbpmTemplate;
 
 /**
  * 资源管理Action.
- * 
- * 使用Struts2 convention-plugin annotation定义Action参数.
  * 
  */
 @Results( { @Result(
@@ -29,7 +27,7 @@ public class ResourceAction extends BaseActionSupport<Resource> {
 	private IResourceService resourceService;
 
 	@Autowired
-	private WorkflowService workflowService;
+	private JbpmTemplate workflowService;
 
 	// 基本属性
 	private Resource resource;

@@ -1,8 +1,9 @@
 package org.supermy.workflow.assignment;
 
-import org.jbpm.graph.exe.ExecutionContext;
-import org.jbpm.taskmgmt.def.AssignmentHandler;
-import org.jbpm.taskmgmt.exe.Assignable;
+import org.jbpm.api.model.OpenExecution;
+import org.jbpm.api.task.Assignable;
+import org.jbpm.api.task.AssignmentHandler;
+import org.jbpm.pvm.internal.env.ExecutionContext;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.supermy.workflow.service.WorkflowService;
@@ -18,13 +19,20 @@ public class UserAssignment implements AssignmentHandler {
 
 	@Autowired
 	private WorkflowService daoService;
+	@Override
+	public void assign(Assignable arg0, OpenExecution arg1) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public void assign(Assignable assignable, ExecutionContext executionContext)
 			throws Exception {
 		log.debug("daoService:{}", daoService);
+		String assignee = null;
 		// arg0.setPooledActors(boss);
 		// arg0.setActorId(arg0);
-		assignable.setActorId(executionContext.getJbpmContext().getActorId());
+		//TODO　String assignee=executionContext.getExecution().getActorId();
+		assignable.setAssignee(assignee);
 	}
 
 }

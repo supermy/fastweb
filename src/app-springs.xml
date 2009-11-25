@@ -7,7 +7,8 @@
 	<description>引入外部配置文件</description>
 
   	<import resource="app-springs-datasource.xml" />  
-  	<import resource="app-springs-service.xml" />  
+  	<import resource="app-springs-service.xml" />
+  	  
   	<import resource="app-springs-jbpm.xml" />  
 
 </beans>

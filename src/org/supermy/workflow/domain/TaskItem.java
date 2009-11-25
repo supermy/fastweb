@@ -10,7 +10,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.NotEmpty;
-import org.jbpm.taskmgmt.exe.TaskInstance;
+import org.jbpm.api.task.Task;
+
 import org.supermy.core.domain.BaseDomain;
 
 /**
@@ -49,7 +50,7 @@ public class TaskItem extends BaseDomain {
 	private Long processDefinitionId;
 
 	@Transient
-	private TaskInstance task;
+	private Task task;
 
 	/**
 	 * @return the title
@@ -159,7 +160,7 @@ public class TaskItem extends BaseDomain {
 	/**
 	 * @return the task
 	 */
-	public TaskInstance getTask() {
+	public Task getTask() {
 		return task;
 	}
 
@@ -167,7 +168,7 @@ public class TaskItem extends BaseDomain {
 	 * @param task
 	 *            the task to set
 	 */
-	public void setTask(TaskInstance task) {
+	public void setTask(Task task) {
 		this.task = task;
 	}
 
