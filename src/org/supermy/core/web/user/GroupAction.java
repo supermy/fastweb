@@ -2,64 +2,69 @@
 package org.supermy.core.web.user;
 
 
+import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.solr.client.solrj.SolrServer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
+
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.supermy.core.domain.User;
+
+import org.supermy.core.domain.Group;
 import org.supermy.core.service.IUserService;
 import org.supermy.core.service.Page;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
 
+import org.supermy.core.domain.Group;
 
 
 @Results( { @Result(name = BaseActionSupport.RELOAD, 
-	location = "user.action?pageuser.pageRequest=${pageuser.pageRequest}", 
+	location = "group.action?pagegroup.pageRequest=${pagegroup.pageRequest}", 
 	type = "redirect") })
 @Namespace("/user")
-public class UserAction extends BaseActionSupport<User> {
+public class GroupAction extends BaseActionSupport<Group> {
 
 	@Autowired
-	private IUserService userService;
+	private IUserService groupService;
 
 
 	// 基本属性
-	private User user;
+	private Group group;
 	private Long id;
-	private Page<User> pageuser = new Page<User>(5);
+	private Page<Group> pagegroup = new Page<Group>(5);
 
+	private java.util.List<Group> parentList;
 
 	// 基本属性访问函数 //
-	public User getModel() {
-		return user;
+	public Group getModel() {
+		return group;
 	}
 
 
 	/**
-	 * @return the pageUser
+	 * @return the pageGroup
 	 */
-	public Page<User> getPageuser() {
-		return pageuser;
+	public Page<Group> getPagegroup() {
+		return pagegroup;
 	}
 	
-	public void setPageuser(Page<User> pageuser) {
-		this.pageuser=pageuser;
+	public void setPagegroup(Page<Group> pagegroup) {
+		this.pagegroup=pagegroup;
 	}
 
 
 	@Override
 	protected void prepareModel() throws Exception {
 		if (id != null) {
-			user = userService.getUserUtil().get(id);
+			group = groupService.getGroupUtil().get(id);
 		} else {
-			user = new User();
+			group = new Group();
 		}
 	}
 
@@ -67,6 +72,7 @@ public class UserAction extends BaseActionSupport<User> {
 	protected void prepareModelSave() throws Exception {
 		prepareModel();
 		
+		group.setParent(new Group());
 	}
 
 	public void setId(Long id) {
@@ -76,36 +82,41 @@ public class UserAction extends BaseActionSupport<User> {
 	// CRUD Action 函数 //
 	// 其他属性访问函数与Action函数 //
 
+	public java.util.List<Group> getParentList() {
+		return parentList;
+	}
 
 
 	@Override
 	public String list() throws Exception {
-		pageuser = userService.getUserUtil().get(pageuser);
-		log.debug("find :{}", pageuser.getResult());
-		log.debug("find user by page:" + pageuser.getResult().size());
+		pagegroup = groupService.getGroupUtil().get(pagegroup);
+		log.debug("find :{}", pagegroup.getResult());
+		log.debug("find group by page:" + pagegroup.getResult().size());
 		return SUCCESS;
 	}
 
 	@Override
 	public String input() throws Exception {
+		parentList= groupService.getGroupUtil().getAll();
 	
 		return INPUT;
 	}
 
 	@Override
 	public String save() throws Exception {
-	
-
-		userService.getUserUtil().save(user);
-		addActionMessage(getText("user.updated"));
+		if (group.getParent().getId()==0) {
+			group.setParent(null);
+		}
+		groupService.getGroupUtil().save(group);
+		addActionMessage(getText("group.updated"));
 		return RELOAD;
 	}
 
 	@Override
 	public String delete() throws Exception {
 		try {
-			userService.getUserUtil().delete(id);
-			addActionMessage(getText("user.deleted"));
+			groupService.getGroupUtil().delete(id);
+			addActionMessage(getText("group.deleted"));
 		} catch (RuntimeException e) {
 			log.error(e.getMessage(), e);
 			addActionMessage(e.getMessage());
@@ -122,13 +133,13 @@ public class UserAction extends BaseActionSupport<User> {
 	public String search() throws Exception {
 
 		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
-		pageuser.setPageSize(Page.MAX_PAGESIZE);
+		pagegroup.setPageSize(Page.MAX_PAGESIZE);
 
 		Map<String, Object> filters = Struts2Utils.buildPropertyFilters("filter_");
 		if (filters.size() <= 0) {
-			addActionMessage(getText("user.searchtxt"));
+			addActionMessage(getText("group.searchtxt"));
 		}
-		pageuser = userService.getUserUtil().search(pageuser, filters);
+		pagegroup = groupService.getGroupUtil().search(pagegroup, filters);
 		return SUCCESS;
 	}
 
@@ -141,7 +152,7 @@ public class UserAction extends BaseActionSupport<User> {
 	public String fulltext() throws Exception {
 
 		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
-		pageuser.setPageSize(Page.MAX_PAGESIZE);
+		pagegroup.setPageSize(Page.MAX_PAGESIZE);
 
 		String q = Struts2Utils.getRequest().getParameter("q");
 		if (StringUtils.isBlank(q)) {
@@ -150,41 +161,11 @@ public class UserAction extends BaseActionSupport<User> {
 		}
 		addActionMessage(getText("common.domain.fulltext")+" ["+q+"] ");
 
-		pageuser = userService.getUserUtil().fullltext(pageuser, q, getClient());
+		pagegroup = groupService.getGroupUtil().fullltext(pagegroup, q, getClient());
 
 		return SUCCESS;
 	}
 
 
-	public String registersave() throws Exception {
-		log.debug("save register user:{}", user);
-		user.setName(user.getEmail());
-		userService.getUserUtil().save(user);
-		addActionMessage(getText("user.register"));
-		return RELOAD;
-	}
 
-	public void checkLoginEMail() {
-		HttpServletRequest request = ServletActionContext.getRequest();
-		String email = request.getParameter("email");
-
-		if (userService.isUniqueByEMail(email)) {
-			Struts2Utils.renderText("true");
-		} else {
-			Struts2Utils.renderText("false");
-		}
-	}
-
-	/**
-	 * 配合extjs控件进行数据处理
-	 * 
-	 * @return
-	 */
-	public void jsonList() {
-		pageuser = Struts2Utils.getPage(pageuser);
-		pageuser = userService.getUserUtil().get(pageuser);
-		Struts2Utils.renderJson(pageuser.getResult(), new String[] { "roles", "passwd",
-				"passwd2" });
-	}
-	
 }

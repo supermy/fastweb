@@ -51,7 +51,7 @@ public class Role extends BaseDomain {
 	@JoinTable(name = "c_role_authority", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
 	@Fetch(FetchMode.SUBSELECT)
 	@LazyCollection(LazyCollectionOption.FALSE)  	
-	@OrderBy("id")
+	@OrderBy("create")
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Set<Authority> auths = new LinkedHashSet<Authority>();
 

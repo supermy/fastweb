@@ -7,6 +7,8 @@ import java.util.List;
 import javax.jws.WebService;
 
 import org.supermy.core.domain.Authority;
+import org.supermy.core.domain.Group;
+import org.supermy.core.domain.GroupUser;
 import org.supermy.core.domain.Role;
 import org.supermy.core.domain.UrlResource;
 import org.supermy.core.domain.User;
@@ -19,6 +21,8 @@ import org.supermy.core.domain.User;
 public interface IUserService {
 
 	public FastwebTemplate<User, Long> getUserUtil();
+	public FastwebTemplate<Group, Long> getGroupUtil();
+	public FastwebTemplate<GroupUser, Long> getGroupUserUtil();
 
 	public FastwebTemplate<Role, Long> getRoleUtil();
 	

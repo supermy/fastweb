@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.jws.WebService;
 
-import org.apache.solr.client.solrj.SolrServer;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
@@ -13,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.supermy.core.domain.Authority;
+import org.supermy.core.domain.Group;
+import org.supermy.core.domain.GroupUser;
 import org.supermy.core.domain.Role;
 import org.supermy.core.domain.UrlResource;
 import org.supermy.core.domain.User;
@@ -27,9 +28,12 @@ import org.supermy.core.domain.User;
 @WebService
 public class UserService extends BaseService implements IUserService {
 
+	
 	protected org.slf4j.Logger log = LoggerFactory.getLogger(getClass());
 
 	private FastwebTemplate<User, Long> userUtil;
+	private FastwebTemplate<Group, Long> groupUtil;
+	private FastwebTemplate<GroupUser, Long> groupUserUtil;
 
 	private FastwebTemplate<Role, Long> roleUtil;
 
@@ -46,6 +50,10 @@ public class UserService extends BaseService implements IUserService {
 
 		userUtil = new FastwebTemplate<User, Long>(sessionFactory, null,
 				User.class);
+		groupUtil = new FastwebTemplate<Group, Long>(sessionFactory, null,
+				Group.class);
+		groupUserUtil = new FastwebTemplate<GroupUser, Long>(sessionFactory, null,
+				GroupUser.class);
 
 		roleUtil = new FastwebTemplate<Role, Long>(sessionFactory, null,
 				Role.class);
@@ -62,6 +70,14 @@ public class UserService extends BaseService implements IUserService {
 	 */
 	public FastwebTemplate<User, Long> getUserUtil() {
 		return userUtil;
+	}
+
+	public FastwebTemplate<Group, Long> getGroupUtil() {
+		return groupUtil;
+	}
+
+	public FastwebTemplate<GroupUser, Long> getGroupUserUtil() {
+		return groupUserUtil;
 	}
 
 	/**

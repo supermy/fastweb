@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<process name="countersignature" xmlns="http://jbpm.org/4.0/jpdl">
+   <start name="start1" g="59,109,48,48"/>
+   <end name="end1" g="328,113,48,48"/>
+</process>
