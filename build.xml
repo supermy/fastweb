@@ -18,10 +18,10 @@
 	</path>
 
 	<target name="native" description="Convent messages.properties to utf-8 ">
-	  <delete>
-	    <fileset dir="${build.dir}" includes="*.properties"/>
-	  </delete>
-		<native2ascii encoding="UTF-8" src="${src.java.dir}" dest="${build.dir}" includes="*.properties"/>
+		<delete>
+			<fileset dir="${build.dir}" includes="*.properties" />
+		</delete>
+		<native2ascii encoding="UTF-8" src="${src.java.dir}" dest="${build.dir}" includes="*.properties" />
 	</target>
 
 	<target name="build" description="Compile main Java sources">
@@ -39,7 +39,7 @@
 		<copy todir="${build.dir}" preservelastmodified="true">
 			<fileset dir="${src.java.dir}">
 				<exclude name="**/*.java" />
-				<exclude name="**/*.svn/*" />				
+				<exclude name="**/*.svn/*" />
 				<exclude name="**/*.svn*" />
 				<exclude name="**/*message*.properties" />
 			</fileset>
@@ -48,7 +48,7 @@
 
 	<target name="buildfull" depends="build,native">
 	</target>
-	
+
 	<target name="junit" depends="buildfull" description="Run unit test:ant junit -Dt=UserControllerTest">
 		<mkdir dir="${test.dir}" />
 		<mkdir dir="${test.dir}/reports" />
@@ -106,7 +106,7 @@
 		</java>
 	</target>
 	-->
-	
+
 	<target name="run" depends="buildfull" description="starts tomcat in the current console window">
 		<java classname="org.apache.catalina.startup.Bootstrap" fork="yes">
 			<jvmarg value="-Dcatalina.home=${tomcat_home}" />
@@ -139,9 +139,11 @@
 		<mkdir dir="${javadocs.dir}" />
 		<javadoc sourcepath="${src.java.dir}" encoding="UTF-8" charset="UTF-8" destdir="${javadocs.dir}" windowtitle="FastWeb" additionalparam="-breakiterator" source="1.5" access="package" author="true" version="true" use="true" defaultexcludes="true">
 			<doctitle>
-				<![CDATA[<h1>FastWeb Api</h1>]]></doctitle>
-		<bottom>
-			<![CDATA[<i>Copyright (C) 2008 The FastWeb Project.</i>]]></bottom>
+				<h1>FastWeb Api</h1>
+			</doctitle>
+			<bottom>
+				<i>Copyright (C) 2008 The FastWeb Project.</i>
+			</bottom>
 			<classpath refid="all-libs" />
 			<packageset dir="${src.java.dir}">
 				<include name="org/supermy/**" />
@@ -149,19 +151,6 @@
 		</javadoc>
 	</target>
 
-	<!-- 远程操作还是不方便 -->
-	<target name="deploy.proc" depends="" description="deploys the jbpm processes">
-		<taskdef name="deployprocess" classname="org.jbpm.ant.DeployProcessTask">
-			<classpath refid="classpath.ant" />
-		</taskdef>
-		<deployprocess process="build/process1.process" cfg="config.files/hibernate.cfg.xml" properties="config.files/create.db.hibernate.properties">
-			<!--多个流程档案时使用fileset元素
-			        <fileset dir="build" includes="*.process" />
-			        -->
-		</deployprocess>
-	</target>
-
-	<!-- hibernate ant task -->
 	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask">
 		<classpath refid="all-libs" />
 		<classpath refid="all-compile" />
@@ -171,9 +160,8 @@
 		<delete dir="${target.dir}/generated" />
 		<mkdir dir="${target.dir}/generated" />
 		<hibernatetool destdir="${target.dir}/generated">
-			<!-- gen domain -->
 			<jdbcconfiguration propertyfile="${src.java.dir}/jdbc.properties" packagename="${p}.domain" detectManyToMany="true" detectoptimisticlock="true" />
-			<hbmtemplate templatepath="${resources}/domain/" template="Pojo.ftl"  filepattern="src/{package-name}/{class-name}.java">
+			<hbmtemplate templatepath="${resources}/domain/" template="Pojo.ftl" filepattern="src/{package-name}/{class-name}.java">
 				<property key="ejb3" value="true" />
 				<property key="jdk5" value="true" />
 			</hbmtemplate>
@@ -184,40 +172,40 @@
 	<target name="gen" description="ant gen">
 		<delete dir="${target.dir}/generated" />
 		<mkdir dir="${target.dir}/generated" />
-		
+
 		<hibernatetool destdir="${target.dir}/generated">
 			<annotationconfiguration configurationfile="src/org/supermy/autogen/hibernate.cfg.xml" />
 			<!-- gen service -->
 			<hbmtemplate templatepath="${resources}/service/" template="manager.ftl" exporterclass="org.supermy.autogen.BasePackageExporter" filepattern="src/{package-name}/service/{class-name}Service.java">
 			</hbmtemplate>
-		
+
 			<hbmtemplate templatepath="${resources}/service/" template="i-manager.ftl" exporterclass="org.supermy.autogen.BasePackageExporter" filepattern="src/{package-name}/service/I{class-name}Service.java">
 			</hbmtemplate>
-		
+
 			<hbmtemplate templatepath="${resources}/service/" template="manager-test.ftl" exporterclass="org.supermy.autogen.BasePackageExporter" filepattern="src/{package-name}/service/{class-name}ServiceTest.java">
 			</hbmtemplate>
-		
-			<!-- gen web -->		
+
+			<!-- gen web -->
 			<hbmtemplate templatepath="${resources}/web/struts/" template="action.ftl" exporterclass="org.supermy.autogen.ActionExporter" filepattern="src/{package-name}/web/{class-name}Action.java">
 			</hbmtemplate>
-		
+
 			<hbmtemplate templatepath="${resources}/web/struts/" template="list-view.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="web/WEB-INF/content/{package-name}/{class-name}.jsp">
 			</hbmtemplate>
-		
+
 			<hbmtemplate templatepath="${resources}/web/struts/" template="form-view.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="web/WEB-INF/content/{package-name}/{class-name}-input.jsp">
 			</hbmtemplate>
-			
+
 			<hbmtemplate templatepath="${resources}/web/" template="messages.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="{class-name}-messages.properties">
-			</hbmtemplate>			
+			</hbmtemplate>
 
 			<hbmtemplate templatepath="${resources}/web/" template="messages-zh_CN.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="{class-name}-messages_zh_CN.properties">
-			</hbmtemplate>			
-		
+			</hbmtemplate>
+
 			<hbmtemplate templatepath="${resources}/web/" template="menu-nav-zh_CN.ftl" exporterclass="org.supermy.autogen.WebExporter" filepattern="{class-name}-menu-nav_zh_CN.properties">
-			</hbmtemplate>			
+			</hbmtemplate>
 
 		</hibernatetool>
-		
+
 		<concat destfile="${src.java.dir}/auto-messages.properties">
 			<fileset dir="${target.dir}/generated/">
 				<include name="*messages.properties" />
@@ -236,10 +224,39 @@
 		</concat>
 
 		<!--
-		<antcall target="native"/>
 		-->
-		
+		<antcall target="native"/>
+
 	</target>
+
+	<!--jbpm begin-->
+	<target name="jbpm-deploy" description="Generate test reports">
+		<mkdir dir="${basedir}/build" />
+		<jar destfile="${basedir}/build/myworkflow.bar">
+			<fileset dir="${src.java.dir}">
+				<include name="**/*.jpdl.xml" />
+				<include name="**/app-spring*.xml" />
+				<include name="**/jbpm*.xml" />
+				<include name="**/jdbc*.*" />
+				<include name="**/*.png" />
+			</fileset>
+		</jar>
+		<zip destfile="${basedir}/build/myworkflow.zip">
+			<fileset dir="${src.java.dir}">
+				<include name="**/*.jpdl.xml" />
+				<include name="**/*.png" />
+			</fileset>
+		</zip>
+		
+		<taskdef name="jbpm-deploy" classname="org.jbpm.pvm.internal.ant.JbpmDeployTask">
+			<classpath refid="all-libs" />
+			<classpath refid="all-compile" />
+		</taskdef>
+
+		<jbpm-deploy file="${basedir}/build/myworkflow.bar" />
+	</target>
+	<!--jbpm end-->
+
 
 </project>
 

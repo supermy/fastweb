@@ -41,7 +41,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jaxb-impl-2.1.9.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jaxb-xjc-2.1.9.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jaxen-1.1.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/jbpm-jpdl.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jcl-over-slf4j-1.5.6.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/json-lib-2.2.3-jdk15.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/jstl-1.1.2.jar"/>
@@ -63,7 +62,6 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-context-support-2.5.6.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-core-2.5.6.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-jdbc-2.5.6.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-modules-jbpm31.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-orm-2.5.6.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-security-acl-2.0.4.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/spring-security-core-2.0.4.jar"/>
@@ -86,5 +84,25 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/xwork-2.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="lib/servlet-api-2.4.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/jbpm-m.jar"/>
+	<classpathentry kind="lib" path="web/WEB-INF/lib/mail.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/annotations-api.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/catalina-ant.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/catalina-ha.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/catalina-tribes.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/jasper.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/jasper-el.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/jasper-jdt.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/apache-tomcat-6.0.14/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/lib/lib-compile-test/jbpm/juel.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/lib/lib-compile-test/jbpm/juel-engine.jar"/>
+	<classpathentry kind="lib" path="D:/env_java/source/fastweb/lib/lib-compile-test/jbpm/juel-impl.jar"/>
 	<classpathentry kind="output" path="web/WEB-INF/classes"/>
 </classpath>
