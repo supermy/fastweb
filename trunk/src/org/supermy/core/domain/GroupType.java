@@ -23,10 +23,10 @@ import org.hibernate.validator.NotEmpty;
  */
 @Entity
 @org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
-@Table(name = "c_depart_types")
+@Table(name = "c_group_types")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 // @Proxy(lazy = false)
-public class DepartmentType extends BaseDomain {
+public class GroupType extends BaseDomain {
 
 	@NotEmpty
 	@Length(min = 2)

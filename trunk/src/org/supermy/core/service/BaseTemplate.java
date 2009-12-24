@@ -2,6 +2,7 @@ package org.supermy.core.service;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FlushMode;
@@ -142,11 +144,22 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 		log.debug("delete:{}", id);
 	}
 
+	public void delete(final String id) {
+		// T obj = (T) getSession().load(domainClass, id);
+		// getSession().delete(obj);
+		delete(get(id));
+		// getSession().flush();
+		log.debug("delete:{}", id);
+	}
 	/**
 	 * 按id获取对象.
 	 */
 	@Transactional(readOnly = true)
 	public T get(final IdT id) {
+		return (T) getSession().load(domainClass, id);
+	}
+	@Transactional(readOnly = true)
+	public T get(final String id) {
 		return (T) getSession().load(domainClass, id);
 	}
 
@@ -160,6 +173,11 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 */
 	@Transactional(readOnly = true)
 	public Object get(final String className, final IdT id) {
+		return getSession().load(className, id);
+	}
+
+	@Transactional(readOnly = true)
+	public Object get(final String className, final String id) {
 		return getSession().load(className, id);
 	}
 
@@ -223,6 +241,37 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 
 		return query;
 	}
+	
+	/**
+	 * for list  or array
+	 * @param queryString
+	 * @param names
+	 * @param values
+	 * @return
+	 */
+	public Query createQuery(final String queryString, final String[] names, final Object... values) {
+		Query query = getSession().createQuery(queryString);
+		if (values != null) {
+			for (int i = 0; i < values.length; i++) {
+				
+				Object object = values[i];
+				
+				if (object.getClass().isArray() || Collection.class.isAssignableFrom(object.getClass())) {
+					if (object.getClass().isArray()) {
+						 object=Arrays.asList(object);
+					}
+					query.setParameterList(names[i], (Collection) object);
+					
+				} else {
+					query.setParameter(names[i], object);
+				}
+			}
+		}
+
+		query.setCacheable(true);
+
+		return query;
+	}
 
 	/**
 	 * 按HQL查询对象列表.
@@ -237,12 +286,34 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	}
 
 	@Transactional(readOnly = true)
+	public List<T> find(final String hql, final String[] names, final Object... values) {
+		return createQuery(hql,names, values).list();
+	}
+	
+	@Transactional(readOnly = true)
+	public List findForProperty(final String hql, final Object... values) {
+		return createQuery(hql, values).list();
+	}
+		
+
+	
+	@Transactional(readOnly = true)
 	public List<T> find(final List<Long> ids) {
 		log.debug("find domain for ids:{}", ids);
 		String hql = " from " + domainClass.getSimpleName()
 				+ " obj where obj.id in (:ids)";
 		Query query = getSession().createQuery(hql);
 		query.setParameterList("ids", ids);
+		return query.list();
+	}
+
+	@Transactional(readOnly = true)
+	public List<T> findBy(final String[] ids) {
+		log.debug("find domain for ids:{}", ids);
+		String hql = " from " + domainClass.getSimpleName()
+				+ " obj where obj.id in (:ids)";
+		Query query = getSession().createQuery(hql);
+		query.setParameterList("ids", Arrays.asList(ids));
 		return query.list();
 	}
 

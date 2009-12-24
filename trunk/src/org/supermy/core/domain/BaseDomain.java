@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.solr.client.solrj.beans.Field;
@@ -74,6 +75,9 @@ public class BaseDomain {
 	@Comment("物理主键")
 	private Long id;// =new Long(0);
 
+//	@Transient
+//	private String id;
+	
 	//FIXME 通过类型区分不同的domain;重复的ID索引会被覆盖，对于数字型ID不是通用的解决办法；
 	@Transient
 	@Field("indextype_t")
@@ -144,13 +148,27 @@ public class BaseDomain {
 	// this.version = version;
 	// }
 
+	/**
+	 * 为了与JBMP的权限兼容
+	 * Long 类型ID to getDbId()
+	 * @return
+	 */
+	public void setId(Long id) {
+		this.id =id;
+	}
+
+//	public void setId(String id) {
+//		if (StringUtils.isNotBlank(id)) {
+//			this.id=Long.decode(id);
+//		} else {
+//			this.id=null;
+//		}
+//	}
+
 	public Long getId() {
 		return id;
 	}
-
-	public void setId(Long long1) {
-		id = long1;
-	}
+	
 
 	/**
 	 * @return the create

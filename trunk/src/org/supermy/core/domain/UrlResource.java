@@ -3,7 +3,6 @@ package org.supermy.core.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -63,19 +62,19 @@ public class UrlResource extends BaseDomain {
 	@Column(name="value_",nullable = false, unique = true,length=250)
 	private String value;
 
-	@Comment(value="序号",desc="资源在SpringSecurity中的校验顺序字段.")
+	@Comment(value="序号",desc="资源在 Spring Security 中的校验顺序字段.")
 	@Column(name="position_")
 	private double position=0;
 
-	@ManyToOne(fetch=FetchType.EAGER,optional=false,cascade = { CascadeType.REFRESH})
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "manager_id")
-	private User manager=new User();
+	private User manager;
 	
 	//("可访问该资源的授权集合.")
 	@ManyToMany
 	@JoinTable(name = "c_resource_authority", joinColumns = { @JoinColumn(name = "resource_id") }, inverseJoinColumns = { @JoinColumn(name = "authority_id") })
 	@Fetch(FetchMode.SUBSELECT)
-	@OrderBy("id")
+	@OrderBy("create")
 	@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 	private List<Authority> authorityList = new ArrayList<Authority>(0);
 
@@ -111,8 +110,6 @@ public class UrlResource extends BaseDomain {
 	public void setAuthorityList(List<Authority> authorityList) {
 		this.authorityList = authorityList;
 	}
-
-	
 	
 	public String getDesc() {
 		return desc;

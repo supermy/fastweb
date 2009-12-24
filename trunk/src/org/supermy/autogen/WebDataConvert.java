@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -385,7 +386,7 @@ public class WebDataConvert {
 		Field[] declaredFields = classname.getDeclaredFields();
 		for (Field field : declaredFields) {
 //			System.out.println("======================:"+field.getName());
-			if (field.getType().equals(String.class)) {
+			if (field.getType().equals(String.class) && !field.isAnnotationPresent(Transient.class)) {
 				sb.append(field.getName()).append("|");
 			}
 		}
@@ -408,7 +409,7 @@ public class WebDataConvert {
 
 		// 配合s:select 必须选择验证
 		if (field.isAnnotationPresent(ManyToOne.class)) {
-			valid.append(",digits:true");
+			//valid.append(",digits:true");
 		}
 
 		if (field.isAnnotationPresent(Digits.class)) {// 数字是否符合整数部分和小数部分的精度

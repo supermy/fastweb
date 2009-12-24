@@ -8,6 +8,7 @@ import org.springframework.security.providers.encoding.MessageDigestPasswordEnco
  * @author my
  * 
  */
+
 public class MD5 {
 	private static Logger log = LoggerFactory.getLogger(MD5.class);
 
