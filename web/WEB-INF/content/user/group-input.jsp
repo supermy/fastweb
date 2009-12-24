@@ -4,8 +4,8 @@
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title><s:text name="userDetail.title"/></title>
-    <meta name="heading" content="<s:text name='userDetail.heading'/>"/>
+    <title><s:text name="groupDetail.title"/></title>
+    <meta name="heading" content="<s:text name='groupDetail.heading'/>"/>
 
 	<%@ include file="/common/meta.jsp"%>
 	<%@ include file="/common/css.jsp"%>
@@ -16,7 +16,7 @@
 			//聚焦第一个输入框
 			//$("#email").focus();
 			//为inputForm注册validate函数
-			$("#userInputForm").validate();
+			$("#groupInputForm").validate();
 		});
 	</script>
 
@@ -40,73 +40,73 @@
       			<s:else>
       				<s:text name="common.label.modify"/>
       			</s:else>
-      			<s:text name="userDetail.title"/>
+      			<s:text name="groupDetail.title"/>
       		</legend>
       		
 			<s:form  
 				validate="false" 
 				theme="xhtml"  
-				id="userInputForm" 
-				action="user.action" 
+				id="groupInputForm" 
+				action="group.action" 
 				method="post">
 			
 		    <s:token />
 
 			<s:hidden	name="id" />
 
-			<s:hidden 	name="pageuser.pageRequest"/>
+			<s:hidden 	name="pagegroup.pageRequest"/>
 				
-			<s:checkbox 
-				label="%{getText('user.accountNonExpired')}"  
-				key="accountNonExpired" 
-				cssClass="{debug:false}"/>
-			<s:checkbox 
-				label="%{getText('user.accountNonLocked')}"  
-				key="accountNonLocked" 
-				cssClass="{debug:false}"/>
-			<s:checkbox 
-				label="%{getText('user.credentialsNonExpired')}"  
-				key="credentialsNonExpired" 
-				cssClass="{debug:false}"/>
 			<s:textfield
-				label="%{getText('user.email')}"  
+				label="%{getText('group.code')}"  
+				name="code"  
+				id="code"  
+				size="30" 
+				cssClass="{debug:false,maxlength:80,minlength:2}"/>
+
+			<s:textfield
+				label="%{getText('group.email')}"  
 				name="email"  
 				id="email"  
 				size="30" 
-				cssClass="{debug:false,email:true,required: true,maxlength:80}"/>
+				cssClass="{debug:false,email:true,maxlength:80,minlength:0,required: true}"/>
 
 			<s:textarea
-				label="%{getText('user.intro')}"  
+				label="%{getText('group.intro')}"  
 				name="intro"  
 				id="intro"  
 				cols="20"
 				rows="3" 
-				cssClass="{debug:false,maxlength:250}"/>
+				cssClass="{debug:false,maxlength:250,minlength:0}"/>
 
 			<s:textfield
-				label="%{getText('user.name')}"  
+				label="%{getText('group.name')}"  
 				name="name"  
 				id="name"  
 				size="30" 
 				cssClass="{debug:false,maxlength:80,minlength:2,required: true}"/>
 
+			<s:select
+				label="%{getText('group.parent')}"  
+			    list="parentList"
+			    name="parent.id"
+			    listKey="id"
+			    listValue="name"
+			    emptyOption="false"
+			    headerKey="0"
+			    headerValue="None"
+				cssClass=" {debug:false}"
+			    />
+								
 			<s:textfield
-				label="%{getText('user.passwd')}"  
-				name="passwd"  
-				id="passwd"  
+				label="%{getText('group.type')}"  
+				name="type"  
+				id="type"  
 				size="30" 
-				cssClass="{debug:false,maxlength:32,minlength:2,required: true}"/>
-
-			<s:textfield
-				label="%{getText('user.salary')}"  
-				name="salary"  
-				id="salary"  
-				size="30" 
-				cssClass="{debug:false,number:true}"/>
+				cssClass="{debug:false,maxlength:80,minlength:0,required: true}"/>
 
 			
 			<security:authorize 
-					ifAnyGranted="AUTH_SAVE_USER">
+					ifAnyGranted="AUTH_SAVE_GROUP">
 						
 			    	<s:submit 
 			    		cssClass="button" 
@@ -117,13 +117,13 @@
 	
 			<c:if test="${not empty id}">			        
 			<security:authorize 
-				ifAnyGranted="AUTH_DELETE_USER">
+				ifAnyGranted="AUTH_DELETE_GROUP">
 						
 			    <s:submit 
 			    	cssClass="button" 
 			    	method="delete" 
 			    	key="common.domain.delete"
-			        onclick="return confirmDelete('User')" 
+			        onclick="return confirmDelete('Group')" 
 			        />
 			                
 			</security:authorize>
@@ -144,31 +144,31 @@
 		<table>
 		<tbody>
 				<tr class="even">
-					<th><s:text name="user.create"/></th>
+					<th><s:text name="group.create"/></th>
 					<td>
 				            ${create}					
 					</td>
 				</tr>
 				<tr>
-					<th><s:text name="user.createBy"/></th>
+					<th><s:text name="group.createBy"/></th>
 					<td>
 				            ${createBy}					
 					</td>
 				</tr>
 				<tr  class="even">
-					<th><s:text name="user.update"/></th>
+					<th><s:text name="group.update"/></th>
 					<td>
 				            ${update}					
 					</td>
 				</tr>
 				<tr>
-					<th><s:text name="user.updateBy"/></th>
+					<th><s:text name="group.updateBy"/></th>
 					<td>
 				            ${updateBy}					
 					</td>
 				</tr>
 				<tr  class="even">
-					<th><s:text name="user.enabled"/></th>
+					<th><s:text name="group.enabled"/></th>
 					<td>
 				            ${enabled}					
 					</td>
