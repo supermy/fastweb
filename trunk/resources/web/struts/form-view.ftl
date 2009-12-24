@@ -47,7 +47,7 @@
       			<s:else>
       				<s:text name="common.label.modify"/>
       			</s:else>
-      			<s:text name="urlResourceDetail.title"/>
+      			<s:text name="${pojoNameLower}Detail.title"/>
       		</legend>
       		
 			<s:form  
@@ -61,7 +61,7 @@
 
 			<s:hidden	name="id" />
 
-			<s:hidden 	name="pageuser.pageRequest"/>
+			<s:hidden 	name="page${pojo.shortName.toLowerCase()}.pageRequest"/>
 				
 				<#foreach field in pojo.getAllPropertiesIterator()>
 						<#if field.equals(pojo.identifierProperty)>
@@ -83,7 +83,7 @@
 						    <#lt/>			    listKey="id"
 						    <#lt/>			    listValue="name"
 						    <#lt/>			    emptyOption="false"
-						    <#lt/>			    headerKey="None"
+						    <#lt/>			    headerKey="0"
 						    <#lt/>			    headerValue="None"
 							<#lt/>				cssClass=" ${webdata.HValidator2JQValidator(field)}"
 						    <#lt/>			    />

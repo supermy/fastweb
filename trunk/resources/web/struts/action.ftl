@@ -46,8 +46,6 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 	@Autowired
 	private I${pojo.shortName}Service ${pojoNameLower}Service;
 
-	@Autowired
-	private SolrServer client;
 
 	// 基本属性
 	private ${pojo.shortName} ${pojoNameLower};
@@ -166,7 +164,11 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 		<#if c2h.isCollection(field)>
 			<#lt/>		${pojoNameLower}Service.get${field.value.element.type.returnedClass.simpleName}Util().mergeCollection(${pojoNameLower}.get${field.name.substring(0,1).toUpperCase()+field.name.substring(1)}(),${field.name}Id);
 		<#elseif c2h.isManyToOne(field)>
-			<#lt/>		//${field.name}List= ${pojoNameLower}Service.get${field.value.type.returnedClass.simpleName}Util().getAll();
+			<#lt/>
+			//${field.name}List= ${pojoNameLower}Service.get${field.value.type.returnedClass.simpleName}Util().getAll();
+			if (${pojoNameLower}.get${field.name.substring(0,1).toUpperCase()+field.name.substring(1)}().getId()==0) {
+				${pojoNameLower}.set${field.name.substring(0,1).toUpperCase()+field.name.substring(1)}(null);
+			}
 		<#elseif c2j.isComponent(field)>
 			<#lt/>todo ... ...
 	    </#if>
@@ -226,7 +228,7 @@ public class ${pojo.shortName}Action extends BaseActionSupport<${pojo.shortName}
 		}
 		addActionMessage(getText("common.domain.fulltext")+" ["+q+"] ");
 
-		page${pojo.shortName.toLowerCase()} = ${pojoNameLower}Service.get${pojo.shortName}Util().fullltext(page${pojo.shortName.toLowerCase()}, q, client);
+		page${pojo.shortName.toLowerCase()} = ${pojoNameLower}Service.get${pojo.shortName}Util().fullltext(page${pojo.shortName.toLowerCase()}, q, getClient());
 
 		return SUCCESS;
 	}
