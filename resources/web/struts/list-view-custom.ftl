@@ -49,7 +49,7 @@
 									${'$'}{${field.name}Name}
 								</a>
 						<#elseif c2h.isManyToOne(field)>
-									${'$'}{${field.name}Name}
+									${'$'}{${field.name}.name}
 						<#elseif c2j.isComponent(field)>
 					    <#else>
 						    <#if field.value.typeName == "java.util.Date">
