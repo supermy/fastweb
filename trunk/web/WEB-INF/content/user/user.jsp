@@ -17,11 +17,11 @@
 <body>
 <!-- 布局 容器  -->
 <div class="container">
-	<!-- 布局  顶部工具杄1�7-->
+	<!-- 布局  顶部工具条-->
 	<%@ include file="/common/tools.jsp"%>
 	<!-- 布局  顶部导航栏目-->
 	<%@ include file="/common/nav.jsp"%>
-	<!-- 布局  左边刄1�7-->
+	<!-- 布局  左边列-->
 	<div class="span-17 prepend-1 colborder">
 
 		<c:set var="buttons">
@@ -40,8 +40,6 @@
 				<br />
 			</div>
 		</c:set>
-		
-		
 		<c:out value="${buttons}" escapeXml="false" />
 		<table>
 			<thead>
@@ -51,6 +49,24 @@
 							<s:if test="pageuser.orderBy=='id'">${pageuser.inverseOrder}</s:if>
 							<s:else>desc</s:else>">
 							<s:text name="user.id"/></a>
+				</th>
+	        	<th>
+							<a href="user.action?pageuser.orderBy=accountNonExpired&pageuser.order=
+							<s:if test="pageuser.orderBy=='accountNonExpired'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.accountNonExpired"/></a>
+				</th>
+	        	<th>
+							<a href="user.action?pageuser.orderBy=accountNonLocked&pageuser.order=
+							<s:if test="pageuser.orderBy=='accountNonLocked'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.accountNonLocked"/></a>
+				</th>
+	        	<th>
+							<a href="user.action?pageuser.orderBy=credentialsNonExpired&pageuser.order=
+							<s:if test="pageuser.orderBy=='credentialsNonExpired'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.credentialsNonExpired"/></a>
 				</th>
 	        	<th>
 							<a href="user.action?pageuser.orderBy=email&pageuser.order=
@@ -71,7 +87,10 @@
 							<s:text name="user.name"/></a>
 				</th>
 	        	<th>
-							<s:text name="user.roles"/>
+							<a href="user.action?pageuser.orderBy=passwd&pageuser.order=
+							<s:if test="pageuser.orderBy=='passwd'">${pageuser.inverseOrder}</s:if>
+							<s:else>desc</s:else>">
+							<s:text name="user.passwd"/></a>
 				</th>
 	        	<th>
 							<a href="user.action?pageuser.orderBy=salary&pageuser.order=
@@ -100,6 +119,24 @@
 								</a>
 					</td>
 						<td>
+					                 <input 
+					                 	type="checkbox" 
+					                 	disabled="disabled" 
+					                 	<c:if test="${accountNonExpired}">checked="checked"</c:if>/>
+					</td>
+						<td>
+					                 <input 
+					                 	type="checkbox" 
+					                 	disabled="disabled" 
+					                 	<c:if test="${accountNonLocked}">checked="checked"</c:if>/>
+					</td>
+						<td>
+					                 <input 
+					                 	type="checkbox" 
+					                 	disabled="disabled" 
+					                 	<c:if test="${credentialsNonExpired}">checked="checked"</c:if>/>
+					</td>
+						<td>
 									${email}
 					</td>
 						<td>
@@ -109,9 +146,7 @@
 									${name}
 					</td>
 						<td>
-								<a href="role!mtolist.action?id=${id}&class=org.supermy.core.domain.User&property=roles">
-									${rolesName}
-								</a>
+									${passwd}
 					</td>
 						<td>
 									${salary}
@@ -132,9 +167,8 @@
 		
 	</div>
 	
-	<!-- 布局  右边刄1�7-->
+	<!-- 布局  右边列-->
 	<div class="column span-5 last">
-		<%@ include file="/common/nav-auth.jsp"%>
 		<s:actionmessage theme="mytheme"/>
 		<hr class="space"/>
 		<security:authorize 
@@ -150,8 +184,8 @@
 				action="user.action" 
 				method="post">
 				<input type="text" 
-						name="filter_LIKE_email|name" 
-						value="${param['filter_LIKE_email|name']}" 
+						name="filter_LIKE_name|passwd|email|intro" 
+						value="${param['filter_LIKE_name|passwd|email|intro']}" 
 						size="10"/>
 				<s:submit 
 					cssClass="button" 
@@ -160,6 +194,7 @@
 					/>
 			</form>
 		</div> 
+
 		<div id="fulltext">
 			<form 
 				action="user.action" 
@@ -175,9 +210,10 @@
 					/>
 			</form>
 		</div> 
+
 	</div>
 		
-	<!-- 布局  庄1�7 -->
+	<!-- 布局  底 -->
 	<%@ include file="/common/footer.jsp"%>
 </div>
 </body>

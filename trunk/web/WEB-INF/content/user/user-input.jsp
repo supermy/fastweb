@@ -40,7 +40,7 @@
       			<s:else>
       				<s:text name="common.label.modify"/>
       			</s:else>
-      			<s:text name="urlResourceDetail.title"/>
+      			<s:text name="userDetail.title"/>
       		</legend>
       		
 			<s:form  
@@ -81,7 +81,7 @@
 				id="intro"  
 				cols="20"
 				rows="3" 
-				cssClass="{debug:false}"/>
+				cssClass="{debug:false,maxlength:250}"/>
 
 			<s:textfield
 				label="%{getText('user.name')}"  
@@ -97,14 +97,6 @@
 				size="30" 
 				cssClass="{debug:false,maxlength:32,minlength:2,required: true}"/>
 
-			<s:checkboxlist 
-				label="%{getText('user.roles')}"  
-				name="rolesId"
-				list="rolesAll"
-				listKey="id" listValue="name"
-				cssClass="{debug:false}"
-				/>
-									
 			<s:textfield
 				label="%{getText('user.salary')}"  
 				name="salary"  
