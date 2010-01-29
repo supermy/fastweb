@@ -53,7 +53,7 @@
 						<#elseif c2j.isComponent(field)>
 					    <#else>
 						    <#if field.value.typeName == "java.util.Date">
-									${'$'}{${field.name}}
+									<s:date name="${field.name}" format="yyyy-MM-dd"/>
 						    <#elseif field.value.typeName == "java.lang.Double" || field.value.typeName == "java.lang.Number" || field.value.typeName == "java.math.BigDecimal">
 									${'$'}{${field.name}}
 						    <#elseif field.value.typeName == "boolean" || field.value.typeName == "java.lang.Boolean">
