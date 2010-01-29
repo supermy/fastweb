@@ -5,6 +5,11 @@
 <a href="${ctx}/core/authority.action" 
 	alt="<s:text name="authority.desc"/>"><s:text name="authority.name"/></a>
 <!--
+#双色球 detail:开奖数据
+-->
+<a href="${ctx}/ssq/double-color-ball.action" 
+	alt="<s:text name="doubleColorBall.desc"/>"><s:text name="doubleColorBall.name"/></a>
+<!--
 #组 detail:
 -->
 <a href="${ctx}/core/group.action" 
