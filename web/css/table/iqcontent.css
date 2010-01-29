@@ -26,16 +26,20 @@ color: #666;
   }
 thead th, tfoot th, tfoot td {
 	border: 1px solid #BA9;
-	text-align: left;
+
+	vertical-align: middle;
+	text-align: center;
+
 	font-weight: bold;
 	font-size: 100%;
 	background: #BA9 url("thbg.gif") repeat-x top left;
 	color: #FFF;
 }
- tbody th,thead th,tbody td {
+ tbody td {
 	vertical-align: top;
 	text-align: left;
 }
+
 
 tbody tr:hover td, 
 tbody tr:focus td,
