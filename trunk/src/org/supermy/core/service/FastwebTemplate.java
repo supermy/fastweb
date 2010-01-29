@@ -175,4 +175,14 @@ public class FastwebTemplate<T extends BaseDomain, IdT extends Serializable>
 		return createQuery(" from " + domainClass.getName()).list();
 	}
 
+	
+	
+	@Transactional(readOnly = true)
+	public List findForProperty(final String hql,final Integer total,final Integer limit, final Object... values) {
+		Query createQuery = createQuery(hql, values);
+		createQuery.setFirstResult(total-limit);
+		createQuery.setMaxResults(limit);
+		return createQuery.list();
+	}
+	
 }

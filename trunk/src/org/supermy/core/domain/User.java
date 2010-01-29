@@ -2,7 +2,7 @@ package org.supermy.core.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
+
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -18,7 +18,7 @@ import org.supermy.core.util.MD5;
 
 /**
  * @author supermy E-mail:springclick@gmail.com
- * @version create time：2008-7-30 下午04:30:58 <br>
+ * @version create time：2009-7-30 下午04:30:58 <br>
  *          用户m2o->（user:角色:group）<-m2o组织机构<br>
  *          角色 角色可以给个人(个人和岗位关联)、也可以给岗位(岗位直接和组织机构关联) <br>
  *          管理员-所有的权限 <br>

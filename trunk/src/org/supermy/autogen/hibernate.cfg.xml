@@ -13,6 +13,7 @@
 
 		<mapping class="com.gogo.comix.domain.MyTiger" />
 
+		<mapping class="com.lottery.ssq.domain.DoubleColorBall" />
 		<!-- 
 		<mapping resource="classpath:jbpm.repository.hbm.xml" />
 		<mapping resource="classpath:jbpm.execution.hbm.xml" />

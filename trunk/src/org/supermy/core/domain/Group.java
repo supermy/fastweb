@@ -1,10 +1,17 @@
 package org.supermy.core.domain;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.solr.client.solrj.beans.Field;
@@ -35,7 +42,7 @@ public class Group extends BaseDomain implements org.jbpm.api.identity.Group {
 	@NotEmpty
 	@Length(min = 2, max = 80)
 	@Index(name = "name_i")
-	@Column(name = "name_", unique = true, length = 80)
+	@Column(name = "name_", unique = false, length = 80)
 	private String name;
 
 	/**
@@ -54,8 +61,13 @@ public class Group extends BaseDomain implements org.jbpm.api.identity.Group {
 	@NotEmpty
 	@Length(max = 80)
 	@Index(name = "email_i")
-	@Column(name = "email_", unique = true, length = 80)
+	@Column(name = "email_", unique = false, length = 80)
 	private String email;
+
+	@Comment("叶子")
+	@Index(name = "leaf_i")
+	@Column(name = "leaf_")
+	private boolean leaf;
 
 	/**
 	 * 分类
@@ -89,10 +101,10 @@ public class Group extends BaseDomain implements org.jbpm.api.identity.Group {
 	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 	private Group parent;
 
-	// @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	// @JoinColumn(name = "parent_id")
-	// @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	// private Set<Group> children;
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+	@JoinColumn(name = "parent_id")
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)//FIXME 缓存清除的时机   obj 变更的时候，关联的cache清除
+	private Set<Group> children;
 
 	/**
 	 * @return the email
@@ -171,21 +183,6 @@ public class Group extends BaseDomain implements org.jbpm.api.identity.Group {
 	}
 
 	// /**
-	// * @return the children
-	// */
-	// public Set<Group> getChildren() {
-	// return children;
-	// }
-	//
-	// /**
-	// * @param children
-	// * the children to set
-	// */
-	// public void setChildren(Set<Group> children) {
-	// this.children = children;
-	// }
-
-	// /**
 	// * @return the company
 	// */
 	// public Company getCompany() {
@@ -223,9 +220,51 @@ public class Group extends BaseDomain implements org.jbpm.api.identity.Group {
 		this.type = type;
 	}
 
+	
+
+	public Set<Group> getChildren() {
+		return children;
+	}
+
+	public void setChildren(Set<Group> children) {
+		this.children = children;
+	}
+
+	public boolean isLeaf() {
+		return leaf;
+	}
+
+	public void setLeaf(boolean leaf) {
+		this.leaf = leaf;
+	}
+
 	@Override
 	public String getSId() {
 		return getId().toString();
 	}
 
+	/**
+	 * 
+	 * ExtJS node
+	 * 
+	 * @return
+	 */
+	public String getCls() {
+		return isLeaf() ? "file" : "folder";
+	}
+
+	public List<Map<String,Object>> treeNode() {
+		List<Map<String,Object>> result = new ArrayList<Map<String,Object>>();
+		for (Group group : getChildren()) {
+			Map<String, Object> obj = new HashMap<String, Object>();
+			obj.put("id", group.getId());
+			obj.put("text", group.getName());
+			if (group.isLeaf()) {
+				obj.put("leaf", group.isLeaf());
+			}
+			obj.put("cls", group.getCls());
+			result.add(obj);
+		}
+		return result;
+	}
 }

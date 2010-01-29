@@ -1,0 +1,7 @@
+LOAD DATA  INFILE  'D:/env_java/source/fastweb/src/com/lottery/ssq/domain/source_data.csv'     INTO TABLE double_color_ball     FIELDS TERMINATED BY ','     (num_,sequence_1,	sequence_2,	sequence_3,	sequence_4,	sequence_5,	sequence_6,size_1,	size_2,	size_3,	size_4,	size_5,	size_6,	blue_ball,lottery_dates);
+
+update double_color_ball set enabled_=1;
+update double_color_ball set red_blue_ball=concat(size_1,size_2,size_3,size_4,size_5,size_6,blue_ball);
+
+ÖØ¸´µÄÖÐ½±ºÅÂë
+mysql> select red_blue_ball from double_color_ball group by red_blue_ball  having count(red_blue_ball)>1;

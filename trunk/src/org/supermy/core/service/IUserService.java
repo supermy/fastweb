@@ -38,4 +38,7 @@ public interface IUserService {
 	public HashSet<UrlResource> getUrlResourceWithAuthorities();
 	public void saveUrlResource(UrlResource urlResource,List<Long> authorityListId) ;
 
+	public void moveTreeNode(String id, String parentId);
+
+	
 }

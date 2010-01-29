@@ -78,10 +78,10 @@ public class BaseTemplate<T extends BaseDomain, IdT extends Serializable> {
 	 * 保存新增或修改的对象.
 	 */
 	public void save(final T obj) {
-		log.debug("before save:{}" + obj);
-		getSession().saveOrUpdate(obj);
-		getSession().flush();// oracle must required
-		log.debug("after save:{}" + obj);
+			log.debug("before save:{}" + obj);
+			getSession().saveOrUpdate(obj);
+			getSession().flush();// oracle must required
+			log.debug("after save:{}" + obj);
 	}
 
 	public void save(final List<T> objs) {
