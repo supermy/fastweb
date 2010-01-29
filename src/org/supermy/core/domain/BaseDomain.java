@@ -8,7 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.solr.client.solrj.beans.Field;
@@ -68,11 +67,11 @@ public class BaseDomain {
 	//@SequenceGenerator(name="fastweb_seq",allocationSize=50, sequenceName="seq_fastweb")  	
 	//mysql user  @GeneratedValue  is ok
 	
+	@Comment("物理主键")
 	@Field
 	@Id
 	@GeneratedValue
 	@Column(name = "id_")
-	@Comment("物理主键")
 	private Long id;// =new Long(0);
 
 //	@Transient

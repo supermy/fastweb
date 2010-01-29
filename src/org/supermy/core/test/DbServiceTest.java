@@ -16,6 +16,8 @@ import org.supermy.core.domain.UrlResource;
 import org.supermy.core.domain.User;
 import org.supermy.core.service.IUserService;
 
+import com.lottery.ssq.domain.DoubleColorBall;
+
 /**
  * @author supermy E-mail:springclick@gmail.com
  * @version update time：2009-10-4 下午10:38:33
@@ -58,6 +60,13 @@ public class DbServiceTest extends TestBaseService {
 		}
 		List<User> users = userService.getUserUtil().getAll();
 
+		// clean up 父子关系
+		List<Group> groups = userService.getGroupUtil().getAll();
+		for (Group group : groups) {
+			group.setParent(null);
+			userService.getGroupUtil().save(group);
+		}
+
 		// 删除数据
 		userService.getUrlResourceUtil().deleteAll();
 		userService.getAuthorityUtil().deleteAll();
@@ -70,9 +79,19 @@ public class DbServiceTest extends TestBaseService {
 
 	// 权限数据初始化
 	private void authInitData() {
-		Group superadmin = genGroup("超级管理员", "t1", "springclick@gmail.com");
-		Group admin = genGroup("管理员", "t2", "user@user.com");
-		Group common = genGroup("普通用户", "t3", "guest@guest.com");
+		Group root = genGroup("根节点", "root", "springclick@gmail.com", null,
+				false);
+
+		Group adminGroup = genGroup("管理员", "t0", "springclick@gmail.com", root,
+				false);
+		Group commonGroup = genGroup("用户", "t0", "springclick@gmail.com", root,
+				false);
+
+		Group superadmin = genGroup("超级管理员", "t1", "springclick@gmail.com",
+				adminGroup, true);
+		Group admin = genGroup("管理员", "t2", "user@user.com", adminGroup, true);
+		Group common = genGroup("普通用户", "t3", "guest@guest.com", commonGroup,
+				true);
 
 		User springclick = genUser("springclick@gmail.com", "123456");
 		User user = genUser("user@user.com", "123456");
@@ -91,8 +110,8 @@ public class DbServiceTest extends TestBaseService {
 				.toUpperCase(), "/user/user");
 		auth2Role(manager, authManager, guestRole, Group.class.getSimpleName()
 				.toUpperCase(), "/user/group");
-		auth2Role(manager, authManager, guestRole, GroupUser.class.getSimpleName()
-				.toUpperCase(), "/user/group-user");
+		auth2Role(manager, authManager, guestRole, GroupUser.class
+				.getSimpleName().toUpperCase(), "/user/group-user");
 		auth2Role(manager, authManager, guestRole, Role.class.getSimpleName()
 				.toUpperCase(), "/user/role");
 		auth2Role(manager, authManager, guestRole, UrlResource.class
@@ -103,6 +122,11 @@ public class DbServiceTest extends TestBaseService {
 		// user register
 		UrlResource listUrlRes = genUrlResource("menu", "注册-register",
 				"/user/user!reigster.action*");
+		
+		//双色球数据维护
+		auth2Role(manager, authManager, guestRole, DoubleColorBall.class.getSimpleName()
+				.toUpperCase(), "/ssq/double-color-ball");
+		
 
 	}
 
@@ -117,7 +141,7 @@ public class DbServiceTest extends TestBaseService {
 	 */
 	private void auth2Role(Role manager, Role authManager, Role guestRole,
 			String name, String url) {
-		//权限
+		// 权限
 		Authority authReadUrlRes = genAuthority("AUTH_READ_" + name,
 				"阅读AUTH_READ_" + name);
 		Authority authEditUrlRes = genAuthority("AUTH_EDIT_" + name,
@@ -141,9 +165,10 @@ public class DbServiceTest extends TestBaseService {
 		guestRole.getAuths().add(authReadUrlRes);
 		guestRole.getAuths().add(authEditUrlRes);
 
-		//资源url
-		UrlResource listUrlRes = genUrlResource("url", "列表-" + name, url+ ".action*");
-		
+		// 资源url
+		UrlResource listUrlRes = genUrlResource("url", "列表-" + name, url
+				+ ".action*");
+
 		UrlResource editUrlRes = genUrlResource("url", "编辑-" + name, url
 				+ "!input.action*");
 		UrlResource saveUrlRes = genUrlResource("url", "保存-" + name, url
@@ -151,8 +176,8 @@ public class DbServiceTest extends TestBaseService {
 		UrlResource deleteUrlRes = genUrlResource("url", "刪除-" + name, url
 				+ "!delete.action*");
 
-		// 资源与权限关联 
-		listUrlRes.getAuthorityList().add(authReadUrlRes);//FIXME 此资源应该无需验证
+		// 资源与权限关联
+		listUrlRes.getAuthorityList().add(authReadUrlRes);// FIXME 此资源应该无需验证
 		editUrlRes.getAuthorityList().add(authEditUrlRes);
 		saveUrlRes.getAuthorityList().add(authSaveUrlRes);
 		deleteUrlRes.getAuthorityList().add(authDeleteUrlRes);
@@ -227,14 +252,19 @@ public class DbServiceTest extends TestBaseService {
 		return u;
 	}
 
-	private Group genGroup(String name, String type, String email) {
+	private Group genGroup(String name, String type, String email,
+			Group parent, boolean isLeaf) {
 		Group g = new Group();
 		g.setName(name);
 		g.setCode("change");
 		g.setType(type);
 		g.setEmail(email);
-		// g.setParent(null);
+
+		g.setParent(parent);
+		g.setLeaf(isLeaf);
+
 		userService.getGroupUtil().save(g);
+
 		return g;
 	}
 
@@ -249,7 +279,7 @@ public class DbServiceTest extends TestBaseService {
 
 	@Test
 	public void createGroup() {
-		genGroup("abc", "y", "a@a.com");
+		genGroup("abc", "y", "a@a.com", null, true);
 		genUser("aa@aa.com", "bb");
 	}
 

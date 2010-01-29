@@ -1,38 +1,24 @@
-
 package org.supermy.core.web.user;
 
-
-import java.util.List;
-import java.util.HashSet;
 import java.util.Map;
 
-import org.apache.solr.client.solrj.SolrServer;
 import org.apache.commons.lang.StringUtils;
-import org.apache.struts2.ServletActionContext;
-
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.supermy.core.domain.Group;
 import org.supermy.core.service.IUserService;
 import org.supermy.core.service.Page;
 import org.supermy.core.web.BaseActionSupport;
 import org.supermy.core.web.Struts2Utils;
 
-import org.supermy.core.domain.Group;
-
-
-@Results( { @Result(name = BaseActionSupport.RELOAD, 
-	location = "group.action?pagegroup.pageRequest=${pagegroup.pageRequest}", 
-	type = "redirect") })
+@Results( { @Result(name = BaseActionSupport.RELOAD, location = "group.action?pagegroup.pageRequest=${pagegroup.pageRequest}", type = "redirect") })
 @Namespace("/user")
 public class GroupAction extends BaseActionSupport<Group> {
 
 	@Autowired
 	private IUserService groupService;
-
 
 	// 基本属性
 	private Group group;
@@ -46,18 +32,16 @@ public class GroupAction extends BaseActionSupport<Group> {
 		return group;
 	}
 
-
 	/**
 	 * @return the pageGroup
 	 */
 	public Page<Group> getPagegroup() {
 		return pagegroup;
 	}
-	
-	public void setPagegroup(Page<Group> pagegroup) {
-		this.pagegroup=pagegroup;
-	}
 
+	public void setPagegroup(Page<Group> pagegroup) {
+		this.pagegroup = pagegroup;
+	}
 
 	@Override
 	protected void prepareModel() throws Exception {
@@ -71,7 +55,7 @@ public class GroupAction extends BaseActionSupport<Group> {
 	@Override
 	protected void prepareModelSave() throws Exception {
 		prepareModel();
-		
+
 		group.setParent(new Group());
 	}
 
@@ -86,7 +70,6 @@ public class GroupAction extends BaseActionSupport<Group> {
 		return parentList;
 	}
 
-
 	@Override
 	public String list() throws Exception {
 		pagegroup = groupService.getGroupUtil().get(pagegroup);
@@ -97,14 +80,14 @@ public class GroupAction extends BaseActionSupport<Group> {
 
 	@Override
 	public String input() throws Exception {
-		parentList= groupService.getGroupUtil().getAll();
-	
+		parentList = groupService.getGroupUtil().getAll();
+
 		return INPUT;
 	}
 
 	@Override
 	public String save() throws Exception {
-		if (group.getParent().getId()==0) {
+		if (group.getParent().getId() == 0) {
 			group.setParent(null);
 		}
 		groupService.getGroupUtil().save(group);
@@ -126,7 +109,6 @@ public class GroupAction extends BaseActionSupport<Group> {
 
 	// 其他属性访问函数与Action函数 //
 
-
 	/**
 	 * 根据属性过滤条件搜索.
 	 */
@@ -135,7 +117,8 @@ public class GroupAction extends BaseActionSupport<Group> {
 		// 因为搜索时不保存分页参数,因此将页面大小设到最大.
 		pagegroup.setPageSize(Page.MAX_PAGESIZE);
 
-		Map<String, Object> filters = Struts2Utils.buildPropertyFilters("filter_");
+		Map<String, Object> filters = Struts2Utils
+				.buildPropertyFilters("filter_");
 		if (filters.size() <= 0) {
 			addActionMessage(getText("group.searchtxt"));
 		}
@@ -159,13 +142,44 @@ public class GroupAction extends BaseActionSupport<Group> {
 			addActionMessage(getText("fulltext.query.notblank"));
 			return RELOAD;
 		}
-		addActionMessage(getText("common.domain.fulltext")+" ["+q+"] ");
+		addActionMessage(getText("common.domain.fulltext") + " [" + q + "] ");
 
-		pagegroup = groupService.getGroupUtil().fullltext(pagegroup, q, getClient());
+		pagegroup = groupService.getGroupUtil().fullltext(pagegroup, q,
+				getClient());
 
 		return SUCCESS;
 	}
 
+	/**
+	 * 提供节点数据
+	 */
+	public void treeNode() {
+		String nodeid = Struts2Utils.getRequest().getParameter("node");
+		String path = Struts2Utils.getRequest().getParameter("path");
 
+		log.debug("node id:{}", nodeid);
+		log.debug("path:{}", path);
 
+		Group g;
+		if ("root".equalsIgnoreCase(nodeid)) {
+			g = groupService.getGroupUtil()
+					.findUniqueByProperty("type", "root");
+		} else {
+			g = groupService.getGroupUtil().get(Long.parseLong(nodeid));
+		}
+		Struts2Utils.renderJson(g.treeNode().toArray());
+	}
+
+	/**
+	 * 移动节点，修改父节点，修改是否叶子节点
+	 * <br/>
+	 * 后台修改数据
+	 */
+	public void moveTreeNode() {
+		String id = Struts2Utils.getRequest().getParameter("id");
+		String parentId = Struts2Utils.getRequest().getParameter("parent_id");
+		groupService.moveTreeNode(id, parentId);
+	}
+
+	
 }

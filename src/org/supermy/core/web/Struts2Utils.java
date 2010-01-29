@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
@@ -199,7 +200,25 @@ public class Struts2Utils {
 		// log.debug("json:{}", jsonString);
 		renderJson(jsonString, headers);
 	}
+	public static void renderJson(final Object object, final String... headers) {
+		// 虑掉部分不用的属性
+		String jsonString = JSONObject.fromObject(object)
+				.toString();
 
+		// "invalid label"错误
+		// String cb = getRequest().getParameter("callback");
+		// if (cb != null) {
+		// jsonString = "(" + jsonString + ")";
+		// }
+		// log.debug("json:{}", jsonString);
+		renderJson(jsonString, headers);
+	}
+
+	public static void renderJson(final Object[] object, final String... headers) {
+		String jsonString = JSONArray.fromObject(object)
+				.toString();
+		renderJson(jsonString, headers);
+	}
 	/**
 	 * 直接输出图片
 	 * 
