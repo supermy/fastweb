@@ -6,6 +6,7 @@ package ${basepackage}.service;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 
 import ${basepackage}.service.I${pojo.shortName}Service;
 import ${pojo.packageName}.${pojo.shortName};
@@ -26,6 +27,7 @@ public class ${pojo.shortName}ServiceTest extends TestBaseService {
 	}
 
 	@Test
+	@Rollback(true)//don't put in db 	
 	public void CRUD() {
 		${pojo.shortName} u=new ${pojo.shortName}();
 		${pojoNameLower}Service.get${pojo.shortName}Util().save(u);
