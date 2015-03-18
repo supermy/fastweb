@@ -1,0 +1,1 @@
+Use Spring Framework as core,provided a enterprise application develop platform and demo the best practice in enterprise application. It use Spring,Hibernate.
